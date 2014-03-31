@@ -29,7 +29,7 @@
 
     "extra": {
         "component": {
-            "files": ["bin/controls/**"],
+            "files": ["bin/controls/*"],
             "name": "quiqqer/intranet"
         }
     }
