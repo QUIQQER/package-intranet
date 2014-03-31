@@ -17,12 +17,20 @@
     },
 
     "require": {
-        "quiqqer/quiqqer" : "*"
+        "quiqqer/quiqqer" : "*",
+        "robloach/component-installer" : "*"
     },
 
     "autoload": {
         "psr-0" : {
             "QUI" : "lib/"
+        }
+    },
+
+    "extra": {
+        "component": {
+            "files": ["bin/controls/**"],
+            "name": "quiqqer/intranet"
         }
     }
 }

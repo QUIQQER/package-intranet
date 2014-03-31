@@ -46,7 +46,6 @@ define('quiqqer/intranet/Profile', [
 
             return this.$Elm;
         }
-
     });
 
 });
