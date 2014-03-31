@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+
+    <types>
+        <type type="intranet/registration" extend="QUI\Intranet\Registration" icon="icon-signin" />
+        <type type="intranet/profil" extend="QUI\Intranet\Profil" icon="icon-user" />
+    </types>
+
+</site>
