@@ -1,65 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<settings>
+<quiqqer>
+    <settings>
 
-    <config name="plugins/quiqqer/log">
+        <config name="plugins/quiqqer/log">
 
-        <section name="registration">
-            <conf name="standardGroup">
-                <type><![CDATA[integer]]></type>
-            </conf>
-            <conf name="standardGroup">
-                <type><![CDATA[sendMail]]></type>
-            </conf>
+            <section name="registration">
+                <conf name="standardGroup">
+                    <type><![CDATA[integer]]></type>
+                </conf>
+                <conf name="standardGroup">
+                    <type><![CDATA[sendMail]]></type>
+                </conf>
 
-        </section>
-    </config>
+            </section>
+        </config>
 
-    <window>
-        <title>Intranet Plugin Einstellungen</title>
-        <params>
-            <icon>icon-cogs</icon>
-        </params>
-
-        <categories>
-
-            <category name="browser_logs">
-                <text>Registrierun</text>
+        <window>
+            <title>Intranet Plugin Einstellungen</title>
+            <params>
                 <icon>icon-cogs</icon>
+            </params>
 
-                <settings title="log_levels_section" name="log_levels_section">
-                    <title>Log Level Einstellungen</title>
+            <categories>
 
-                    <input conf="log_levels.alert" type="checkbox">
-                        <text>Alert-Meldungen (Alarm) sollen geloggt werden</text>
-                    </input>
-                    <input conf="log_levels.critical" type="checkbox">
-                        <text>Critcal-Meldungen (kritisch) sollen geloggt werden</text>
-                    </input>
-                    <input conf="log_levels.debug" type="checkbox">
-                        <text>Debug-Meldungen sollen geloggt werden</text>
-                    </input>
+                <category name="browser_logs">
+                    <text>Registrierun</text>
+                    <icon>icon-cogs</icon>
 
-                    <input conf="log_levels.emergency" type="checkbox">
-                        <text>Emergency-Meldungen (Notfall) sollen geloggt werden</text>
-                    </input>
-                    <input conf="log_levels.error" type="checkbox">
-                        <text>Error-Meldungen (Fehler) sollen geloggt werden</text>
-                    </input>
-                    <input conf="log_levels.info" type="checkbox">
-                        <text>Info-Meldungen sollen geloggt werden</text>
-                    </input>
-                    <input conf="log_levels.notice" type="checkbox">
-                        <text>Notice-Meldungen (Hinweis) sollen geloggt werden</text>
-                    </input>
-                    <input conf="log_levels.warning" type="checkbox">
-                        <text>Warning-Meldungen (Warnung) sollen geloggt werden</text>
-                    </input>
+                    <settings title="log_levels_section" name="log_levels_section">
+                        <title>Log Level Einstellungen</title>
 
-                </settings>
+                        <input conf="log_levels.alert" type="checkbox">
+                            <text>Alert-Meldungen (Alarm) sollen geloggt werden</text>
+                        </input>
+                        <input conf="log_levels.critical" type="checkbox">
+                            <text>Critcal-Meldungen (kritisch) sollen geloggt werden</text>
+                        </input>
+                        <input conf="log_levels.debug" type="checkbox">
+                            <text>Debug-Meldungen sollen geloggt werden</text>
+                        </input>
 
-            </category>
+                        <input conf="log_levels.emergency" type="checkbox">
+                            <text>Emergency-Meldungen (Notfall) sollen geloggt werden</text>
+                        </input>
+                        <input conf="log_levels.error" type="checkbox">
+                            <text>Error-Meldungen (Fehler) sollen geloggt werden</text>
+                        </input>
+                        <input conf="log_levels.info" type="checkbox">
+                            <text>Info-Meldungen sollen geloggt werden</text>
+                        </input>
+                        <input conf="log_levels.notice" type="checkbox">
+                            <text>Notice-Meldungen (Hinweis) sollen geloggt werden</text>
+                        </input>
+                        <input conf="log_levels.warning" type="checkbox">
+                            <text>Warning-Meldungen (Warnung) sollen geloggt werden</text>
+                        </input>
 
-        </categories>
-    </window>
+                    </settings>
 
-</settings>
+                </category>
+
+            </categories>
+        </window>
+
+    </settings>
+</quiqqer>
