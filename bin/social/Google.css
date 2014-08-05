@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+
+.quiqqer-google-login {
+    background: url('Google_en.png') no-repeat top center;
+    cursor: pointer;
+    float: left;
+    height: 30px;
+    width : 170px;
+}
+
+html[lang="de"] .quiqqer-google-login,
+.de .quiqqer-google-login {
+    background: url('Google_de.png') no-repeat top center;
+}

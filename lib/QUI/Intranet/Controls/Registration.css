@@ -1,0 +1,144 @@
+@CHARSET "UTF-8";
+
+.package-intranet-registration {
+    float: left;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+
+.package-intranet-registration fieldset {
+    border: none;
+}
+
+.package-intranet-registration h2 {
+    clear: both;
+    text-align: center;
+    width: 100%;
+}
+
+.package-intranet-registration input {
+    background-color: #ffffff;
+    border: 1px solid #cfd2d2;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    padding: 7px;
+}
+
+/** registration
+ * ================================================== */
+
+.package-intranet-registration-container {
+    clear: both;
+    float: left;
+    margin-top: 30px;
+    position: relative;
+    width: 100%;
+}
+
+    .package-intranet-registration-or {
+        border-top: 1px solid #CFD2D2;
+        clear: both;
+        color: #CFD2D2;
+        float: left;
+        margin: 50px 0;
+        position: relative;
+        width: 100%;
+    }
+
+    .package-intranet-registration-or-text  {
+        background: none repeat scroll 0 0 #FFFFFF;
+        color: #666666;
+        font-size: 16px;
+        left: 50%;
+        line-height: 20px;
+        margin: 0 0 0 -25px;
+        position: absolute;
+        text-align: center;
+        top: -12px;
+        width: 50px;
+    }
+
+    .package-intranet-registration-hide {
+        display: none;
+    }
+
+    .package-intranet-registration-register.disabled .package-intranet-registration-hide {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #FFFFFF;
+        display: inline;
+        z-index: 1000;
+        top: 0px;
+        left: 0px;
+
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+            filter: alpha(opacity=70);
+
+        -khtml-opacity: 0.7;
+          -moz-opacity: 0.7;
+               opacity: 0.7;
+    }
+
+
+.package-intranet-registration-email {
+    clear: both;
+    float: left;
+    width: 100%;
+}
+
+.package-intranet-registration-submit {
+    clear: both;
+    float: left;
+    height: 40px;
+    width: 100%;
+}
+
+.package-intranet-registration-hide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #FFFFFF;
+    display: inline;
+    z-index: 1000;
+    top: 0px;
+    left: 0px;
+
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+        filter: alpha(opacity=70);
+
+-khtml-opacity: 0.7;
+  -moz-opacity: 0.7;
+       opacity: 0.7;
+}
+
+
+/* pw security
+ ======================================================= */
+
+#passwordsecurity {
+    float: left;
+    clear: both;
+
+    padding: 10px;
+    margin: 0 10px 0 40%;
+
+    background-color: #fff;
+    border: 1px solid #DDDDDD;
+    text-align: center;
+    font-size: 11px;
+    padding: 2px;
+}
+
+@media screen and (max-width: 767px) {
+    #passwordsecurity {
+        margin: 10px 0;
+    }
+
+    .nr-register div.mobile-grid-100 {
+        margin-bottom: 50px;
+    }
+}

@@ -1,0 +1,62 @@
+
+<form name="mydata" class="package-intranet-profile-mydata">
+
+    <h2>{t}quiqqer/intranet profile.title{/t}</h2>
+
+    <div class="package-intranet-profile-short">
+        {t}quiqqer/intranet profile.mydata.short{/t}
+    </div>
+
+    <div class="package-intranet-profile-entry">
+        <label for="firstname">
+            {t}quiqqer/intranet profile.firstname{/t}
+        </label>
+        <input type="text" name="firstname" />
+    </div>
+
+    <div class="package-intranet-profile-entry">
+        <label for="lastname">
+            {t}quiqqer/intranet profile.lastname{/t}
+        </label>
+        <input type="text" name="lastname" />
+    </div>
+
+    <div class="package-intranet-profile-entry">
+        <label for="newpw2">
+            {t}quiqqer/intranet profile.dateOfBirth{/t}
+        </label>
+
+        {assign var=day value=$User->getAttribute('birthday')|date_format:"%d"}
+        {assign var=month value=$User->getAttribute('birthday')|date_format:"%m"}
+        {assign var=year value=$User->getAttribute('birthday')|date_format:"%Y"}
+
+        <div class="package-intranet-profile-birthday">
+            {birthday type="day"
+                style="width: 50px;"
+                name="birth_day"
+                value=$day
+            }
+
+            {birthday type="month"
+                style="width: 100px;"
+                name="birth_month"
+                value=$month
+            }
+
+            {birthday type="year"
+                style="width: 80px;"
+                name="birth_year"
+                value=$year
+            }
+        </div>
+    </div>
+
+    <div class="package-intranet-profile-entry">
+        <label for="">
+            {t}quiqqer/intranet profile.email{/t}
+        </label>
+
+        <input type="text" name="email" />
+    </div>
+
+</form>

@@ -2,16 +2,32 @@
 <quiqqer>
     <settings>
 
-        <config name="plugins/quiqqer/log">
+        <config name="plugins/quiqqer/intranet">
 
             <section name="registration">
-                <conf name="standardGroup">
-                    <type><![CDATA[integer]]></type>
+                <conf name="standardGroups">
+                    <type><![CDATA[string]]></type>
                 </conf>
-                <conf name="standardGroup">
-                    <type><![CDATA[sendMail]]></type>
+                <conf name="sendMailOnRegistration">
+                    <type><![CDATA[bool]]></type>
                 </conf>
-
+            </section>
+            <section name="social">
+                <conf name="googleApplicationName">
+                    <type><![CDATA[string]]></type>
+                </conf>
+                <conf name="googleClientId">
+                    <type><![CDATA[string]]></type>
+                </conf>
+                <conf name="googleClientSecret">
+                    <type><![CDATA[string]]></type>
+                </conf>
+                <conf name="facebookAppId">
+                    <type><![CDATA[string]]></type>
+                </conf>
+                <conf name="facebookSecret">
+                    <type><![CDATA[string]]></type>
+                </conf>
             </section>
         </config>
 
@@ -23,43 +39,60 @@
 
             <categories>
 
-                <category name="browser_logs">
-                    <text>Registrierun</text>
+                <category name="registration">
+                    <text>Registrierung</text>
                     <icon>icon-cogs</icon>
 
-                    <settings title="log_levels_section" name="log_levels_section">
-                        <title>Log Level Einstellungen</title>
+                    <settings title="registration_section" name="registration_section">
+                        <title>Standard Einstellungen</title>
 
-                        <input conf="log_levels.alert" type="checkbox">
-                            <text>Alert-Meldungen (Alarm) sollen geloggt werden</text>
+                        <input conf="registration.standardGroups" type="groups">
+                            <text>Standard Gruppen</text>
+                            <description>Legen Sie fest welche Gruppen dem Benutzer bei einer Registrierung zugewiesen werden.</description>
                         </input>
-                        <input conf="log_levels.critical" type="checkbox">
-                            <text>Critcal-Meldungen (kritisch) sollen geloggt werden</text>
+                        <input conf="registration.sendMailOnRegistration" type="checkbox">
+                            <text>Registrierungs-Aktivierungs-Mail versenden</text>
+                            <description>Eine Aktivierungs E-Mail versenden damit der Benutzer sich aktivieren kann.</description>
                         </input>
-                        <input conf="log_levels.debug" type="checkbox">
-                            <text>Debug-Meldungen sollen geloggt werden</text>
-                        </input>
+                    </settings>
+                </category>
 
-                        <input conf="log_levels.emergency" type="checkbox">
-                            <text>Emergency-Meldungen (Notfall) sollen geloggt werden</text>
+                <category name="registration_social">
+                    <text>Social-Media Authentifizierung</text>
+                    <icon>icon-globe</icon>
+
+                    <settings title="registration_social_settings" name="registration_social_settings">
+                        <title>Google Authentifizierung</title>
+
+                        <input conf="social.googleApplicationName">
+                            <text>Google+ ApplicationName</text>
+                            <description></description>
                         </input>
-                        <input conf="log_levels.error" type="checkbox">
-                            <text>Error-Meldungen (Fehler) sollen geloggt werden</text>
+                        <input conf="social.googleClientId">
+                            <text>Google+ Client-Id</text>
+                            <description></description>
                         </input>
-                        <input conf="log_levels.info" type="checkbox">
-                            <text>Info-Meldungen sollen geloggt werden</text>
+                        <input conf="social.googleClientSecret">
+                            <text>Google+ Client Secret</text>
+                            <description></description>
                         </input>
-                        <input conf="log_levels.notice" type="checkbox">
-                            <text>Notice-Meldungen (Hinweis) sollen geloggt werden</text>
+                    </settings>
+
+                    <settings title="registration_social_settings" name="registration_social_settings">
+                        <title>Facebook Authentifizierung</title>
+
+                        <input conf="social.facebookAppId">
+                            <text>Facebook App-Id</text>
+                            <description></description>
                         </input>
-                        <input conf="log_levels.warning" type="checkbox">
-                            <text>Warning-Meldungen (Warnung) sollen geloggt werden</text>
+                        <input conf="social.facebookSecret">
+                            <text>Facebook Secret</text>
+                            <description></description>
                         </input>
 
                     </settings>
 
                 </category>
-
             </categories>
         </window>
 

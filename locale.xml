@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locales>
+
+    <groups name="quiqqer/intranet" datatype="js,php">
+        <locale name="profile.title">
+            <de><![CDATA[Meine Daten]]></de>
+            <en><![CDATA[My data]]></en>
+        </locale>
+
+        <locale name="profile.control.title">
+            <de><![CDATA[Eingeloggt als: [username]]]></de>
+            <en><![CDATA[Loged in as: [username]]]></en>
+        </locale>
+
+        <locale name="profile.btn.mydata">
+            <de><![CDATA[Meine Daten]]></de>
+            <en><![CDATA[My data]]></en>
+        </locale>
+        <locale name="profile.btn.changepw">
+            <de><![CDATA[Passwort ändern]]></de>
+            <en><![CDATA[Change password]]></en>
+        </locale>
+        <locale name="profile.btn.address">
+            <de><![CDATA[Adressen]]></de>
+            <en><![CDATA[Addresses]]></en>
+        </locale>
+
+        <locale name="profile.firstname">
+            <de><![CDATA[Vornamen]]></de>
+            <en><![CDATA[First name]]></en>
+        </locale>
+        <locale name="profile.lastname">
+            <de><![CDATA[Nachname]]></de>
+            <en><![CDATA[Last name]]></en>
+        </locale>
+        <locale name="profile.dateOfBirth">
+            <de><![CDATA[Geburtstag]]></de>
+            <en><![CDATA[Date of birth]]></en>
+        </locale>
+        <locale name="profile.email">
+            <de><![CDATA[E-Mail]]></de>
+            <en><![CDATA[E-mail]]></en>
+        </locale>
+
+        <locale name="profile.mydata.short">
+            <de><![CDATA[&nbsp;]]></de>
+            <en><![CDATA[&nbsp;]]></en>
+        </locale>
+
+        <locale name="profile.pw.title">
+            <de><![CDATA[Passwort ändern]]></de>
+            <en><![CDATA[Change password]]></en>
+        </locale>
+        <locale name="profile.pw.short">
+            <de><![CDATA[Bitte ändern Sie Ihr Passwort.]]></de>
+            <en><![CDATA[Please change your password.]]></en>
+        </locale>
+        <locale name="profile.old.pw">
+            <de><![CDATA[Altes Passwort]]></de>
+            <en><![CDATA[Old password]]></en>
+        </locale>
+        <locale name="profile.new.pw">
+            <de><![CDATA[Neues Passwort]]></de>
+            <en><![CDATA[New password]]></en>
+        </locale>
+        <locale name="profile.new.pw.repeat">
+            <de><![CDATA[Passwort wiederhohlen]]></de>
+            <en><![CDATA[Repeat password]]></en>
+        </locale>
+
+        <!-- exceptions -->
+        <locale name="exception.old.pw.empty">
+            <de><![CDATA[Bitte geben Sie Ihr altes Passwort an.]]></de>
+            <en><![CDATA[Please enter your old password.]]></en>
+        </locale>
+        <locale name="exception.old.pw.not.correct">
+            <de><![CDATA[Ihr altes Passwort war nicht korrekt.]]></de>
+            <en><![CDATA[Your old password was not correct.]]></en>
+        </locale>
+        <locale name="exception.pws.not.match">
+            <de><![CDATA[Ihre Passwörter stimmen nicht überein.]]></de>
+            <en><![CDATA[Your passwords do not match.]]></en>
+        </locale>
+    </groups>
+
+
+    <!-- registration template -->
+    <groups name="quiqqer/intranet" datatype="php">
+        <locale name="intranet.registration.read1">
+            <de><![CDATA[Ja, ich habe die ]]></de>
+            <en><![CDATA[Yes, I have read the ]]></en>
+        </locale>
+        <locale name="intranet.registration.read2">
+            <de><![CDATA[ gelesen und erkläre mich damit einverstanden.]]></de>
+            <en><![CDATA[ and agree to it.]]></en>
+        </locale>
+
+        <locale name="intranet.registration.social.title">
+            <de><![CDATA[Registrieren mit einem Social Network]]></de>
+            <en><![CDATA[Sign up with a social network]]></en>
+        </locale>
+        <locale name="intranet.registration.social.or.text">
+            <de><![CDATA[oder]]></de>
+            <en><![CDATA[or]]></en>
+        </locale>
+
+        <locale name="intranet.registration.email.title">
+            <de><![CDATA[verwenden Sie Ihre E-Mail-Adresse]]></de>
+            <en><![CDATA[Use your email address]]></en>
+        </locale>
+
+        <locale name="intranet.registration.email.address">
+            <de><![CDATA[E-Mail-Adresse]]></de>
+            <en><![CDATA[E-mail address]]></en>
+        </locale>
+        <locale name="intranet.registration.email.confirm">
+            <de><![CDATA[E-Mail bestätigen]]></de>
+            <en><![CDATA[Confirm e-mail]]></en>
+        </locale>
+        <locale name="intranet.registration.password">
+            <de><![CDATA[Passwort]]></de>
+            <en><![CDATA[Password]]></en>
+        </locale>
+        <locale name="intranet.registration.password.confirm">
+            <de><![CDATA[Passwort bestätigen]]></de>
+            <en><![CDATA[Confirm password]]></en>
+        </locale>
+        <locale name="intranet.registration.password.strength">
+            <de><![CDATA[Passwortstärke]]></de>
+            <en><![CDATA[Password strength]]></en>
+        </locale>
+
+        <!-- registration mails -->
+        <locale name="mail.registration.MAILFromText">
+            <de><![CDATA[Registrierung]]></de>
+            <en><![CDATA[Register]]></en>
+        </locale>
+        <locale name="mail.registration.MailSubject">
+            <de><![CDATA[Registrierung]]></de>
+            <en><![CDATA[Register]]></en>
+        </locale>
+        <locale name="mail.registration.Body">
+            <de><![CDATA[
+                <p>Vielen Dank für Ihre Anmeldung.</p>
+
+                <p>
+                    Um Ihren Zugang zu aktivieren, <a href="[registration_url]">klicken Sie bitte hier</a> oder
+                    kopieren Sie die folgende URL in die Adresszeile Ihres Browsers:
+                </p>
+                <p>[registration_url]</p>
+
+                <br />
+
+                <p>Sollten Sie Fragen, Anregungen oder Kritik haben, so stehen wir Ihnen gerne zur Verfügung.</p>
+                <p>Wir wünschen Ihnen viel Erfolg.</p>
+            ]]></de>
+            <en><![CDATA[
+                <p>Thank you for registering.</p>
+
+                <p>
+                    Please activate your account by clicking <a href="[registration_url]">here</a>.
+                    Alternatively, you can copy this URL into your browser's address bar:
+                </p>
+                <p>[registration_url]</p>
+
+                <br />
+
+                <p>If you have any questions, comments or suggestions, we are happy to help you.</p>
+                <p>We wish you much success.</p>
+            ]]></en>
+        </locale>
+
+        <!-- activation mails -->
+        <locale name="mail.activation.MAILFromText">
+            <de><![CDATA[Aktivierung]]></de>
+            <en><![CDATA[Activation]]></en>
+        </locale>
+        <locale name="mail.activation.MailSubject">
+            <de><![CDATA[Aktivierung]]></de>
+            <en><![CDATA[Activation]]></en>
+        </locale>
+        <locale name="mail.activation.Body">
+            <de><![CDATA[
+                <p>
+                    herzlich willkommen! Sie haben Ihren Account erfolgreich aktiviert und damit den ersten Schritt gemeistert.
+                </p>
+                <p>
+                    Falls Sie Fragen oder Anmerkungen haben, antworten Sie einfach auf diese E-Mail.
+                    Unser Supportteam wird sich mit Ihnen in Verbindung setzen.
+                </p>
+                <p>Wir wünschen Ihnen viel Erfolg.</p>
+            ]]></de>
+            <en><![CDATA[
+
+                <p>
+                    Welcome! You have successfully activated your account and taken the first step.
+                </p>
+                <p>
+                    If you have questions or suggestions, simply reply to this e-mail.
+                    Our support team will contact you shortly.
+                </p>
+                <p>We wish you much success.</p>
+            ]]></en>
+        </locale>
+
+
+        <!-- messages -->
+        <locale name="message.registration.finish">
+            <de><![CDATA[]]></de>
+            <en><![CDATA[]]></en>
+        </locale>
+
+
+        <!-- exceptions -->
+        <locale name="exception.enter.username">
+            <de><![CDATA[Bitte geben Sie einen Benutzernamen ein, mit dem Sie sich anmelden wollen.]]></de>
+            <en><![CDATA[Please enter the username you want to login with.]]></en>
+        </locale>
+        <locale name="exception.enter.mail">
+            <de><![CDATA[Bitte geben Sie eine E-Mail-Adresse an.]]></de>
+            <en><![CDATA[Please enter an email address.]]></en>
+        </locale>
+        <locale name="exception.enter.correct.mail">
+            <de><![CDATA[Bitte geben Sie eine korrekte E-Mail-Adresse an.]]></de>
+            <en><![CDATA[Please enter a correct email address.]]></en>
+        </locale>
+        <locale name="exception.enter.pw">
+            <de><![CDATA[Bitte geben Sie ein Passwort ein.]]></de>
+            <en><![CDATA[Please enter a password.]]></en>
+        </locale>
+        <locale name="exception.different.username">
+            <de><![CDATA[Bitte verwenden Sie einen andere Benutzernamen]]></de>
+            <en><![CDATA[Please choose a different username]]></en>
+        </locale>
+        <locale name="exception.no.activation.code">
+            <de><![CDATA[Es wurde kein Aktivierungscode übermittelt]]></de>
+            <en><![CDATA[Sorry, no activation code was sent]]></en>
+        </locale>
+
+        <locale name="exception.send.activation.mail.fail">
+            <de><![CDATA[Fehler beim Versenden der Aktivierungssmail.]]></de>
+            <en><![CDATA[Error while sending activation mail.]]></en>
+        </locale>
+        <locale name="exception.send.activation.successful.mail.fail">
+            <de><![CDATA[Es konnte keine E-Mail versendet werden. Bitte wenden Sie sich an einen Administrator.]]></de>
+            <en><![CDATA[An email could not be sent. Please contact an administrator.]]></en>
+        </locale>
+
+    </groups>
+
+</locales>

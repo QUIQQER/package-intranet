@@ -1,0 +1,136 @@
+
+<div class="package-intranet-registration-container">
+    <h1>{$Site->getAttribute('title')}</h1>
+
+    {$Site->getAttribute('content')}
+
+    <div class="register-agb">
+        <fieldset class="agbs">
+            <input name="agbs" id="reg-agb-privacy"
+                   type="checkbox"
+                   class="checkbox"
+                   value="1"
+             />
+
+            {strip}
+            <label for="reg-agb-privacy">
+                {t}quiqqer/intranet intranet.registration.read1{/t}
+                &nbsp;
+                {if isset( $Site_TermsAndConditions )}
+                <a href="{url site=$Site_TermsAndConditions}"
+                    target="_blank"
+
+                    class="popup-link"
+                    data-id="{$Site_TermsAndConditions->getId()}"
+                    data-project="{$Project->getAttribute('name')}"
+                    data-lang="{$Project->getAttribute('lang')}"
+                >
+                    {$Site_TermsAndConditions->getAttribute('title')}
+                </a>,&nbsp;
+                {/if}
+
+                {if isset( $Site_Privacy )}
+                <a href="{url site=$Site_Privacy}"
+                    target="_blank"
+
+                    class="popup-link"
+                    data-id="{$Site_Privacy->getId()}"
+                    data-project="{$Project->getAttribute('name')}"
+                    data-lang="{$Project->getAttribute('lang')}"
+                >
+                    {$Site_Privacy->getAttribute('title')}
+                </a>&nbsp;
+                {/if}
+                {t}quiqqer/intranet intranet.registration.read2{/t}
+            </label>
+            {/strip}
+        </fieldset>
+    </div>
+
+
+    <div class="package-intranet-registration-container">
+        <div class="package-intranet-registration-hide"></div>
+
+        <div class="register-social social-registration">
+            <h2>{t}quiqqer/intranet intranet.registration.social.title{/t}</h2>
+
+            <div class="register-social-login">
+                <div data-qui="package/quiqqer/intranet/social/Google"></div>
+                <div data-qui="package/quiqqer/intranet/social/Facebook"></div>
+            </div>
+        </div>
+
+        <div class="package-intranet-registration-or">
+            <span class="package-intranet-registration-or-text">
+                {t}quiqqer/intranet intranet.registration.social.or.text{/t}
+            </span>
+        </div>
+
+
+        <div class="package-intranet-registration-email box">
+            <h2>{t}quiqqer/intranet intranet.registration.email.title{/t}</h2>
+
+            <form name="register" action="{url site=$Site}">
+
+                <fieldset class="email grid-parent">
+                    <label for="reg-email" class="grid-40  mobile-grid-100">
+                        {t}quiqqer/intranet intranet.registration.email.address{/t} *
+                    </label>
+
+                    <input name="email" id="reg-email"
+                       type="text"
+                       value="{*$request_email*}"
+                       class="grid-60 mobile-grid-100"
+                       required="required"
+                    />
+                </fieldset>
+
+                <fieldset class="email grid-parent">
+                    <label for="reg-email2" class="grid-40  mobile-grid-100">
+                        {t}quiqqer/intranet intranet.registration.email.confirm{/t} *
+                    </label>
+
+                    <input name="email2" id="reg-email2"
+                       type="text"
+                       value="{*$request_email2*}"
+                       class="grid-60 mobile-grid-100"
+                       required="required"
+                    />
+                </fieldset>
+
+                <fieldset class="password grid-parent">
+                    <label for="reg-password" class="grid-40  mobile-grid-100">
+                        {t}quiqqer/intranet intranet.registration.password{/t} *
+                    </label>
+
+                    <input name="password" id="reg-password"
+                       type="password"
+                       value=""
+                       autocomplete="off"
+                       class="grid-60 mobile-grid-100"
+                       required="required"
+                    />
+
+                    <div id="reg-pwsecurity" class="box grid-60 push-40 mobile-push-0 mobile-grid-100 grid-parent"></div>
+
+                </fieldset>
+
+                <fieldset class="password grid-parent">
+                    <label for="reg-password2" class="grid-40  mobile-grid-100">
+                        {t}quiqqer/intranet intranet.registration.password.confirm{/t} *
+                    </label>
+
+                    <input name="password2" id="reg-password2"
+                       type="password"
+                       value=""
+                       autocomplete="off"
+                       class="grid-60 mobile-grid-100"
+                       required="required"
+                    />
+                </fieldset>
+
+                <div class="package-intranet-registration-submit"></div>
+            </form>
+        </div>
+    </div>
+</div>

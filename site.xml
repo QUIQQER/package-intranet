@@ -2,8 +2,23 @@
 <site>
 
     <types>
-        <type type="intranet/registration" extend="QUI\Intranet\Registration" icon="icon-signin" />
-        <type type="intranet/profil" extend="QUI\Intranet\Profil" icon="icon-user" />
+        <type type="intranet/registration" extend="\QUI\Intranet\Registration" icon="icon-signin">
+            <!-- intranet site panel tab -->
+            <!--
+            <tab name="registerSettings">
+                <text>
+                    <locale group="quiqqer/group" var="title" />
+                </text>
+                <image>icon-time</image>
+            </tab>
+            -->
+        </type>
+
+        <type type="intranet/profil" extend="\QUI\Intranet\Profil" icon="icon-user" />
+        <type type="intranet/termsAndConditions" icon="icon-legal" />
+        <type type="intranet/rightsOfRevocation" icon="icon-legal" />
+        <type type="intranet/privacy" icon="icon-legal" />
+        <type type="intranet/legal" icon="icon-legal" />
     </types>
 
 </site>

@@ -1,11 +1,23 @@
 @CHARSET "UTF-8";
 
 .package-intranet-profile {
-    border: 1px solid red;
     float: left;
     height: 100%;
     overflow: hidden;
     position: relative;
+    width: 100%;
+}
+
+.package-intranet-profile-mydata,
+.package-intranet-profile-change-password {
+    float: left;
+    margin: 0 0 20px;
+    width: 100%;
+}
+
+.package-intranet-profile-entry {
+    clear: both;
+    float: left;
     width: 100%;
 }
 
@@ -63,6 +75,7 @@
     border-radius: 0;
     box-shadow: none;
     margin: 0;
+    padding: 10px 0;
     width: 100%;
 }
 
@@ -134,17 +147,39 @@
     line-height: 48px;
 }
 
+/** my data
+ * ============================================================= */
+
+.package-intranet-profile-birthday {
+    clear: both;
+}
+
+
 /** form elements
  * ============================================================= */
+
+.package-intranet-profile label {
+    font-size: 12px;
+    padding: 0 0 5px 2px;
+}
 
 .package-intranet-profile input {
     background-color: #FFFFFF;
     border: 1px solid #CFD2D2;
     border-radius: 3px;
     clear: both;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     padding: 7px;
     width: 100%;
+}
+
+.package-intranet-profile select {
+    background-color: #FFFFFF;
+    border: 1px solid #CFD2D2;
+    border-radius: 3px;
+    float: left;
+    margin: 0 10px 15px 0;
+    padding: 7px;
 }
 
 .package-intranet-profile input:focus,

@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+
+.quiqqer-facebook-login {
+    background: url('Facebook_en.png') no-repeat top center;
+    cursor: pointer;
+    float: left;
+    height: 30px;
+    width : 190px;
+}
+
+html[lang="de"] .quiqqer-facebook-login,
+.de .quiqqer-facebook-login {
+    background: url('Facebook_de.png') no-repeat top center;
+}

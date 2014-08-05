@@ -1,4 +1,20 @@
+{*
 
-<div class="package-intranet">
+    quiqqer intranet registration site template
 
-</div>
+    type: quiqqer/intranet:intranet/registration
+*}
+
+{if isset( $INTRANET_SUCCESS_MESSAGE )}
+
+    {$INTRANET_SUCCESS_MESSAGE}
+
+{else}
+
+    {if isset( $INTRANET_ERROR_MESSAGE )}
+        {$INTRANET_ERROR_MESSAGE}
+    {/if}
+
+    {control control="\QUI\Intranet\Controls\Registration"}
+
+{/if}

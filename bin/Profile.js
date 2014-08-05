@@ -1,27 +1,41 @@
 
 /**
  * Profil control
+ *
+ * @author www.pcsg.de (Henning Leutz)
  */
 
-define('package/quiqqer/intranet/Profile', [
+define([
 
     'qui/QUI',
     'qui/controls/Control',
     'qui/controls/loader/Loader',
     'qui/controls/buttons/Button',
     'qui/controls/utils/Background',
+    'qui/utils/Form',
     'Ajax',
+    'Locale',
 
     'css!package/quiqqer/intranet/Profile.css'
 
-], function(QUI, QUIControl, QUILoader, QUIButton, QUIBackground, Ajax)
+], function()
 {
     "use strict";
+
+    var QUI           = arguments[ 0 ],
+        QUIControl    = arguments[ 1 ],
+        QUILoader     = arguments[ 2 ],
+        QUIButton     = arguments[ 3 ],
+        QUIBackground = arguments[ 4 ],
+        QUIFormUtils  = arguments[ 5 ],
+        Ajax          = arguments[ 6 ],
+        Locale        = arguments[ 7 ];
+
 
     return new Class({
 
         Extends : QUIControl,
-        Type    : 'quiqqer/intranet/Profile',
+        Type    : 'package/quiqqer/intranet/Profile',
 
         Binds : [
             '$onInject',
@@ -57,6 +71,7 @@ define('package/quiqqer/intranet/Profile', [
             });
 
             this.$buttons = {};
+            this.$data    = {};
 
             this.addEvents({
                 onInject : this.$onInject
@@ -73,15 +88,14 @@ define('package/quiqqer/intranet/Profile', [
             var self = this;
 
             this.$Elm = new Element('div', {
-                'class' : 'package-intranet-profile',
+                'class' : 'package-intranet-profile qui-box',
                 html    : '<div class="package-intranet-profile-header box">' +
                               '<div class="package-intranet-profile-header-menu">' +
                                   '<span class="icon-reorder"></span>' +
                               '</div>' +
                               '<div class="package-intranet-profile-header-text">' +
                                   '<span class="icon-signin"></span>'+
-                                  '<span>Eingeloggt als:</span>' +
-                                  '<span class="username"></span>' +
+                                  '<span class="title"></span>' +
                               '</div>' +
                           '</div>' +
                           '<div class="package-intranet-profile-buttons"></div>' +
@@ -98,7 +112,7 @@ define('package/quiqqer/intranet/Profile', [
 
             this.$buttons.myData = new QUIButton({
                 name : 'myData',
-                text : 'Meine Daten',
+                text : Locale.get( 'quiqqer/intranet', 'profile.btn.mydata' ),
                 icon : 'icon-file-text',
                 events :
                 {
@@ -110,7 +124,7 @@ define('package/quiqqer/intranet/Profile', [
 
             this.$buttons.changePassword = new QUIButton({
                 name : 'changePassword',
-                text : 'Passwort ändern',
+                text : Locale.get( 'quiqqer/intranet', 'profile.btn.changepw' ),
                 icon : 'icon-key',
                 events :
                 {
@@ -119,6 +133,21 @@ define('package/quiqqer/intranet/Profile', [
                     }
                 }
             }).inject( this.$Buttons );
+
+
+            this.$buttons.Address = new QUIButton({
+                name : 'address',
+                text : Locale.get( 'quiqqer/intranet', 'profile.btn.address' ),
+                icon : 'icon-home',
+                events :
+                {
+                    onClick : function()  {
+                        self.showAddresses();
+                    }
+                }
+            }).inject( this.$Buttons );
+
+
 
             this.$Menu.addEvents({
                 click : function() {
@@ -139,10 +168,56 @@ define('package/quiqqer/intranet/Profile', [
 
             } else
             {
-                this.$Header.getElement( '.username' ).set( 'html', QUIQQER_USER.name );
+                this.$Header.getElement( '.title' ).set( 'html', Locale.get(
+                    'quiqqer/intranet',
+                    'profile.control.title',
+                    {
+                        username : QUIQQER_USER.name
+                    }
+                ));
             }
 
             return this.$Elm;
+        },
+
+        /**
+         * refresh the user data
+         */
+        refresh : function(callback)
+        {
+            if ( typeof QUIQQER_USER === 'undefined' ||
+                 !QUIQQER_USER.id ||
+                 QUIQQER_USER.id == '' )
+            {
+                callback();
+                return;
+            }
+
+            if ( this.Loader ) {
+                this.Loader.show();
+            }
+
+            var self = this;
+
+            Ajax.get('package_quiqqer_intranet_ajax_user_data', function(result)
+            {
+                self.$data = result;
+
+                self.$Header.getElement( '.title' ).set( 'html', Locale.get(
+                    'quiqqer/intranet',
+                    'profile.control.title',
+                    {
+                        username : QUIQQER_USER.name
+                    }
+                ));
+
+                if ( typeof callback !== 'undefined' ) {
+                    callback();
+                }
+
+            }, {
+                'package' : 'quiqqer/intranet'
+            });
         },
 
         /**
@@ -168,9 +243,11 @@ define('package/quiqqer/intranet/Profile', [
         $onInject : function()
         {
             this.Loader.show();
-
-            this.$buttons.myData.click();
             this.resize();
+
+            this.refresh(function() {
+                this.$buttons.myData.click();
+            }.bind( this ));
         },
 
         /**
@@ -182,11 +259,22 @@ define('package/quiqqer/intranet/Profile', [
          */
         login : function(username, password, callback)
         {
-            Ajax.post('ajax_login_login', function()
+            var self = this;
+
+            Ajax.post('ajax_login_login', function(data)
             {
-                if ( typeof callback !== 'undefined' ) {
-                    callback();
-                }
+                window.QUIQQER_USER = {
+                    id   : data.id,
+                    name : data.username,
+                    lang : data.lang
+                };
+
+                self.refresh(function()
+                {
+                    if ( typeof callback !== 'undefined' ) {
+                        callback();
+                    }
+                });
 
             }, {
                 username : username,
@@ -274,14 +362,74 @@ define('package/quiqqer/intranet/Profile', [
             this.$normalizeButtons();
             this.$buttons.myData.setActive();
 
-            Ajax.get('package_quiqqer_intranet_ajax_user_profil_data', function(result)
+            Ajax.get('package_quiqqer_intranet_ajax_user_profile_data', function(result)
             {
                 self.$Content.set( 'html', result );
+
+                new QUIButton({
+                    text      : Locale.get( 'quiqqer/system', 'save' ),
+                    textimage : 'icon-save',
+                    styles    : {
+                        margin : '0 0 20px'
+                    },
+                    events :
+                    {
+                        onClick : function() {
+                            self.saveData();
+                        }
+                    }
+                }).inject( self.$Content );
+
+
+                var Form = self.$Content.getElement( 'form' );
+
+                Form.addEvent('submit', function(event) {
+                    event.stop();
+                });
+
+                QUIFormUtils.setDataToForm( self.$data, Form );
+
 
                 self.hideMenu();
                 self.Loader.hide();
             }, {
-                'package' : 'quiqqer/intranet'
+                'package' : 'quiqqer/intranet',
+                lang      : Locale.getCurrent()
+            });
+        },
+
+        /**
+         * Save the data
+         */
+        saveData : function()
+        {
+            var Form = this.$Content.getElement( 'form[name="mydata"]' );
+
+            if ( !Form ) {
+                return;
+            }
+
+            this.Loader.show();
+
+            var self     = this,
+                formData = QUIFormUtils.getFormData( Form );
+
+            var data = {
+                firstname : formData.firstname,
+                lastname  : formData.lastname,
+                birthday  : formData.birth_year +'-'+ formData.birth_month +'-'+ formData.birth_day,
+                email     : formData.email
+            };
+
+            Ajax.post('package_quiqqer_intranet_ajax_user_save', function()
+            {
+                self.refresh(function() {
+                    self.$buttons.myData.click();
+                });
+            }, {
+                'package' : 'quiqqer/intranet',
+                data      : JSON.encode( data ),
+                lang      : Locale.getCurrent()
             });
         },
 
@@ -295,9 +443,27 @@ define('package/quiqqer/intranet/Profile', [
             this.$normalizeButtons();
             this.$buttons.changePassword.setActive();
 
-            Ajax.get('package_quiqqer_intranet_ajax_user_profil_password', function(result)
+            Ajax.get('package_quiqqer_intranet_ajax_user_profile_password', function(result)
             {
                 self.$Content.set( 'html', result );
+
+                self.$Content.getElements( 'form' ).addEvent('submit', function(event) {
+                    event.stop();
+                });
+
+                new QUIButton({
+                    text      : Locale.get( 'quiqqer/system', 'save' ),
+                    textimage : 'icon-save',
+                    styles    : {
+                        margin : '0 0 20px'
+                    },
+                    events :
+                    {
+                        onClick : function() {
+                            self.changePassword();
+                        }
+                    }
+                }).inject( self.$Content );
 
                 self.hideMenu();
                 self.Loader.hide();
@@ -307,6 +473,61 @@ define('package/quiqqer/intranet/Profile', [
 
             this.Loader.hide();
         },
+
+        /**
+         * change the password
+         */
+        changePassword : function()
+        {
+            var Form = this.$Content.getElement( 'form[name="changepw"]' );
+
+            if ( !Form ) {
+                return;
+            }
+
+            this.Loader.show();
+
+            var self     = this,
+                formData = QUIFormUtils.getFormData( Form );
+
+            var data = {
+                firstname : formData.firstname,
+                lastname  : formData.lastname,
+                birthday  : formData.birth_year +'-'+ formData.birth_month +'-'+ formData.birth_day,
+                email     : formData.email
+            };
+
+            Ajax.post('package_quiqqer_intranet_ajax_user_password_change', function()
+            {
+                self.refresh(function() {
+                    self.$buttons.changePassword.click();
+                });
+            }, {
+                'package' : 'quiqqer/intranet',
+                data      : JSON.encode( data ),
+                lang      : Locale.getCurrent()
+            });
+        },
+
+        /**
+         * show the address managegement
+         */
+        showAddresses : function()
+        {
+            var self = this;
+
+            this.$normalizeButtons();
+            this.$buttons.Address.setActive();
+
+            this.$Content.set( 'html', '' );
+        },
+
+
+        editAdress : function(aid)
+        {
+
+        },
+
 
         /**
          * set all button to status normal
