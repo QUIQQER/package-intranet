@@ -15,6 +15,29 @@ namespace QUI\Intranet\Social;
 class Facebook implements \QUI\Intranet\Interfaces\Social
 {
     /**
+     * Checks if the token is correct
+     *
+     * @throws \QUI\Exception
+     * @return Bool
+     */
+    public function checkToken($token)
+    {
+        $Token = json_decode( $token );
+
+        if ( !$Token->accessToken )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/intranet',
+                    'exception.social.facebook.wrong.token'
+                )
+            );
+        }
+
+        return true;
+    }
+
+    /**
      * Return the user by a google token
      *
      * @param String $token
@@ -25,12 +48,57 @@ class Facebook implements \QUI\Intranet\Interfaces\Social
     {
         $this->checkToken( $token );
 
+        $data = $this->getUserDataByToken( $token );
 
-        $Plugin = \QUI::getPluginManager()->get( 'quiqqer/intranet' );
+        $Users = \QUI::getUsers();
+        $User  = $Users->getUserByMail( $data['email'] );
 
-        $Facebook = new Facebook(array(
-            'appId'  => $Plugin->getSettings( 'facebook', 'appId' ),
-            'secret' => $Plugin->getSettings( 'facebook', 'secret' ),
+        if ( !isset( $data['id'] ) || $data['id'] != $User->getAttribute( 'quiqqer.intranet.facebookid' ) )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/intranet',
+                    'exception.social.facebook.user.not.found'
+                )
+            );
+        }
+
+        return $User;
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see \QUI\Intranet\Interfaces\Social::getUserDataByToken()
+     */
+    public function getUserDataByToken($token)
+    {
+        $this->checkToken( $token );
+
+        $Plugin         = \QUI::getPluginManager()->get( 'quiqqer/intranet' );
+        $facebookAppId  = $Plugin->getSettings( 'social', 'facebookAppId' );
+        $facebookSecret = $Plugin->getSettings( 'social', 'facebookSecret' );
+
+        if ( empty( $facebookSecret ) || empty( $facebookAppId ) )
+        {
+            \QUI\System\Log::write(
+                \QUI::getLocale()->get(
+                    'quiqqer/intranet',
+                    'exception.intranet.social.facebook.missing.config'
+                ),
+                \QUI\System\Log::LEVEL_ERROR
+            );
+
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/intranet',
+                    'exception.intranet.social.facebook.missing.config'
+                )
+            );
+        }
+
+        $Facebook = new \Facebook(array(
+            'appId'  => $facebookAppId,
+            'secret' => $facebookSecret,
             'sharedSession' => true,
             'cookie'        => true
         ));
@@ -55,32 +123,26 @@ class Facebook implements \QUI\Intranet\Interfaces\Social
 
         try
         {
-            $user_profile = $Facebook->api( '/me' );
+            return $Facebook->api( '/me' );
 
-        } catch ( FacebookApiException $Exception )
+        } catch ( \FacebookApiException $Exception )
         {
             throw new \QUI\Exception(
                 \QUI::getLocale(
                     'quiqqer/intranet',
-                    'exception.social.google.user.not.found'
+                    'exception.social.facebook.user.not.found'
                 )
             );
         }
+    }
 
-        $User = $Users->getUserByMail( $user_profile['email'] );
-
-        if ( !isset( $extra['facebookid'] ) ||
-             $extra['facebookid'] != $User->getAttribute( 'facebookid' ) )
-        {
-            throw new \QUI\Exception(
-                \QUI::getLocale(
-                    'quiqqer/intranet',
-                    'exception.social.google.user.not.found'
-                )
-            );
-        }
-
-        return $User;
+    /**
+     * (non-PHPdoc)
+     * @see \QUI\Intranet\Interfaces\Social::hasAccess()
+     */
+    public function hasAccess(\QUI\Users\User $User)
+    {
+        return $User->getAttribute( 'quiqqer.intranet.facebookid' );
     }
 
     /**
@@ -93,7 +155,7 @@ class Facebook implements \QUI\Intranet\Interfaces\Social
     {
         try
         {
-            $this->getUserByToken( $token );
+            $this->getUserDataByToken( $token );
 
             return true;
 
@@ -104,26 +166,52 @@ class Facebook implements \QUI\Intranet\Interfaces\Social
     }
 
     /**
-     * Checks if the token is correct
-     *
-     * @throws \QUI\Exception
-     * @return Bool
+     * (non-PHPdoc)
+     * @see \QUI\Intranet\Interfaces\Social::login()
      */
-    public function checkToken($token)
+    public function login($token)
     {
-        $Token = json_decode( $token );
+        $User = $this->getUserByToken( $token );
 
-        if ( !$Token->accessToken )
-        {
-            throw new \QUI\Exception(
-                \QUI::getLocale()->get(
-                    'quiqqer/intranet',
-                    'exception.social.facebook.wrong.token'
-                )
-            );
-        }
+        // social media, user is directly loged in
+        \QUI::getSession()->set( 'uid', $User->getId() );
+        \QUI::getSession()->set( 'auth', 1 );
 
-        return true;
+        return $User;
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see \QUI\Intranet\Interfaces\Social::onRegistration()
+     */
+    public function onRegistration(\QUI\Users\User $User, $token)
+    {
+        $data = $this->getUserDataByToken( $token );
+
+        if ( isset( $data['first_name'] ) ) {
+            $User->setAttribute( 'firstname', $data['first_name'] );
+        }
+
+        if ( isset( $data['first_name'] ) ) {
+            $User->setAttribute( 'lastname', $data['last_name'] );
+        }
+
+        if ( isset( $data['locale'] ) )
+        {
+            $locale = explode( '_', $data['locale'] );
+            $lang   = $locale[0];
+            $langs  = \QUI::availableLanguages();
+
+            $userLang = \QUI::getLocale()->getCurrent();
+
+            if ( in_array( $lang, $langs ) ) {
+                $userLang = $lang;
+            }
+
+            $User->setAttribute( 'lang', $userLang );
+        }
+
+        $User->setAttribute( 'quiqqer.intranet.facebookid', $data['id'] );
+        $User->save();
+    }
 }

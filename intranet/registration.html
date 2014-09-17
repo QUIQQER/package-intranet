@@ -9,10 +9,12 @@
 
     {$INTRANET_SUCCESS_MESSAGE}
 
+{else if isset( $INTRANET_ERROR_MESSAGE )}
+    {$INTRANET_ERROR_MESSAGE}
 {else}
 
-    {if isset( $INTRANET_ERROR_MESSAGE )}
-        {$INTRANET_ERROR_MESSAGE}
+    {if isset( $INTRANET_REGISTRATION_ERROR_MESSAGE )}
+        {$INTRANET_REGISTRATION_ERROR_MESSAGE}
     {/if}
 
     {control control="\QUI\Intranet\Controls\Registration"}

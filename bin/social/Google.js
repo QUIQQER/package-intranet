@@ -5,8 +5,9 @@
  * @author www.pcsg.de (Henning Leutz)
  * @module package/quiqqer/intranet/social/Google
  *
- * @event signInBegin
- * @event signInEnd
+ * @event signInBegin [ {self} ]
+ * @event signInEnd [ {self} ]
+ * @event onLoginBegin [ {self} ]
  * @event onAuth [ {self}, {Object} data ]
  */
 
@@ -28,7 +29,8 @@ define([
         Type    : 'package/quiqqer/intranet/social/Google',
 
         options : {
-            name : 'google'
+            name   : 'google',
+            styles : false
         },
 
         initialize : function(options)
@@ -55,6 +57,10 @@ define([
                 }
             });
 
+            if ( this.getAttribute( 'styles' ) ) {
+                this.$Elm.setStyles( this.getAttribute( 'styles' ) );
+            }
+
             return this.$Elm;
         },
 
@@ -70,6 +76,8 @@ define([
             }
 
             var self = this;
+
+            this.fireEvent( 'loginBegin', [ this ] );
 
             this.googleSignIn(function(authResult)
             {
@@ -127,7 +135,7 @@ define([
                 return;
             }
 
-            this.fireEvent( 'signInBegin' );
+            this.fireEvent( 'signInBegin', [ this ] );
 
             var self = this;
 
@@ -143,7 +151,7 @@ define([
             gapi.auth.signIn({
                 callback : function(authResult)
                 {
-                    self.fireEvent( 'signInEnd' );
+                    self.fireEvent( 'signInEnd', [ self ] );
 
                     if ( !authResult.access_token )
                     {

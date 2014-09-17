@@ -7,7 +7,6 @@
  * @author www.pcsg.de (Henning Leutz)
  *
  * @event onRegisterSuccess
- * @event onSocialRegisterSuccess
  */
 
 define([
@@ -65,6 +64,12 @@ define([
 
             this.Loader.inject( Elm );
             this.Loader.show();
+
+            if ( !Elm.getElement( '#reg-email' ) )
+            {
+                this.Loader.hide();
+                return;
+            }
 
             var Hide = Elm.getElement( '.package-intranet-registration-hide' );
                 Hide.setStyle( 'display', 'inline' );
@@ -144,6 +149,11 @@ define([
                 {
                     controls[ i ].addEvent( 'onAuth', function(Social, params) {
                         self.socialRegister( Social.getAttribute('name'), params );
+                    });
+
+                    controls[ i ].getElm().setStyles({
+                        display : 'inline-block',
+                        'float' : 'none'
                     });
                 }
 
@@ -281,18 +291,24 @@ define([
         {
             var self = this;
 
+            this.Loader.show();
+
             this.isItRegistered(socialData.email, function(registered)
             {
                 // check if social access exists
-                self.hasSocialAccess(socialData.email, function(socialAccess)
+                self.hasSocialAccess(socialData.email, socialType, function(socialAccess)
                 {
                     if ( !registered || !socialAccess )
                     {
                         // register user with social media
                         Ajax.post('package_quiqqer_intranet_ajax_user_socialRegister', function(register)
                         {
-                            if ( register ) {
-                                self.socialRegister();
+                            if ( register )
+                            {
+                                self.socialRegister( socialType, socialData );
+                            } else
+                            {
+                                self.Loader.show();
                             }
 
                         }, {
@@ -305,7 +321,23 @@ define([
                         return;
                     }
 
-                    self.fireEvent( 'socialRegisterSuccess' );
+                    // login
+                    if ( self.isLogedIn() )
+                    {
+                        window.location.reload();
+                        return;
+                    }
+
+                    Ajax.post('package_quiqqer_intranet_ajax_user_socialLogin', function()
+                    {
+                        window.location.reload();
+                    }, {
+                        token      : JSON.encode( socialData.token ),
+                        socialType : socialType,
+                        project    : QUIQQER_PROJECT.name,
+                        'package'  : 'quiqqer/intranet'
+                    });
+
                 });
             });
         },
@@ -331,18 +363,38 @@ define([
          * Check if the user has social access
          *
          * @param {String} email
+         * @param {String} socialType
          * @param {Function} callback
          */
-        hasSocialAccess : function(email, callback)
+        hasSocialAccess : function(email, socialType, callback)
         {
             callback = callback || function(){};
 
             Ajax.get('package_quiqqer_intranet_ajax_user_hasSocialAccess', callback, {
-                email     : email,
-                project   : QUIQQER_PROJECT.name,
-                'package' : 'quiqqer/intranet'
+                email      : email,
+                socialType : socialType,
+                project    : QUIQQER_PROJECT.name,
+                'package'  : 'quiqqer/intranet'
             });
         },
+
+        /**
+         * is the user loged in?
+         *
+         * @return {Bool}
+         */
+        isLogedIn : function()
+        {
+            if ( typeof QUIQQER_USER === 'undefined' ) {
+                return false;
+            }
+
+            if ( "id" in QUIQQER_USER && parseInt( QUIQQER_USER.id ) ) {
+                return true;
+            }
+
+            return false;
+        }
     });
 
 });

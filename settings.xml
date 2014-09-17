@@ -11,6 +11,9 @@
                 <conf name="sendMailOnRegistration">
                     <type><![CDATA[bool]]></type>
                 </conf>
+                <conf name="loggedInDuringRegistrationn">
+                    <type><![CDATA[bool]]></type>
+                </conf>
             </section>
             <section name="social">
                 <conf name="googleApplicationName">
@@ -53,6 +56,13 @@
                         <input conf="registration.sendMailOnRegistration" type="checkbox">
                             <text>Registrierungs-Aktivierungs-Mail versenden</text>
                             <description>Eine Aktivierungs E-Mail versenden damit der Benutzer sich aktivieren kann.</description>
+                        </input>
+                        <input conf="registration.loggedInDuringRegistrationn" type="checkbox">
+                            <text>Eingeloggte Benutzer können sich registrieren</text>
+                            <description>
+                                Wenn diese Option nicht aktiv ist, können sich nur <u>nicht</u> eingeloggte Benutzer registrieren.<br />
+                                Eingeloggte Benutzer haben sich schon registriert und benötigen keine Registrierung.
+                            </description>
                         </input>
                     </settings>
                 </category>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<user>
+    <attributes>
+        <attribute>quiqqer.intranet.googleid</attribute>
+        <attribute>quiqqer.intranet.facebookid</attribute>
+        <attribute>quiqqer.intranet.passwordForgotten.hash</attribute>
+    </attributes>
+</user>

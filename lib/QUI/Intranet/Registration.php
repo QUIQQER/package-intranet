@@ -12,13 +12,21 @@ use \QUI\Utils\Security\Orthos as Orthos;
  * QUIQQER Registration
  *
  * @author www.pcsg.de (Henning Leutz)
+ *
+ * @example new \QUI\Intranet\Registration();
+ *
+ * @example new \QUI\Intranet\Registration(array(
+ * 		'Project' => $Project
+ * ));
  */
 
 class Registration extends \QUI\QDOM
 {
     /**
      * constructor
+     *
      * @param array $params
+     * 	Project => \QUI\Projects\Project
      */
     public function __construct($params=array())
     {
@@ -127,7 +135,7 @@ class Registration extends \QUI\QDOM
      * @param Array $socialData - Social media data
      * @throws \QUI\Exception
      */
-    public function socialRegister($social, $socialData)
+    public function socialRegister($socialType, $socialData)
     {
         $Users = \QUI::getUsers();
 
@@ -153,6 +161,26 @@ class Registration extends \QUI\QDOM
             );
         }
 
+        // social auth check
+        $token = array();
+
+        if ( isset( $socialData['token'] ) ) {
+            $token = json_encode( $socialData['token'] );
+        }
+
+        $Social = $this->getSocial( $socialType );
+
+        if ( !$Social->isAuth( $token ) )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/intranet',
+                    'exception.social.network.no.token'
+                )
+            );
+        }
+
+
         // user creation
         $Plugin   = \QUI::getPluginManager()->get( 'quiqqer/intranet' );
         $groupids = $Plugin->getSettings('registration', 'standardGroups');
@@ -174,7 +202,41 @@ class Registration extends \QUI\QDOM
             'lang'      => $userLang
         ));
 
-        $User->setAttribute( '', $value );
+        // social media, user is directly loged in
+        \QUI::getSession()->set( 'uid', $User->getId() );
+        \QUI::getSession()->set( 'auth', 1 );
+
+        // social media data
+        $Social->onRegistration( $User, $token );
+
+        // user via social media are directly activated
+        $this->activate( $User->getId(), $User->getAttribute( 'activation' ) );
+    }
+
+    /**
+     * Get social type object
+     *
+     * @param String $socialType
+     *
+     * @throws \QUI\Exception
+     * @return \QUI\Intranet\Social\Google|\QUI\Intranet\Social\Facebook
+     */
+    public function getSocial($socialType)
+    {
+        if ( $socialType == 'google' ) {
+            return new \QUI\Intranet\Social\Google();
+        }
+
+        if ( $socialType == 'facebook' ) {
+            return new \QUI\Intranet\Social\Facebook();
+        }
+
+        throw new \QUI\Exception(
+            \QUI::getLocale()->get(
+                'quiqqer/intranet',
+                'exception.social.network.unknown'
+            )
+        );
     }
 
     /**
@@ -185,7 +247,6 @@ class Registration extends \QUI\QDOM
      */
     public function activate($uid, $code)
     {
-
         if ( empty( $code ) )
         {
             // Es wurde kein Aktivierungscode übermittelt
@@ -226,28 +287,6 @@ class Registration extends \QUI\QDOM
         $this->sendActivasionSuccessMail( $User );
 
         return $User;
-    }
-
-    /**
-     * Sends a forget password mail
-     *
-     * @param Integer|String $user
-     * @param \QUI\Projects\Project $Project
-     */
-    public function forgetPassword($user)
-    {
-
-    }
-
-    /**
-     * Create a new password for an user
-     *
-     * @param Integer|String $uid
-     * @param String $hash - create hash
-     */
-    public function createNewPassword($uid, $hash)
-    {
-
     }
 
     /**
@@ -299,6 +338,37 @@ class Registration extends \QUI\QDOM
     }
 
     /**
+     * Return the User by mail, id, username
+     *
+     * @param String|Integer $user
+     * @return \QUI\Users\User
+     */
+    protected function _getUser($user)
+    {
+        $Users = \QUI::getUsers();
+
+        if ( $Users->existsUsername( $user ) )  {
+            return $Users->getUserByName( $user );
+        }
+
+        if ( $Users->existEmail( $user ) ) {
+            return $Users->getUserByMail( $user );
+        }
+
+        if ( (int)$user == $user ) {
+            return $Users->get( (int)$user );
+        }
+
+        throw new \QUI\Exception(
+            \QUI::getLocale()->get(
+                'quiqqer/system',
+                'exception.lib.user.wrong.uid'
+            ),
+            404
+        );
+    }
+
+    /**
      * Mail Methods
      */
 
@@ -312,8 +382,6 @@ class Registration extends \QUI\QDOM
     {
         $Project = $this->_getProject();
         $Locale  = \QUI::getLocale();
-        $Engine  = \QUI::getTemplateManager()->getEngine();
-
         $project = $Project->getAttribute('name');
 
         // if no site, find a registration site
@@ -326,19 +394,6 @@ class Registration extends \QUI\QDOM
         $reg_url .= 'code='. $User->getAttribute('activation') .'&';
         $reg_url .= 'nickname='. $User->getName();
 
-        $Engine->assign(array(
-            'Project'  => $Project,
-            'Site'     => $Site,
-            'User'     => $User,
-            'code'     => $User->getAttribute('activation'),
-            'nickname' => $User->getName(),
-            'reg_url'  => $reg_url,
-            'body'     => \QUI::getLocale()->get(
-                'quiqqer/intranet',
-                'mail.registration.Body',
-                array( 'registration_url' => $reg_url )
-            )
-        ));
 
         $MAILFromText = '';
         $MailSubject  = '';
@@ -359,22 +414,22 @@ class Registration extends \QUI\QDOM
             $MailSubject = $Locale->get( 'quiqqer/intranet', 'mail.registration.MailSubject' );
         }
 
-        // send registration mail
-        $Mail = new \QUI\Mail(array(
-            'MAILFromText' => $MAILFromText
-        ));
+        $MailBody = \QUI::getLocale()->get(
+            'quiqqer/intranet',
+            'mail.registration.Body',
+            array( 'registration_url' => $reg_url )
+        );
 
-        $body = $Engine->fetch( OPT_DIR .'quiqqer/intranet/mails/activation.html' );
+        // send mail
+        $Mail = new \QUI\Mail\Mailer();
 
-        $result = $Mail->send(array(
-             'MailTo'  => $User->getAttribute('email'),
-             'Subject' => $MailSubject,
-             'Body'    => $body,
-             'IsHTML'  => true
-        ));
+        $Mail->setProject( $this->_getProject() );
+        $Mail->setFromName( $MAILFromText );
+        $Mail->setSubject( $MailSubject );
+        $Mail->setBody( $MailBody );
+        $Mail->addRecipient( $User->getAttribute('email') );
 
-
-        if ( !$result )
+        if ( !$Mail->send() )
         {
             throw new \QUI\Exception(
                 \QUI::getLocale()->get(
@@ -437,22 +492,22 @@ class Registration extends \QUI\QDOM
             $MailSubject = $Locale->get('quiqqer/intranet', 'mail.activation.MailSubject');
         }
 
-
-        $Mail = new \QUI\Mail(array(
-            'MAILFromText' => $MAILFromText
-        ));
-
-        $body = $Engine->fetch( OPT_DIR .'quiqqer/intranet/mails/activation_success.html' );
+        $MailBody = \QUI::getLocale()->get(
+            'quiqqer/intranet',
+            'mail.activation.Body'
+        );
 
 
-        $send = $Mail->send(array(
-             'MailTo'  => $User->getAttribute('email'),
-             'Subject' => $MailSubject,
-             'Body'    => $body,
-             'IsHTML'  => true
-        ));
+        // send mail
+        $Mail = new \QUI\Mail\Mailer();
 
-        if ( !$send )
+        $Mail->setProject( $this->_getProject() );
+        $Mail->setSubject( $MailSubject );
+        $Mail->setFromName( $MAILFromText );
+        $Mail->addRecipient( $User->getAttribute('email') );
+        $Mail->setBody( $MailBody );
+
+        if ( !$Mail->send() )
         {
             throw new \QUI\Exception(
                 \QUI::getLocale()->get(
@@ -461,5 +516,249 @@ class Registration extends \QUI\QDOM
                 )
             );
         }
+    }
+
+    /**
+     * Sends a password forgotten Mail
+     *
+     * @param Integer|String $user
+     * @param \QUI\Projects\Project $Project
+     */
+    public function sendPasswordForgottenMail($user)
+    {
+        $Project = $this->_getProject();
+        $User    = $this->_getUser( $user );
+        $Users   = \QUI::getUsers();
+        $Engine  = \QUI::getTemplateManager()->getEngine();
+
+        if ( !$Users->isUser($User) )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'system',
+                    'exception.lib.user.user.not.found'
+                ),
+                404
+            );
+        }
+
+
+        $RegSite = $this->_getRegSite();
+        $hash    = \QUI\Utils\Security\Orthos::getPassword();
+
+        $url = $Project->getVHost( true ) . $RegSite->getUrl(array(
+            'uid'  => $User->getId(),
+            'pass' => 'new',
+            'hash' => $hash
+        ), true);
+
+        $User->setAttribute( 'quiqqer.intranet.passwordForgotten.hash', $hash );
+        $User->save( $Users->getSystemUser() );
+
+
+        /**
+         * create mail
+         */
+        $MAILFromText = '';
+        $MailSubject  = '';
+        $project      = $Project->getName();
+
+        // schauen ob es übersetzungen dafür gibt
+        if ( \QUI::getLocale()->exists('project/'. $project, 'intranet.forgotten.password.MAILFromText') )
+        {
+            $MAILFromText = \QUI::getLocale()->get(
+                'project/'. $project,
+                'intranet.forgotten.password.MAILFromText'
+            );
+
+        } else
+        {
+            $MAILFromText = \QUI::getLocale()->get(
+                'quiqqer/intranet',
+                'mail.forgotten.password.MAILFromText'
+            );
+        }
+
+
+        if ( \QUI::getLocale()->exists('project/'. $project, 'intranet.forgotten.password.Subject') )
+        {
+            $MailSubject = \QUI::getLocale()->get(
+                'project/'. $project,
+                'intranet.forgotten.password.MailSubject'
+            );
+
+        } else
+        {
+            $MailSubject = \QUI::getLocale()->get(
+                'quiqqer/intranet',
+                'mail.forgotten.password.MailSubject'
+            );
+        }
+
+        $MailBody = \QUI::getLocale()->get(
+            'quiqqer/intranet',
+            'mail.forgotten.password.Body',
+            array( 'password_url' => $url )
+        );
+
+
+        // send mail
+        $Mail = new \QUI\Mail\Mailer();
+
+        $Mail->setProject( $this->_getProject() );
+        $Mail->setSubject( $MailSubject );
+        $Mail->setFromName( $MAILFromText );
+        $Mail->addRecipient( $User->getAttribute('email') );
+        $Mail->setBody( $MailBody );
+
+        $Mail->Template->setAttributes(array(
+            'Project' => $Project,
+            'Site'    => $RegSite,
+            'User'    => $User,
+            'hash'    => $hash
+        ));
+
+
+        if ( !$Mail->send() )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/intranet',
+                    'exception.send.forgotten.password.mail.fail'
+                )
+            );
+        }
+
+        \QUI::getMessagesHandler()->addSuccess(
+            \QUI::getLocale()->get(
+                'quiqqer/intranet',
+                'message.send.forgotten.password.successfully'
+            )
+        );
+    }
+
+    /**
+     * set a new password and send the password via mail
+     *
+     * @param String $user - User E-Mail, User-Id, Username
+     * @param String $hash - User password hash
+     */
+    public function sendNewPasswordMail($user, $hash)
+    {
+        $Project = $this->_getProject();
+        $User    = $this->_getUser( $user );
+        $RegSite = $this->_getRegSite();
+
+        $Users   = \QUI::getUsers();
+        $Engine  = \QUI::getTemplateManager()->getEngine();
+
+
+        // Hash Abfrage
+        $userHash = $User->getAttribute( 'quiqqer.intranet.passwordForgotten.hash' );
+
+        if ( $userHash != $hash )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/intranet',
+                    'exception.wrong.hash'
+                )
+            );
+        }
+
+        // set new password
+        $newpass = \QUI\Utils\Security\Orthos::getPassword();
+
+        $User->setPassword( $newpass, $Users->getSystemUser() );
+        $User->save( $Users->getSystemUser() );
+
+        // create mail
+        $MAILFromText = '';
+        $MailSubject  = '';
+        $project      = $Project->getName();
+
+        // schauen ob es übersetzungen dafür gibt
+        if ( \QUI::getLocale()->exists('project/'. $project, 'intranet.new.password.MAILFromText') )
+        {
+            $MAILFromText = \QUI::getLocale()->get(
+                'project/'. $project,
+                'intranet.new.password.MAILFromText'
+            );
+
+        } else
+        {
+            $MAILFromText = \QUI::getLocale()->get(
+                'quiqqer/intranet',
+                'mail.new.password.MAILFromText'
+            );
+        }
+
+
+        if ( \QUI::getLocale()->exists('project/'. $project, 'intranet.new.password.Subject') )
+        {
+            $MailSubject = \QUI::getLocale()->get(
+                'project/'. $project,
+                'intranet.new.password.MailSubject'
+            );
+
+        } else
+        {
+            $MailSubject = \QUI::getLocale()->get(
+                'quiqqer/intranet',
+                'mail.new.password.MailSubject'
+            );
+        }
+
+        $MailBody = \QUI::getLocale()->get(
+            'quiqqer/intranet',
+            'mail.new.password.Body',
+            array(
+                'username' => $User->getName(),
+                'uid'      => $User->getId(),
+                'password' => $newpass
+            )
+        );
+
+        \QUI\System\Log::write( 'sendNewPasswordMail' );
+
+        // send mail
+        $Mail = new \QUI\Mail\Mailer();
+
+        $Mail->setProject( $this->_getProject() );
+        $Mail->setSubject( $MailSubject );
+        $Mail->setFromName( $MAILFromText );
+        $Mail->addRecipient( $User->getAttribute('email') );
+        $Mail->setBody( $MailBody );
+
+        $Mail->Template->setAttributes(array(
+            'Project' => $Project,
+            'Site'    => $RegSite,
+            'User'    => $User,
+            'hash'    => $hash
+        ));
+
+        if ( !$Mail->send() )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/intranet',
+                    'exception.send.new.password.mail.fail'
+                )
+            );
+        }
+
+        $User->setAttribute(
+            'quiqqer.intranet.passwordForgotten.hash',
+            \QUI\Utils\Security\Orthos::getPassword()
+        );
+
+        $User->save( $Users->getSystemUser() );
+
+        \QUI::getMessagesHandler()->addSuccess(
+            \QUI::getLocale()->get(
+                'quiqqer/intranet',
+                'message.send.new.password.successfully'
+            )
+        );
     }
 }

@@ -1,0 +1,7 @@
+@CHARSET "UTF-8";
+
+.quiqqer-intranet-login-bar-text {
+    float: left;
+    line-height: 26px;
+    margin-right: 10px;
+}

@@ -3,6 +3,10 @@
 
     <types>
         <type type="intranet/registration" extend="\QUI\Intranet\Registration" icon="icon-signin">
+            <locale group="quiqqer/intranet" var="admin.types.registration" />
+            <desc>
+                <locale group="quiqqer/intranet" var="admin.types.registration.desc" />
+            </desc>
             <!-- intranet site panel tab -->
             <!--
             <tab name="registerSettings">
@@ -14,11 +18,39 @@
             -->
         </type>
 
-        <type type="intranet/profil" extend="\QUI\Intranet\Profil" icon="icon-user" />
-        <type type="intranet/termsAndConditions" icon="icon-legal" />
-        <type type="intranet/rightsOfRevocation" icon="icon-legal" />
-        <type type="intranet/privacy" icon="icon-legal" />
-        <type type="intranet/legal" icon="icon-legal" />
+        <type type="intranet/profil" extend="\QUI\Intranet\Profil" icon="icon-user">
+            <locale group="quiqqer/intranet" var="admin.types.profile" />
+            <desc>
+                <locale group="quiqqer/intranet" var="admin.types.profile.desc" />
+            </desc>
+        </type>
+
+        <type type="registration/termsOfUse" icon="icon-legal">
+            <locale group="quiqqer/intranet" var="admin.types.termsOfUse" />
+            <desc>
+                <locale group="quiqqer/intranet" var="admin.types.termsOfUse.desc" />
+            </desc>
+        </type>
+
+        <type type="registration/privacy" icon="icon-legal">
+            <locale group="quiqqer/intranet" var="admin.types.privacy" />
+            <desc>
+                <locale group="quiqqer/intranet" var="admin.types.privacy.desc" />
+            </desc>
+        </type>
+
+        <type type="registration/legal" icon="icon-legal">
+            <locale group="quiqqer/intranet" var="admin.types.legal" />
+            <desc>
+                <locale group="quiqqer/intranet" var="admin.types.legal.desc" />
+            </desc>
+        </type>
+
+        <!-- muss in den shop -->
+        <!--
+        <type type="shop/rightsOfRevocation" icon="icon-legal" />
+        <type type="shop/termsAndConditions" icon="icon-legal" />
+        -->
     </types>
 
 </site>

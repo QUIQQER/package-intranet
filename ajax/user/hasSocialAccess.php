@@ -10,7 +10,7 @@
  * @return Bool
  */
 
-function package_quiqqer_intranet_ajax_user_hasSocialAccess($email)
+function package_quiqqer_intranet_ajax_user_hasSocialAccess($email, $socialType)
 {
     $Users = \QUI::getUsers();
 
@@ -28,18 +28,13 @@ function package_quiqqer_intranet_ajax_user_hasSocialAccess($email)
         return false;
     }
 
-    if ( $User->getAttribute( 'googleid' ) ) {
-        return true;
-    }
+    $Registration = new \QUI\Intranet\Registration();
+    $Social       = $Registration->getSocial( $socialType );
 
-    if ( $User->getAttribute( 'facebookid' ) ) {
-        return true;
-    }
-
-    return false;
+    return $Social->hasAccess( $User );
 }
 
 \QUI::$Ajax->register(
     'package_quiqqer_intranet_ajax_user_hasSocialAccess',
-    array( 'email' )
+    array( 'email', 'socialType' )
 );

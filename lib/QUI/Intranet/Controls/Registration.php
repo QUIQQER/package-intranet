@@ -38,6 +38,22 @@ class Registration extends \QUI\Control
         $Engine  = \QUI::getTemplateManager()->getEngine();
         $Project = $this->_getProject();
 
+        $Engine->assign(array(
+            'Project' => $this->getAttribute('Project'),
+            'Site'    => $this->getAttribute('Site'),
+            'Locale'  => \QUI::getLocale()
+        ));
+
+
+        // user loged in check
+        $Plugin   = \QUI::getPluginManager()->get( 'quiqqer/intranet' );
+        $loggedIn = $Plugin->getSettings('registration', 'loggedInDuringRegistrationn');
+
+        if ( !$loggedIn && \QUI::getUserBySession()->getId() ) {
+            return $Engine->fetch( dirname( __FILE__ ) .'/RegistrationLogedIn.html' );
+        }
+
+
         // AGB
         $result = $Project->getSites(array(
             'where' => array(
@@ -63,13 +79,6 @@ class Registration extends \QUI\Control
             $Engine->assign( 'Site_Privacy', $result[ 0 ] );
         }
 
-
-
-        $Engine->assign(array(
-            'Project' => $this->getAttribute('Project'),
-            'Site'    => $this->getAttribute('Site'),
-            'Locale'  => \QUI::getLocale()
-        ));
 
         return $Engine->fetch( dirname( __FILE__ ) .'/Registration.html' );
     }

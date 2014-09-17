@@ -1,6 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <locales>
 
+    <groups name="quiqqer/intranet" datatype="js">
+        <locale name="loged.in.as">
+            <de><![CDATA[Eingeloggt als: [username]]]></de>
+            <en><![CDATA[Loged in as: [username]]]></en>
+        </locale>
+        <locale name="login.in.title">
+            <de><![CDATA[Einloggen]]></de>
+            <en><![CDATA[Login]]></en>
+        </locale>
+        <locale name="login.in.username.placeholder">
+            <de><![CDATA[Benutzername / E-Mail]]></de>
+            <en><![CDATA[Username / e-mail]]></en>
+        </locale>
+        <locale name="login.in.password.placeholder">
+            <de><![CDATA[Passwort]]></de>
+            <en><![CDATA[Password]]></en>
+        </locale>
+        <locale name="login.in.submit">
+            <de><![CDATA[Login!]]></de>
+            <en><![CDATA[Login!]]></en>
+        </locale>
+        <locale name="login.in.forgotten.password.link">
+            <de><![CDATA[Passwort vergessen?]]></de>
+            <en><![CDATA[Forgot your password?]]></en>
+        </locale>
+        <locale name="login.in.or.text">
+            <de><![CDATA[oder]]></de>
+            <en><![CDATA[or]]></en>
+        </locale>
+        <locale name="login.in.sign.in.title">
+            <de><![CDATA[Anmelden mit]]></de>
+            <en><![CDATA[Sign in with]]></en>
+        </locale>
+        <locale name="login.in.register.text" html="true">
+            <de><![CDATA[<p>Ich bin noch nicht registriert und möchte mich neu anmelden.</p>]]></de>
+            <en><![CDATA[<p>I am not registered yet and would like to register now.</p>]]></en>
+        </locale>
+        <locale name="login.in.register.link">
+            <de><![CDATA[Jetzt registrieren]]></de>
+            <en><![CDATA[Register now for free]]></en>
+        </locale>
+
+        <!--password forgotten -->
+        <locale name="pass.forget.title">
+            <de><![CDATA[Passwort vergessen?]]></de>
+            <en><![CDATA[Forgot your password?]]></en>
+        </locale>
+        <locale name="pass.forget.h1.text">
+            <de><![CDATA[Passwort vergessen?]]></de>
+            <en><![CDATA[Forgot your password?]]></en>
+        </locale>
+        <locale name="pass.forget.email.label">
+            <de><![CDATA[Benutzername / E-Mail]]></de>
+            <en><![CDATA[Username / e-mail]]></en>
+        </locale>
+        <locale name="pass.forget.btn.cancel">
+            <de><![CDATA[Abbrechen]]></de>
+            <en><![CDATA[Cancel]]></en>
+        </locale>
+        <locale name="btn.forget.pw.send.email">
+            <de><![CDATA[Neues Passwort senden]]></de>
+            <en><![CDATA[Send me a new password]]></en>
+        </locale>
+    </groups>
+
     <groups name="quiqqer/intranet" datatype="js,php">
         <locale name="profile.title">
             <de><![CDATA[Meine Daten]]></de>
@@ -86,6 +151,28 @@
 
     <!-- registration template -->
     <groups name="quiqqer/intranet" datatype="php">
+        <locale name="admin.types.profile">
+            <de><![CDATA[QUIQQER - Intranet Profil]]></de>
+            <en><![CDATA[QUIQQER - Intranet profile]]></en>
+        </locale>
+        <locale name="admin.types.registration">
+            <de><![CDATA[QUIQQER - Intranet Registrierung]]></de>
+            <en><![CDATA[QUIQQER - Intranet registration]]></en>
+        </locale>
+        <locale name="admin.types.termsOfUse">
+            <de><![CDATA[QUIQQER - Intranet AGB]]></de>
+            <en><![CDATA[QUIQQER - Intranet Terms and Conditions]]></en>
+        </locale>
+        <locale name="admin.types.privacy">
+            <de><![CDATA[QUIQQER - Intranet Datenschutzerklärung]]></de>
+            <en><![CDATA[QUIQQER - Intranet Privacy Policy ]]></en>
+        </locale>
+        <locale name="admin.types.legal">
+            <de><![CDATA[QUIQQER - Intranet Impressum]]></de>
+            <en><![CDATA[QUIQQER - Intranet legal]]></en>
+        </locale>
+
+
         <locale name="intranet.registration.read1">
             <de><![CDATA[Ja, ich habe die ]]></de>
             <en><![CDATA[Yes, I have read the ]]></en>
@@ -139,7 +226,7 @@
             <de><![CDATA[Registrierung]]></de>
             <en><![CDATA[Register]]></en>
         </locale>
-        <locale name="mail.registration.Body">
+        <locale name="mail.registration.Body" html="true">
             <de><![CDATA[
                 <p>Vielen Dank für Ihre Anmeldung.</p>
 
@@ -179,10 +266,10 @@
             <de><![CDATA[Aktivierung]]></de>
             <en><![CDATA[Activation]]></en>
         </locale>
-        <locale name="mail.activation.Body">
+        <locale name="mail.activation.Body" html="true">
             <de><![CDATA[
                 <p>
-                    herzlich willkommen! Sie haben Ihren Account erfolgreich aktiviert und damit den ersten Schritt gemeistert.
+                    Herzlich willkommen! Sie haben Ihren Account erfolgreich aktiviert und damit den ersten Schritt gemeistert.
                 </p>
                 <p>
                     Falls Sie Fragen oder Anmerkungen haben, antworten Sie einfach auf diese E-Mail.
@@ -191,7 +278,6 @@
                 <p>Wir wünschen Ihnen viel Erfolg.</p>
             ]]></de>
             <en><![CDATA[
-
                 <p>
                     Welcome! You have successfully activated your account and taken the first step.
                 </p>
@@ -203,13 +289,89 @@
             ]]></en>
         </locale>
 
+        <!-- password mail get new password -->
+        <locale name="mail.forgotten.password.MAILFromText">
+            <de><![CDATA[Passwort vergessen]]></de>
+            <en><![CDATA[Forgotten password]]></en>
+        </locale>
+        <locale name="mail.forgotten.password.MailSubject">
+            <de><![CDATA[Passwort vergessen]]></de>
+            <en><![CDATA[Forgotten password]]></en>
+        </locale>
+        <locale name="mail.forgotten.password.Body" html="true">
+            <de><![CDATA[
+                <p>für Ihr Profil wurde soeben ein neues Passwort angefordert.</p>
+                <p>
+                    Klicken Sie <a href="[password_url]">hier</a>, um sich das neue Passwort per E-Mail zusenden zu lassen
+                    oder kopieren Sie die folgende URL in die Adresszeile Ihres Browsers:
+                    <br />
+                    [password_url]
+                </p>
+                <p>Falls Sie Ihr Passwort nicht ändern möchten, ignorieren Sie bitte diese E-Mail. Ihr altes Passwort bleibt in dem Fall bestehen.</p>
+            ]]></de>
+            <en><![CDATA[
+                <p>A new password has been requested for your account.</p>
+                <p>
+                    Click <a href="[password_url]">here</a> to have your new password sent to you by e-mail,
+                    or copy the following URL to your browser's address bar:<br />
+                    [password_url]
+                </p>
+
+                <p>
+                    If you do not want to change your password, just ignore this e-mail.
+                    In this case, you will keep your old password.
+                </p>
+            ]]></en>
+        </locale>
+
+        <!-- mail new password generated -->
+        <locale name="mail.new.password.MAILFromText">
+            <de><![CDATA[Passwort vergessen]]></de>
+            <en><![CDATA[Forgotten password]]></en>
+        </locale>
+        <locale name="mail.new.password.MailSubject">
+            <de><![CDATA[Passwort vergessen]]></de>
+            <en><![CDATA[Forgotten password]]></en>
+        </locale>
+        <locale name="mail.new.password.Body" html="true">
+            <de><![CDATA[
+                <p>Sie haben ein neues Passwort für Ihr NameRobot-Benutzerkonto angefordert.</p>
+                <p>Ihr neues Passwort lautet: <strong>[password]</strong></p>
+
+                <br />
+                <p>
+                    <strong>Wichtiger Hinweis!</strong>
+                    <br />
+                    Bitte ändern Sie Ihr Passwort beim nächsten Login.
+                </p>
+            ]]></de>
+            <en><![CDATA[
+                <p>You have requested a new password for your NameRobot user account.</p>
+                <p>Your new password is: <strong>[password]</strong></p>
+
+                <br />
+                <p>
+                    <strong>Important!</strong>
+                    <br />
+                    Please change this password when you next login.
+                </p>
+            ]]></en>
+        </locale>
+
 
         <!-- messages -->
         <locale name="message.registration.finish">
             <de><![CDATA[]]></de>
             <en><![CDATA[]]></en>
         </locale>
-
+        <locale name="message.send.forgotten.password.successfully">
+            <de><![CDATA[Ihnen wurde eine E-Mail mit weiteren Anweisungen gesendet.]]></de>
+            <en><![CDATA[An e-mail with further instructions has been sent to you.]]></en>
+        </locale>
+        <locale name="message.send.new.password.successfully">
+            <de><![CDATA[Ihnen wurde eine E-Mail mit einem neuen Password gesendet.]]></de>
+            <en><![CDATA[An e-mail with a new password has been sent to you.]]></en>
+        </locale>
 
         <!-- exceptions -->
         <locale name="exception.enter.username">

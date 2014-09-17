@@ -5,8 +5,9 @@
  * @author www.pcsg.de (Henning Leutz)
  * @module package/quiqqer/intranet/social/Facebook
  *
- * @event signInBegin
- * @event signInEnd
+ * @event signInBegin [ {self} ]
+ * @event signInEnd [ {self} ]
+ * @event onLoginBegin [ {self} ]
  * @event onAuth [ {self}, {Object} data ]
  */
 
@@ -28,8 +29,9 @@ define([
         Type    : 'package/quiqqer/intranet/social/Facebook',
 
         options : {
-            name  : 'facebook',
-            appId : '1516174485267386'
+            name   : 'facebook',
+            appId  : '1516174485267386',
+            styles : false
         },
 
         initialize : function(options)
@@ -56,6 +58,10 @@ define([
                 }
             });
 
+            if ( this.getAttribute( 'styles' ) ) {
+                this.$Elm.setStyles( this.getAttribute( 'styles' ) );
+            }
+
             return this.$Elm;
         },
 
@@ -72,27 +78,29 @@ define([
 
             var self = this;
 
+            this.fireEvent( 'loginBegin', [ this ] );
+
             this.facebookSignIn(function()
             {
                 FB.getLoginStatus(function(response)
                 {
                     if ( response.status === 'connected' )
                     {
-                        var uid         = response.authResponse.userID,
-                            accessToken = response.authResponse.accessToken;
-
-                        FB.api('/me', function(response)
+                        FB.api('/me', function(data)
                         {
                             var socialData = {
-                                email      : response.email,
-                                name       : response.name,
-                                gender     : response.gender,
-                                lastname   : response.last_name,
-                                firstname  : response.first_name,
-                                facebookid : response.id,
-                                locale     : response.locale,
-                                link       : response.link,
-                                token      : accessToken
+                                email      : data.email,
+                                name       : data.name,
+                                gender     : data.gender,
+                                lastname   : data.last_name,
+                                firstname  : data.first_name,
+                                facebookid : data.id,
+                                locale     : data.locale,
+                                link       : data.link,
+                                token      : {
+                                    accessToken : response.authResponse.accessToken,
+                                    userID      : response.authResponse.userID
+                                }
                             };
 
                             self.fireEvent( 'auth', [ self, socialData ] );
@@ -129,7 +137,7 @@ define([
                 return;
             }
 
-            this.fireEvent( 'signInBegin' );
+            this.fireEvent( 'signInBegin', [ this ] );
 
             var self = this;
 
@@ -144,7 +152,7 @@ define([
 
             FB.login(function(response)
             {
-                self.fireEvent( 'signInEnd' );
+                self.fireEvent( 'signInEnd', [ self ] );
 
                 callback();
             }, {
