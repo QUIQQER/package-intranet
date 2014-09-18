@@ -42,6 +42,10 @@ define([
             '$onResize'
         ],
 
+        options : {
+            header : true // show the header
+        },
+
         initialize : function(options)
         {
             var self = this;
@@ -175,6 +179,10 @@ define([
                         username : QUIQQER_USER.name
                     }
                 ));
+            }
+
+            if ( this.getAttribute( 'header' ) === false ) {
+                this.$Header.setStyle( 'display', 'none' );
             }
 
             return this.$Elm;
