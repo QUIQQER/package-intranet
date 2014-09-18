@@ -16,7 +16,7 @@ define([
     'Ajax',
     'Locale',
 
-    'css!package/quiqqer/intranet/Profile.css'
+    'css!package/quiqqer/intranet/bin/Profile.css'
 
 ], function()
 {
@@ -35,7 +35,7 @@ define([
     return new Class({
 
         Extends : QUIControl,
-        Type    : 'package/quiqqer/intranet/Profile',
+        Type    : 'package/quiqqer/intranet/bin/Profile',
 
         Binds : [
             '$onInject',

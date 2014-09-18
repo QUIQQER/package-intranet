@@ -3,7 +3,7 @@
  * Intranet registration
  * A user can register an account to the system
  *
- * @module package/quiqqer/intranet/Registration
+ * @module package/quiqqer/intranet/bin/Registration
  * @author www.pcsg.de (Henning Leutz)
  *
  * @event onRegisterSuccess
@@ -27,7 +27,7 @@ define([
     return new Class({
 
         Extends : QUIControl,
-        Type    : 'package/quiqqer/intranet/Registration',
+        Type    : 'package/quiqqer/intranet/bin/Registration',
 
         Binds : [
             '$onImport'

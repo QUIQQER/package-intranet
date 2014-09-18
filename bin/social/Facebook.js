@@ -3,7 +3,7 @@
  * Social Login via Facebook
  *
  * @author www.pcsg.de (Henning Leutz)
- * @module package/quiqqer/intranet/social/Facebook
+ * @module package/quiqqer/intranet/bin/social/Facebook
  *
  * @event signInBegin [ {self} ]
  * @event signInEnd [ {self} ]
@@ -17,7 +17,7 @@ define([
     'qui/controls/Control',
     'qui/Locale',
 
-    'css!package/quiqqer/intranet/social/Facebook.css'
+    'css!package/quiqqer/intranet/bin/social/Facebook.css'
 
 ], function(QUI, QUIControl, QUILocale)
 {
@@ -26,7 +26,7 @@ define([
     return new Class({
 
         Extends : QUIControl,
-        Type    : 'package/quiqqer/intranet/social/Facebook',
+        Type    : 'package/quiqqer/intranet/bin/social/Facebook',
 
         options : {
             name   : 'facebook',

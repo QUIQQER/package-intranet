@@ -2,8 +2,8 @@
 /**
  * Login popup / window
  *
+ * @module package/quiqqer/intranet/bin/Login
  * @author www.pcsg.de (Henning Leutz)
- * @module package/quiqqer/intranet/Login
  */
 
 define([
@@ -12,10 +12,10 @@ define([
     'qui/controls/windows/Popup',
     'qui/controls/buttons/Button',
     'qui/Locale',
-    'package/quiqqer/intranet/LoginWindow',
-    'package/quiqqer/intranet/Registration',
+    'package/quiqqer/intranet/bin/LoginWindow',
+    'package/quiqqer/intranet/bin/Registration',
 
-    'css!package/quiqqer/intranet/LoginBar.css'
+    'css!package/quiqqer/intranet/bin/LoginBar.css'
 
 ], function(QUI, QUIPopup, QUIButton, QUILocale, LoginWin, Registration)
 {
@@ -24,7 +24,7 @@ define([
     return new Class({
 
         Extends : QUIPopup,
-        Type    : 'package/quiqqer/intranet/LoginBar',
+        Type    : 'package/quiqqer/intranet/bin/LoginBar',
 
         Binds : [
             '$onInject'

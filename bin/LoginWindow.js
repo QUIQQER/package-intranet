@@ -3,14 +3,14 @@
  * Login popup / window
  *
  * @author www.pcsg.de (Henning Leutz)
- * @module package/quiqqer/intranet/Login
+ * @module package/quiqqer/intranet/bin/LoginWindow
  */
 
 define([
 
     'qui/QUI',
     'qui/controls/windows/Popup',
-    'package/quiqqer/intranet/Login'
+    'package/quiqqer/intranet/bin/Login'
 
 ], function(QUI, QUIPopup, Login)
 {
@@ -19,7 +19,7 @@ define([
     return new Class({
 
         Extends : QUIPopup,
-        Type    : 'package/quiqqer/intranet/LoginWindow',
+        Type    : 'package/quiqqer/intranet/bin/LoginWindow',
 
         Binds : [
             '$onOpen'

@@ -3,7 +3,7 @@
  * Social Login via Google
  *
  * @author www.pcsg.de (Henning Leutz)
- * @module package/quiqqer/intranet/social/Google
+ * @module package/quiqqer/intranet/bin/social/Google
  *
  * @event signInBegin [ {self} ]
  * @event signInEnd [ {self} ]
@@ -17,7 +17,7 @@ define([
     'qui/controls/Control',
     'qui/Locale',
 
-    'css!package/quiqqer/intranet/social/Google.css'
+    'css!package/quiqqer/intranet/bin/social/Google.css'
 
 ], function(QUI, QUIControl, QUILocale)
 {
@@ -26,7 +26,7 @@ define([
     return new Class({
 
         Extends : QUIControl,
-        Type    : 'package/quiqqer/intranet/social/Google',
+        Type    : 'package/quiqqer/intranet/bin/social/Google',
 
         options : {
             name   : 'google',

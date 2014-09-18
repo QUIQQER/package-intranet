@@ -2,6 +2,7 @@
 /**
  * Login control
  *
+ * @module package/quiqqer/intranet/bin/Login
  * @author www.pcsg.de (Henning Leutz)
  *
  * @event onLoginBegin [ {self} ]
@@ -17,9 +18,9 @@ define([
     'qui/controls/desktop/panels/Sheet',
     'Ajax',
     'qui/Locale',
-    'package/quiqqer/intranet/Registration',
+    'package/quiqqer/intranet/bin/Registration',
 
-    'css!package/quiqqer/intranet/Login.css'
+    'css!package/quiqqer/intranet/bin/Login.css'
 
 ], function(QUI, QUIControl, QUILoader, QUIButton, QUISheet, Ajax, Locale, Registration)
 {
@@ -29,7 +30,7 @@ define([
     return new Class({
 
         Extends : QUIControl,
-        Type    : 'package/quiqqer/intranet/Login',
+        Type    : 'package/quiqqer/intranet/bin/Login',
 
         Binds : [
             '$onInject',
@@ -173,8 +174,8 @@ define([
             }
 
             require([
-                'package/quiqqer/intranet/social/Google',
-                'package/quiqqer/intranet/social/Facebook'
+                'package/quiqqer/intranet/bin/social/Google',
+                'package/quiqqer/intranet/bin/social/Facebook'
             ], function(Google, Facebook)
             {
                 new Google({

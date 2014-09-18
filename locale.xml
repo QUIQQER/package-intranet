@@ -2,6 +2,10 @@
 <locales>
 
     <groups name="quiqqer/intranet" datatype="js">
+
+    </groups>
+
+    <groups name="quiqqer/intranet" datatype="php,js">
         <locale name="loged.in.as">
             <de><![CDATA[Eingeloggt als: [username]]]></de>
             <en><![CDATA[Loged in as: [username]]]></en>
@@ -64,9 +68,7 @@
             <de><![CDATA[Neues Passwort senden]]></de>
             <en><![CDATA[Send me a new password]]></en>
         </locale>
-    </groups>
 
-    <groups name="quiqqer/intranet" datatype="js,php">
         <locale name="profile.title">
             <de><![CDATA[Meine Daten]]></de>
             <en><![CDATA[My data]]></en>
