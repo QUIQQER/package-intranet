@@ -8,21 +8,21 @@
     </div>
 
     <div class="package-intranet-profile-entry">
-        <label for="firstname">
+        <label for="intranet-profile-firstname">
             {t}quiqqer/intranet profile.firstname{/t}
         </label>
-        <input type="text" name="firstname" />
+        <input type="text" name="firstname" id="intranet-profile-firstname" />
     </div>
 
     <div class="package-intranet-profile-entry">
-        <label for="lastname">
+        <label for="intranet-profile-lastname">
             {t}quiqqer/intranet profile.lastname{/t}
         </label>
-        <input type="text" name="lastname" />
+        <input type="text" name="lastname" id="intranet-profile-lastname" />
     </div>
 
     <div class="package-intranet-profile-entry">
-        <label for="newpw2">
+        <label for="intranet-profile-birthday-day">
             {t}quiqqer/intranet profile.dateOfBirth{/t}
         </label>
 
@@ -34,29 +34,32 @@
             {birthday type="day"
                 style="width: 50px;"
                 name="birth_day"
+                id="intranet-profile-birthday-day"
                 value=$day
             }
 
             {birthday type="month"
                 style="width: 100px;"
                 name="birth_month"
+                id="intranet-profile-birthday-month"
                 value=$month
             }
 
             {birthday type="year"
                 style="width: 80px;"
                 name="birth_year"
+                id="intranet-profile-birthday-year"
                 value=$year
             }
         </div>
     </div>
 
     <div class="package-intranet-profile-entry">
-        <label for="">
+        <label for="intranet-profile-email">
             {t}quiqqer/intranet profile.email{/t}
         </label>
 
-        <input type="text" name="email" />
+        <input type="text" name="email" id="intranet-profile-email" />
     </div>
 
 </form>

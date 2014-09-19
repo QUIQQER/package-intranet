@@ -105,6 +105,10 @@
     width: 100%;
 }
 
+.package-intranet-profile-short {
+    padding: 10px 0;
+}
+
 /** login
  * ============================================================= */
 
@@ -159,7 +163,9 @@
  * ============================================================= */
 
 .package-intranet-profile label {
+    cursor: pointer;
     font-size: 12px;
+    float: left;
     padding: 0 0 5px 2px;
 }
 
@@ -168,7 +174,7 @@
     border: 1px solid #CFD2D2;
     border-radius: 3px;
     clear: both;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     padding: 7px;
     width: 100%;
 }

@@ -2,6 +2,8 @@
 
 /**
  * Return user data template
+ *
+ * @return String
  */
 
 function package_quiqqer_intranet_ajax_user_profile_data()
