@@ -25,7 +25,7 @@ class Registration extends \QUI\Control
             dirname( __FILE__ ) .'/Registration.css'
         );
 
-        $this->setAttribute( 'qui-class', 'package/quiqqer/intranet/Registration' );
+        $this->setAttribute( 'qui-class', 'package/quiqqer/intranet/bin/Registration' );
         $this->setAttribute( 'class', 'package-intranet-registration' );
     }
 
