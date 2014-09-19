@@ -164,6 +164,7 @@
 
 .package-intranet-profile label {
     cursor: pointer;
+    clear: both;
     font-size: 12px;
     float: left;
     padding: 0 0 5px 2px;
@@ -174,7 +175,9 @@
     border: 1px solid #CFD2D2;
     border-radius: 3px;
     clear: both;
+    float: left;
     margin-bottom: 20px;
+    max-width: 400px;
     padding: 7px;
     width: 100%;
 }
