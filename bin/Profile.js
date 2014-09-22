@@ -39,7 +39,8 @@ define([
 
         Binds : [
             '$onInject',
-            '$onResize'
+            '$onResize',
+            '$onCategoryClick'
         ],
 
         options : {
@@ -115,9 +116,9 @@ define([
             this.$Menu    = this.$Elm.getElement( '.package-intranet-profile-header-menu' );
 
             this.$buttons.myData = new QUIButton({
-                name : 'myData',
-                text : Locale.get( 'quiqqer/intranet', 'profile.btn.mydata' ),
-                icon : 'icon-file-text',
+                name   : 'myData',
+                text   : Locale.get( 'quiqqer/intranet', 'profile.btn.mydata' ),
+                icon   : 'icon-file-text',
                 events :
                 {
                     onClick : function()  {
@@ -127,9 +128,9 @@ define([
             }).inject( this.$Buttons );
 
             this.$buttons.changePassword = new QUIButton({
-                name : 'changePassword',
-                text : Locale.get( 'quiqqer/intranet', 'profile.btn.changepw' ),
-                icon : 'icon-key',
+                name   : 'changePassword',
+                text   : Locale.get( 'quiqqer/intranet', 'profile.btn.changepw' ),
+                icon   : 'icon-key',
                 events :
                 {
                     onClick : function()  {
@@ -140,9 +141,9 @@ define([
 
 
             this.$buttons.Address = new QUIButton({
-                name : 'address',
-                text : Locale.get( 'quiqqer/intranet', 'profile.btn.address' ),
-                icon : 'icon-home',
+                name   : 'address',
+                text   : Locale.get( 'quiqqer/intranet', 'profile.btn.address' ),
+                icon   : 'icon-home',
                 events :
                 {
                     onClick : function()  {
@@ -250,12 +251,37 @@ define([
          */
         $onInject : function()
         {
-            this.Loader.show();
-            this.resize();
+            var self = this;
 
-            this.refresh(function() {
-                this.$buttons.myData.click();
-            }.bind( this ));
+            this.Loader.show();
+
+            Ajax.get('package_quiqqer_intranet_ajax_user_profile_getCategories', function(result)
+            {
+                var i, len, Btn;
+
+                for ( i = 0, len = result.length; i < len; i++ )
+                {
+                    Btn = new QUIButton({
+                        name    : result[ i ].name || '',
+                        text    : result[ i ].text || '',
+                        icon    : result[ i ].icon || '',
+                        require : result[ i ].require || '',
+                        events  : {
+                            onClick : self.$onCategoryClick
+                        }
+                    }).inject( self.$Buttons );
+
+                    self.$buttons[ Btn.getId() ] = Btn;
+                }
+
+                self.resize();
+
+                self.refresh(function() {
+                    self.$buttons.myData.click();
+                });
+            }, {
+                'package' : 'quiqqer/intranet'
+            });
         },
 
         /**
@@ -530,12 +556,13 @@ define([
             this.$Content.set( 'html', '' );
         },
 
-
+        /**
+         *
+         */
         editAdress : function(aid)
         {
 
         },
-
 
         /**
          * set all button to status normal
@@ -545,6 +572,36 @@ define([
             for ( var btn in this.$buttons ) {
                 this.$buttons[ btn ].setNormal();
             }
+        },
+
+        /**
+         * event : category / button click
+         *
+         * @param {qui/controls/buttons/Button} Btn
+         */
+        $onCategoryClick : function(Btn)
+        {
+            var self = this;
+
+            this.$normalizeButtons();
+            this.Loader.show();
+
+            Btn.setActive();
+
+            if ( !Btn.getAttribute( 'require' ) )
+            {
+                this.Loader.hide();
+                return;
+            }
+
+            require([ Btn.getAttribute( 'require' ) ], function(Cls)
+            {
+                self.$Content.set( 'html', '' );
+
+                new Cls().inject( self.$Content );
+
+                self.Loader.hide();
+            });
         }
     });
 
