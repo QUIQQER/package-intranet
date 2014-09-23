@@ -2,7 +2,19 @@
 <locales>
 
     <groups name="quiqqer/intranet" datatype="js">
-
+        <!-- logout window -->
+        <locale name="window.logout.title">
+            <de><![CDATA[Abmelden]]></de>
+            <en><![CDATA[Logout]]></en>
+        </locale>
+        <locale name="window.logout.text">
+            <de><![CDATA[Abmelden]]></de>
+            <en><![CDATA[Logout]]></en>
+        </locale>
+        <locale name="window.logout.information">
+            <de><![CDATA[Möchten Sie sich wirklich abmelden?]]></de>
+            <en><![CDATA[Do you really want to log out?]]></en>
+        </locale>
     </groups>
 
     <groups name="quiqqer/intranet" datatype="php,js">
