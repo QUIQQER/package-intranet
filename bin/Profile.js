@@ -118,7 +118,7 @@ define([
             this.$buttons.myData = new QUIButton({
                 name   : 'myData',
                 text   : Locale.get( 'quiqqer/intranet', 'profile.btn.mydata' ),
-                icon   : 'icon-file-text',
+                icon   : 'icon-file-text fa fa-file-text',
                 events :
                 {
                     onClick : function()  {
@@ -130,7 +130,7 @@ define([
             this.$buttons.changePassword = new QUIButton({
                 name   : 'changePassword',
                 text   : Locale.get( 'quiqqer/intranet', 'profile.btn.changepw' ),
-                icon   : 'icon-key',
+                icon   : 'icon-key fa fa-key',
                 events :
                 {
                     onClick : function()  {
@@ -143,7 +143,7 @@ define([
             this.$buttons.Address = new QUIButton({
                 name   : 'address',
                 text   : Locale.get( 'quiqqer/intranet', 'profile.btn.address' ),
-                icon   : 'icon-home',
+                icon   : 'icon-home fa fa-home',
                 events :
                 {
                     onClick : function()  {
@@ -554,6 +554,20 @@ define([
             this.$buttons.Address.setActive();
 
             this.$Content.set( 'html', '' );
+
+            this.Loader.show();
+
+            require(['package/quiqqer/intranet/bin/address/Manager'], function(Manager)
+            {
+                new Manager({
+                    events :
+                    {
+                        onLoad : function() {
+                            self.Loader.hide();
+                        }
+                    }
+                }).inject( self.$Content );
+            });
         },
 
         /**
