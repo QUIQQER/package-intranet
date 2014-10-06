@@ -1,19 +1,15 @@
 
 <div class="package-intranet-registration-container">
-    <h1>{$Site->getAttribute('title')}</h1>
-
-    {$Site->getAttribute('content')}
-
     <div class="register-agb">
         <fieldset class="agbs">
-            <input name="agbs" id="reg-agb-privacy"
-                   type="checkbox"
-                   class="checkbox"
-                   value="1"
-             />
-
             {strip}
             <label for="reg-agb-privacy">
+                <input name="agbs" id="reg-agb-privacy"
+                       type="checkbox"
+                       class="checkbox"
+                       value="1"
+                />
+
                 {t}quiqqer/intranet intranet.registration.read1{/t}
                 &nbsp;
                 {if isset( $Site_TermsAndConditions )}

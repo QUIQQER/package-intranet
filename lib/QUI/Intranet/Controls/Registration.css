@@ -27,6 +27,10 @@
     padding: 7px;
 }
 
+.register-agb input[type="checkbox"] {
+    margin-right: 10px;
+}
+
 /** social media
  * ================================================== */
 
