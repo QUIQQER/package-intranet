@@ -22,8 +22,14 @@
                     data-lang="{$Project->getAttribute('lang')}"
                 >
                     {$Site_TermsAndConditions->getAttribute('title')}
-                </a>,&nbsp;
+                </a>
                 {/if}
+
+                {if isset( $Site_TermsAndConditions ) && isset( $Site_Privacy )}
+                    ,
+                {/if}
+
+                &nbsp;
 
                 {if isset( $Site_Privacy )}
                 <a href="{url site=$Site_Privacy}"

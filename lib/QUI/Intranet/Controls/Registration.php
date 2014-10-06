@@ -57,7 +57,7 @@ class Registration extends \QUI\Control
         // AGB
         $result = $Project->getSites(array(
             'where' => array(
-                'type' => 'quiqqer/intranet:intranet/termsOfUse'
+                'type' => 'quiqqer/intranet:registration/termsOfUse'
             ),
             'limit' => 1
         ));
@@ -70,7 +70,7 @@ class Registration extends \QUI\Control
         // Datenschutz
         $result = $Project->getSites(array(
             'where' => array(
-                'type' => 'quiqqer/intranet:intranet/privacy'
+                'type' => 'quiqqer/intranet:registration/privacy'
             ),
             'limit' => 1
         ));
