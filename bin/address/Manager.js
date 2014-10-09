@@ -15,6 +15,7 @@ define([
     'qui/controls/Control',
     'qui/controls/buttons/Button',
     'qui/controls/loader/Loader',
+    'qui/controls/windows/Confirm',
     'qui/utils/Form',
     'controls/grid/Grid',
     'Ajax',
@@ -22,7 +23,7 @@ define([
 
     'css!package/quiqqer/intranet/bin/address/Manager.css'
 
-], function(QUI, QUIControl, QUIButton, QUILoader, QUIFormUtils, Grid, Ajax, Locale)
+], function(QUI, QUIControl, QUIButton, QUILoader, QUIConfirm, QUIFormUtils, Grid, Ajax, Locale)
 {
     "use strict";
 
@@ -41,7 +42,8 @@ define([
         {
             this.parent( options );
 
-            this.$Grid = null;
+            this.$Grid   = null;
+            this.$Header = null;
 
             this.Loader = new QUILoader();
 
@@ -71,12 +73,18 @@ define([
         {
             var self = this,
                 size = this.$Elm.getSize(),
+                lg   = 'quiqqer/system',
 
                 GridContainer = new Element( 'div' ).inject( this.$Elm );
 
+
             this.Loader.inject( this.$Elm );
 
-            var lg = 'quiqqer/system';
+            this.$Header = new Element( 'div', {
+                html : '<h2>Adressen</h2>'+
+                       '<div class="package-intranet-profile-short"></div>'
+            }).inject( this.$Elm, 'top' ),
+
 
             this.$Grid = new Grid(GridContainer, {
                 columnModel : [{
@@ -97,16 +105,6 @@ define([
                 }, {
                     header    : Locale.get( lg, 'lastname' ),
                     dataIndex : 'lastname',
-                    dataType  : 'string',
-                    width     : 100
-                }, {
-                    header    : Locale.get( lg, 'users.user.address.table.phone' ),
-                    dataIndex : 'phone',
-                    dataType  : 'string',
-                    width     : 100
-                }, {
-                    header    : Locale.get( lg, 'email' ),
-                    dataIndex : 'mail',
                     dataType  : 'string',
                     width     : 100
                 }, {
@@ -136,12 +134,14 @@ define([
                     width     : 100
                 }],
                 buttons : [{
+                    name      : 'addAddress',
                     text      : 'Adresse hinzufügen',
                     textimage : 'fa fa-plus icon-plus',
                     events    : {
                         onClick : this.openCreateAddress
                     }
                 }, {
+                    name      : 'editAddress',
                     text      : 'Markierte Adresse bearbeiten',
                     textimage : 'fa fa-edit icon-edit',
                     disabled  : true,
@@ -152,11 +152,18 @@ define([
                         }
                     }
                 }, {
-                    text      : 'Markierte Adressen löschen',
+                    name      : 'deleteAddress',
+                    text      : 'Markierte Adresse löschen',
                     textimage : 'fa fa-trash icon-trash',
-                    disabled  : true
+                    disabled  : true,
+                    events    :
+                    {
+                        onClick : function() {
+                            self.openDeleteAddress( self.$Grid.getSelectedData()[ 0 ].id );
+                        }
+                    }
                 }],
-                height : size.y
+                height : size.y - this.$Header.getSize().y
             });
 
             this.refresh(function() {
@@ -166,7 +173,9 @@ define([
             this.$Grid.addEvents({
                 onClick : function()
                 {
-
+                    self.$Grid.getButtons().each(function(Btn) {
+                        Btn.enable();
+                    });
                 },
 
                 onDblClick : function() {
@@ -209,25 +218,17 @@ define([
                 return;
             }
 
+            var size       = this.$Elm.getSize(),
+                gridHeight = size.y - this.$Header.getSize().y;
+
+            if ( gridHeight < 160 ) {
+                gridHeight = 160;
+            }
+
+            this.$Grid.setHeight( gridHeight );
             this.$Grid.resize();
         },
 
-        /**
-         * Return the address data from a specific address ID
-         *
-         * @param {Integer} aid - Adress-ID
-         * @param {Function} callback - callback function
-         */
-        getAddress : function(aid, callback)
-        {
-            Ajax.get('package_quiqqer_intranet_ajax_address_get', function(data)
-            {
-                callback( data );
-            }, {
-                'package' : 'quiqqer/intranet',
-                aid       : aid
-            });
-        },
 
         /**
          * Opens the create address panel
@@ -325,6 +326,76 @@ define([
         },
 
         /**
+         * Open the delete dialoge
+         *
+         * @param {String} aid - Address-ID
+         */
+        openDeleteAddress : function(aid)
+        {
+            var self = this;
+
+            new QUIConfirm({
+                title     : 'Addresse wirklich löschen?',
+                autoclose : false,
+                events    :
+                {
+                    onOpen : function(Win)
+                    {
+                        Win.Loader.show();
+
+                        Ajax.get('package_quiqqer_intranet_ajax_address_display', function(display)
+                        {
+                            Win.getContent().set(
+                                'html',
+
+                                '<h1>Möchten Sie folgende Adresse wirkliche löschen?</h1>'+
+                                display
+                            );
+
+                            Win.Loader.hide();
+
+                        }, {
+                            'package' : 'quiqqer/intranet',
+                            aid       : aid
+                        });
+                    },
+
+                    onSubmit : function(Win)
+                    {
+                        Win.Loader.show();
+
+                        Ajax.get('package_quiqqer_intranet_ajax_address_delete', function(display)
+                        {
+                            Win.close();
+                            self.refresh();
+                        }, {
+                            'package' : 'quiqqer/intranet',
+                            aid       : aid
+                        });
+                    }
+                }
+            }).open();
+        },
+
+
+        /**
+         * Return the address data from a specific address ID
+         *
+         * @param {Integer} aid - Adress-ID
+         * @param {Function} callback - callback function
+         */
+        getAddress : function(aid, callback)
+        {
+            Ajax.get('package_quiqqer_intranet_ajax_address_get', function(data)
+            {
+                callback( data );
+            }, {
+                'package' : 'quiqqer/intranet',
+                aid       : aid
+            });
+        },
+
+        /**
          * Create a new address
          *
          * @param {Object} data - Address data
@@ -362,6 +433,12 @@ define([
                 aid       : aid,
                 data      : JSON.encode( data )
             });
+        },
+
+
+        deleteAddresses : function(aids)
+        {
+
         }
     });
 });
