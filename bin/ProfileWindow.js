@@ -22,7 +22,8 @@ define([
         Type    : 'package/quiqqer/intranet/bin/ProfileWindow',
 
         Binds : [
-            '$onOpen'
+            '$onOpen',
+            '$onResize'
         ],
 
         options : {
@@ -35,10 +36,25 @@ define([
 
         initialize : function(options)
         {
+            var self = this;
+
+            this.$resizeDelay = null;
+            this.$Profile     = null;
+
             this.parent( options );
 
             this.addEvents({
-                onOpen : this.$onOpen
+                onOpen   : this.$onOpen,
+                onResize : function()
+                {
+                    if ( self.$resizeDelay ) {
+                        clearTimeout( self.$resizeDelay );
+                    }
+
+                    self.$resizeDelay = (function() {
+                        self.$onResize();
+                    }).delay( 200 );
+                }
             });
         },
 
@@ -56,9 +72,17 @@ define([
                 }
             });
 
-            new Profile({
+            this.$Profile = new Profile({
                 header : false
             }).inject( Content );
+        },
+
+        /**
+         * event : on resize
+         */
+        $onResize : function()
+        {
+            this.$Profile.resize();
         }
     });
 

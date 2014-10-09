@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+
+.intranet-address h2 {
+    margin-bottom: 20px;
+}
+
+.intranet-address h3 {
+    border-bottom: 1px solid #999;
+    margin-bottom: 10px;
+}
+
+.intranet-address-data {
+    margin-top: 20px;
+}
+
+.intranet-address-data,
+.intranet-address-address {
+    clear: both;
+    max-width: 100%;
+    width: 500px;
+}
+
+.intranet-address-data input,
+.intranet-address-data select,
+.intranet-address-address input,
+.intranet-address-address select {
+    clear: none;
+    margin: 0 !important;
+    width: 300px;
+}
+
+.intranet-address-data label,
+.intranet-address-address label {
+    line-height: 34px;
+    margin: 0;
+    padding: 0;
+    width: 120px;
+}

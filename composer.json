@@ -2,7 +2,7 @@
     "name" : "quiqqer/intranet",
     "type" : "quiqqer-library",
     "description" : "Provided registration, registration with social networks, profil functionality.",
-    "version" : "dev-master",
+    "version" : "dev-dev",
     "license" : "GPL-2.0+",
 
     "authors" : [{
@@ -18,21 +18,13 @@
 
     "require": {
         "quiqqer/quiqqer" : "*",
-        "robloach/component-installer" : "*",
-        "google/apiclient": "1.0.*@dev",
+        "google/apiclient": "1.0.6-beta",
         "facebook/php-sdk": "3.*"
     },
 
     "autoload": {
         "psr-0" : {
             "QUI" : "lib/"
-        }
-    },
-
-    "extra": {
-        "component": {
-            "files": ["bin/controls/**"],
-            "name": "quiqqer/intranet"
         }
     }
 }

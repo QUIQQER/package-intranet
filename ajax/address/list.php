@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Return all addresses from an user
+ * Return all addresses from the session user
  *
  * @return Array
  */
@@ -25,6 +25,6 @@ function package_quiqqer_intranet_ajax_address_list()
 
 \QUI::$Ajax->register(
     'package_quiqqer_intranet_ajax_address_list',
-    array('uid'),
+    false,
     'Permission::checkUser'
 );

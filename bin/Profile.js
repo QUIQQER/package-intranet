@@ -62,6 +62,8 @@ define([
 
             this.$MenuFX = null;
 
+            this.$ContentControl = null;
+
             this.Loader     = new QUILoader();
             this.Background = new QUIBackground({
                 styles : {
@@ -244,6 +246,10 @@ define([
             this.$Content.setStyles({
                 height : elmSize.y - headerSize.y
             });
+
+            if ( this.$ContentControl ) {
+                this.$ContentControl.resize();
+            }
         },
 
         /**
@@ -559,7 +565,7 @@ define([
 
             require(['package/quiqqer/intranet/bin/address/Manager'], function(Manager)
             {
-                new Manager({
+                self.$ContentControl = new Manager({
                     events :
                     {
                         onLoad : function() {
@@ -571,20 +577,18 @@ define([
         },
 
         /**
-         *
-         */
-        editAdress : function(aid)
-        {
-
-        },
-
-        /**
          * set all button to status normal
          */
         $normalizeButtons : function()
         {
             for ( var btn in this.$buttons ) {
                 this.$buttons[ btn ].setNormal();
+            }
+
+            if ( this.$ContentControl )
+            {
+                this.$ContentControl.destroy();
+                this.$ContentControl = null;
             }
         },
 
@@ -604,6 +608,12 @@ define([
 
             if ( !Btn.getAttribute( 'require' ) )
             {
+                if ( this.$ContentControl )
+                {
+                    this.$ContentControl.destroy();
+                    this.$ContentControl = null;
+                }
+
                 this.Loader.hide();
                 return;
             }
@@ -611,12 +621,10 @@ define([
             require([ Btn.getAttribute( 'require' ) ], function(Cls)
             {
                 self.$Content.set( 'html', '' );
-
-                new Cls().inject( self.$Content );
+                self.$ContentControl = new Cls().inject( self.$Content );
 
                 self.Loader.hide();
             });
         }
     });
-
 });

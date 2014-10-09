@@ -1,0 +1,109 @@
+
+<form name="address" class="grid-100 grid-parent intranet-address">
+
+    <h2>Adresse hinzufügen</h2>
+
+    <p>Füllen Sie bitte alle Felder um die neue Adresse anzulegen</p>
+
+    <table class="intranet-address-data data-table">
+    <thead>
+        <tr>
+            <th>
+                Daten
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="odd">
+            <td>
+                <label for="address-salutation">
+                    {locale group="quiqqer/system" value="salutation"}
+                </label>
+
+                <select name="salutation" id="address-salutation">
+                    <option value=""></option>
+                    <option value="male">
+                        {locale group="quiqqer/system" value="address.salutation.male"}
+                    </option>
+                    <option value="female">
+                        {locale group="quiqqer/system" value="address.salutation.female"}
+                    </option>
+                    <option value="company">
+                        {locale group="quiqqer/system" value="address.salutation.company"}
+                    </option>
+                </select>
+            </td>
+        </tr>
+        <tr class="even">
+            <td>
+                <label for="address-firstname">
+                    {locale group="quiqqer/system" value="firstname"}
+                </label>
+                <input type="text" name="firstname" value="" id="address-firstname" />
+            </td>
+        </tr>
+        <tr class="odd">
+            <td>
+                <label for="address-lastname">
+                    {locale group="quiqqer/system" value="lastname"}
+                </label>
+                <input type="text" name="lastname" value="" id="address-lastname" />
+            </td>
+        </tr>
+    </tbody>
+    </table>
+
+
+    <table class="intranet-address-address data-table">
+    <thead>
+        <tr>
+            <th>
+                Anschrift
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="odd">
+            <td>
+                <label for="address-street_no">
+                    {locale group="quiqqer/system" value="street"}
+                </label>
+                <input type="text" name="street_no" value="" id="address-street_no" />
+            </td>
+        </tr>
+        <tr class="even">
+            <td>
+                <label for="address-zip">
+                    {locale group="quiqqer/system" value="zip"}
+                </label>
+                <input type="text" name="zip" value="" id="address-zip" />
+            </td>
+        </tr>
+        <tr class="odd">
+            <td>
+                <label for="address-city">
+                    {locale group="quiqqer/system" value="city"}
+                </label>
+                <input type="text" name="city" value="" id="address-city" />
+            </td>
+        </tr>
+        <tr class="even">
+            <td>
+                <label for="address-country">
+                    {locale group="quiqqer/system" value="country"}
+                </label>
+                <select name="country" id="address-country">
+                    <option value=""></option>
+
+                    {foreach from=$countries item=Country}
+                    <option value="{$Country->getCode()}">
+                        {$Country->getName()}
+                    </option>
+                    {/foreach}
+                </select>
+            </td>
+        </tr>
+    </tbody>
+    </table>
+
+</form>

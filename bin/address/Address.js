@@ -12,7 +12,9 @@ define([
     'qui/controls/Control',
     'controls/grid/Grid',
     'Ajax',
-    'Locale'
+    'Locale',
+
+    'css!package/quiqqer/intranet/bin/address/Address.css'
 
 ], function(QUI, QUIControl, Grid, Ajax, Locale)
 {
