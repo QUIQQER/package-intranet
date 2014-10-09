@@ -2,7 +2,7 @@
     "name" : "quiqqer/intranet",
     "type" : "quiqqer-library",
     "description" : "Provided registration, registration with social networks, profil functionality.",
-    "version" : "dev-dev",
+    "version" : "dev-master",
     "license" : "GPL-2.0+",
 
     "authors" : [{
