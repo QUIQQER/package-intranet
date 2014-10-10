@@ -15,6 +15,52 @@
             <de><![CDATA[Möchten Sie sich wirklich abmelden?]]></de>
             <en><![CDATA[Do you really want to log out?]]></en>
         </locale>
+
+
+        <!-- address-manager -->
+        <locale name="address.manager.header.title" html="true">
+            <de><![CDATA[<h2>Adressen</h2>]]></de>
+            <en><![CDATA[<h2>Addresses</h2>]]></en>
+        </locale>
+        <locale name="address.manager.header.short" html="true">
+            <de><![CDATA[&nbsp;]]></de>
+            <en><![CDATA[&nbsp;]]></en>
+        </locale>
+        <locale name="address.manager.buttons.add">
+            <de><![CDATA[Adresse hinzufügen]]></de>
+            <en><![CDATA[Add address]]></en>
+        </locale>
+        <locale name="address.manager.buttons.edit">
+            <de><![CDATA[Markierte Adresse bearbeiten]]></de>
+            <en><![CDATA[Edit selected address]]></en>
+        </locale>
+        <locale name="address.manager.buttons.delete">
+            <de><![CDATA[Markierte Adresse löschen]]></de>
+            <en><![CDATA[Delete selected address]]></en>
+        </locale>
+
+        <locale name="address.manager.create.sheet.button.cancel">
+            <de><![CDATA[Abbrechen]]></de>
+            <en><![CDATA[Cancel]]></en>
+        </locale>
+        <locale name="address.manager.create.sheet.button.create">
+            <de><![CDATA[Neue Adresse anlegen]]></de>
+            <en><![CDATA[Create new address]]></en>
+        </locale>
+        <locale name="address.manager.create.sheet.button.edit">
+            <de><![CDATA[Addresse speichern]]></de>
+            <en><![CDATA[Save address]]></en>
+        </locale>
+
+
+        <locale name="address.manager.delete.window.title">
+            <de><![CDATA[Addresse wirklich löschen?]]></de>
+            <en><![CDATA[Really delete the address?]]></en>
+        </locale>
+        <locale name="address.manager.delete.window.text" html="true">
+            <de><![CDATA[<h1>Möchten Sie folgende Adresse wirkliche löschen?</h1>[address]]]></de>
+            <en><![CDATA[<h1>Do you really want to delete the address?</h1>[address]]]></en>
+        </locale>
     </groups>
 
     <groups name="quiqqer/intranet" datatype="php,js">

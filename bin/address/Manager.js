@@ -27,6 +27,7 @@ define([
 {
     "use strict";
 
+    var lg = 'quiqqer/intranet';
 
     return new Class({
 
@@ -73,7 +74,6 @@ define([
         {
             var self = this,
                 size = this.$Elm.getSize(),
-                lg   = 'quiqqer/system',
 
                 GridContainer = new Element( 'div' ).inject( this.$Elm );
 
@@ -81,68 +81,73 @@ define([
             this.Loader.inject( this.$Elm );
 
             this.$Header = new Element( 'div', {
-                html : '<h2>Adressen</h2>'+
-                       '<div class="package-intranet-profile-short"></div>'
+                html : Locale.get( lg, 'address.manager.header.title' ) +
+                       '<div class="package-intranet-profile-short">' +
+                           Locale.get( lg, 'address.manager.header.short' ) +
+                       '</div>'
             }).inject( this.$Elm, 'top' ),
 
 
             this.$Grid = new Grid(GridContainer, {
                 columnModel : [{
-                    header    : Locale.get( lg, 'id' ),
+                    header    : Locale.get( 'quiqqer/system', 'id' ),
                     dataIndex : 'id',
                     dataType  : 'string',
                     hidden    : true
                 }, {
-                    header    : Locale.get( lg, 'salutation' ),
+                    header    : Locale.get( 'quiqqer/system', 'salutation' ),
                     dataIndex : 'salutation',
                     dataType  : 'string',
                     width     : 60
                 }, {
-                    header    : Locale.get( lg, 'firstname' ),
+                    header    : Locale.get( 'quiqqer/system', 'firstname' ),
                     dataIndex : 'firstname',
                     dataType  : 'string',
                     width     : 100
                 }, {
-                    header    : Locale.get( lg, 'lastname' ),
+                    header    : Locale.get( 'quiqqer/system', 'lastname' ),
                     dataIndex : 'lastname',
                     dataType  : 'string',
                     width     : 100
                 }, {
-                    header    : Locale.get( lg, 'company' ),
+                    header    : Locale.get( 'quiqqer/system', 'company' ),
                     dataIndex : 'company',
                     dataType  : 'string',
                     width     : 100
                 }, {
-                    header    : Locale.get( lg, 'street' ),
+                    header    : Locale.get( 'quiqqer/system', 'street' ),
                     dataIndex : 'street_no',
                     dataType  : 'string',
                     width     : 100
                 }, {
-                    header    : Locale.get( lg, 'zip' ),
+                    header    : Locale.get( 'quiqqer/system', 'zip' ),
                     dataIndex : 'zip',
                     dataType  : 'string',
                     width     : 100
                 }, {
-                    header    : Locale.get( lg, 'city' ),
+                    header    : Locale.get( 'quiqqer/system', 'city' ),
                     dataIndex : 'city',
                     dataType  : 'string',
                     width     : 100
                 }, {
-                    header    : Locale.get( lg, 'country' ),
+                    header    : Locale.get( 'quiqqer/system', 'country' ),
                     dataIndex : 'country',
                     dataType  : 'string',
                     width     : 100
                 }],
                 buttons : [{
                     name      : 'addAddress',
-                    text      : 'Adresse hinzufügen',
+                    text      : Locale.get( lg, 'address.manager.buttons.add' ),
                     textimage : 'fa fa-plus icon-plus',
-                    events    : {
-                        onClick : this.openCreateAddress
+                    events    :
+                    {
+                        onClick : function() {
+                            self.openCreateAddress();
+                        }
                     }
                 }, {
                     name      : 'editAddress',
-                    text      : 'Markierte Adresse bearbeiten',
+                    text      : Locale.get( lg, 'address.manager.buttons.edit'),
                     textimage : 'fa fa-edit icon-edit',
                     disabled  : true,
                     events    :
@@ -153,7 +158,7 @@ define([
                     }
                 }, {
                     name      : 'deleteAddress',
-                    text      : 'Markierte Adresse löschen',
+                    text      : Locale.get( lg, 'address.manager.buttons.delete' ),
                     textimage : 'fa fa-trash icon-trash',
                     disabled  : true,
                     events    :
@@ -198,6 +203,19 @@ define([
                 self.$Grid.setData({
                     data : result
                 });
+
+                var buttons = self.$Grid.getButtons();
+
+                for ( var i = 0, len = buttons.length; i < len; i++ )
+                {
+                    switch ( buttons[ i ].getAttribute( 'name' ) )
+                    {
+                        case 'editAddress':
+                        case 'deleteAddress':
+                            buttons[ i ].disable();
+                        break;
+                    }
+                }
 
                 if ( typeof callback !== 'undefined' ) {
                     callback();
@@ -262,7 +280,7 @@ define([
                     });
 
                     new QUIButton({
-                        text      : 'Abbrechen',
+                        text      : Locale.get( lg, 'address.manager.create.sheet.button.cancel' ),
                         textimage : 'fa fa-close',
                         styles    : {
                             margin : '0 10px 0'
@@ -275,8 +293,11 @@ define([
                         }
                     }).inject( Buttons );
 
+                    var localeEdit   = Locale.get( lg, 'address.manager.create.sheet.button.edit' ),
+                        localeCreate = Locale.get( lg, 'address.manager.create.sheet.button.create' );
+
                     new QUIButton({
-                        text      : edit ? 'Adresse speichern' : 'Neue Adresse anlegen',
+                        text      : edit ? localeEdit : localeCreate,
                         textimage : 'icon-save fa fa-save',
                         'class'   : 'btn-green',
                         events    :
@@ -296,7 +317,7 @@ define([
                                     return;
                                 }
 
-                                self.execCreateAddress( data, function()
+                                self.createAddress( data, function()
                                 {
                                     Sheet.fireEvent( 'close' );
                                     self.refresh();
@@ -335,7 +356,7 @@ define([
             var self = this;
 
             new QUIConfirm({
-                title     : 'Addresse wirklich löschen?',
+                title     : Locale.get( lg, 'address.manager.delete.window.title' ),
                 autoclose : false,
                 events    :
                 {
@@ -343,20 +364,17 @@ define([
                     {
                         Win.Loader.show();
 
-                        Ajax.get('package_quiqqer_intranet_ajax_address_display', function(display)
+                        self.getAddressDisplay(aid, function(display)
                         {
-                            Win.getContent().set(
-                                'html',
+                            Win.getContent().set({
+                                html : Locale.get( lg, 'address.manager.delete.window.text', {
+                                    address : display
+                                })
+                            });
 
-                                '<h1>Möchten Sie folgende Adresse wirkliche löschen?</h1>'+
-                                display
-                            );
+                            Win.getContent().addClass( 'intranet-address-window-delete' );
 
                             Win.Loader.hide();
-
-                        }, {
-                            'package' : 'quiqqer/intranet',
-                            aid       : aid
                         });
                     },
 
@@ -364,13 +382,10 @@ define([
                     {
                         Win.Loader.show();
 
-                        Ajax.get('package_quiqqer_intranet_ajax_address_delete', function(display)
+                        self.deleteAddress(aid, function(display)
                         {
                             Win.close();
                             self.refresh();
-                        }, {
-                            'package' : 'quiqqer/intranet',
-                            aid       : aid
                         });
                     }
                 }
@@ -390,6 +405,20 @@ define([
             {
                 callback( data );
             }, {
+                'package' : 'quiqqer/intranet',
+                aid       : aid
+            });
+        },
+
+        /**
+         * Return an address display
+         *
+         * @param {Integer} aid - Address-ID
+         * @param {Function} callback - callback function
+         */
+        getAddressDisplay : function(aid, callback)
+        {
+            Ajax.get('package_quiqqer_intranet_ajax_address_display', callback, {
                 'package' : 'quiqqer/intranet',
                 aid       : aid
             });
@@ -435,10 +464,23 @@ define([
             });
         },
 
-
-        deleteAddresses : function(aids)
+        /**
+         * Delete an address
+         *
+         * @param {Integer} aid - Address ID
+         * @param {Function} callback - [optional] callback function
+         */
+        deleteAddress : function(aid, callback)
         {
-
+            Ajax.get('package_quiqqer_intranet_ajax_address_delete', function()
+            {
+                if ( typeof callback !== 'undefined' ) {
+                    callback();
+                }
+            }, {
+                'package' : 'quiqqer/intranet',
+                aid       : aid
+            });
         }
     });
 });
