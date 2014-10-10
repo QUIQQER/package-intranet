@@ -81,7 +81,7 @@ define([
             this.Loader.inject( this.$Elm );
 
             this.$Header = new Element( 'div', {
-                html : Locale.get( lg, 'address.manager.header.title' ) +
+                html : '<h2>'+ Locale.get( lg, 'address.manager.header.title' ) +'</h2>'+
                        '<div class="package-intranet-profile-short">' +
                            Locale.get( lg, 'address.manager.header.short' ) +
                        '</div>'
@@ -273,6 +273,30 @@ define([
                     if ( typeof aid !== 'undefined' ) {
                         edit = true;
                     }
+
+                    // template header & description
+                    if ( edit )
+                    {
+                        var Header = new Element('h2', {
+                            html : Locale.get( 'quiqqer/intranet', 'address.manager.create.sheet.edit.header' )
+                        }).inject( Content, 'top' );
+
+                        new Element('div', {
+                            html : Locale.get( 'quiqqer/intranet', 'address.manager.create.sheet.edit.desc' )
+                        }).inject( Header, 'after' );
+
+                    } else
+                    {
+                        var Header = new Element('h2', {
+                            html : Locale.get( 'quiqqer/intranet', 'address.manager.create.sheet.create.header' )
+                        }).inject( Content, 'top' );
+
+                        new Element('div', {
+                            html : Locale.get( 'quiqqer/intranet', 'address.manager.create.sheet.create.desc' )
+                        }).inject( Header, 'after' );
+                    }
+
+                    // template description
 
                     Buttons.set( 'html', '' );
                     Buttons.setStyles({

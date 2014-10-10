@@ -16,11 +16,21 @@
             <en><![CDATA[Do you really want to log out?]]></en>
         </locale>
 
+        <!-- my address -->
+        <locale name="profile.myaddress.header">
+            <de><![CDATA[Meine Adresse]]></de>
+            <en><![CDATA[My Address]]></en>
+        </locale>
+        <locale name="profile.myaddress.header.description">
+            <de><![CDATA[Bitte füllen Sie alle Felder aus.]]></de>
+            <en><![CDATA[Please fill out all fields.]]></en>
+        </locale>
+
 
         <!-- address-manager -->
         <locale name="address.manager.header.title" html="true">
-            <de><![CDATA[<h2>Adressen</h2>]]></de>
-            <en><![CDATA[<h2>Addresses</h2>]]></en>
+            <de><![CDATA[Adressverwaltung]]></de>
+            <en><![CDATA[Address management]]></en>
         </locale>
         <locale name="address.manager.header.short" html="true">
             <de><![CDATA[&nbsp;]]></de>
@@ -38,6 +48,26 @@
             <de><![CDATA[Markierte Adresse löschen]]></de>
             <en><![CDATA[Delete selected address]]></en>
         </locale>
+
+
+        <locale name="address.manager.create.sheet.edit.header">
+            <de><![CDATA[Adresse ändern]]></de>
+            <en><![CDATA[Edit Address]]></en>
+        </locale>
+        <locale name="address.manager.create.sheet.edit.desc">
+            <de><![CDATA[Bitte füllen Sie alle Felder aus.]]></de>
+            <en><![CDATA[Please fill out all fields.]]></en>
+        </locale>
+
+        <locale name="address.manager.create.sheet.create.header">
+            <de><![CDATA[Neue Adresse anlegen]]></de>
+            <en><![CDATA[Create new address]]></en>
+        </locale>
+        <locale name="address.manager.create.sheet.create.desc">
+            <de><![CDATA[Bitte füllen Sie alle Felder aus.]]></de>
+            <en><![CDATA[Please fill out all fields.]]></en>
+        </locale>
+
 
         <locale name="address.manager.create.sheet.button.cancel">
             <de><![CDATA[Abbrechen]]></de>
@@ -145,10 +175,15 @@
             <de><![CDATA[Passwort ändern]]></de>
             <en><![CDATA[Change password]]></en>
         </locale>
-        <locale name="profile.btn.address">
-            <de><![CDATA[Adressen]]></de>
-            <en><![CDATA[Addresses]]></en>
+        <locale name="profile.btn.my.address">
+            <de><![CDATA[Meine Adresse]]></de>
+            <en><![CDATA[My address]]></en>
         </locale>
+        <locale name="profile.btn.address">
+            <de><![CDATA[Adressverwaltung]]></de>
+            <en><![CDATA[Address management]]></en>
+        </locale>
+
 
         <locale name="profile.firstname">
             <de><![CDATA[Vornamen]]></de>
@@ -417,6 +452,18 @@
                 </p>
             ]]></en>
         </locale>
+
+        <!-- address daten -->
+        <locale name="template.address.header.data">
+            <de><![CDATA[Daten]]></de>
+            <en><![CDATA[Data]]></en>
+        </locale>
+        <locale name="template.address.header.address">
+            <de><![CDATA[Anschrift]]></de>
+            <en><![CDATA[Address]]></en>
+        </locale>
+
+
 
 
         <!-- messages -->

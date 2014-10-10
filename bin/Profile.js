@@ -141,6 +141,18 @@ define([
                 }
             }).inject( this.$Buttons );
 
+            this.$buttons.MyAddress = new QUIButton({
+                name   : 'address',
+                text   : Locale.get( 'quiqqer/intranet', 'profile.btn.my.address' ),
+                icon   : 'icon-home fa fa-home',
+                events :
+                {
+                    onClick : function()  {
+                        self.showAddress();
+                    }
+                }
+            }).inject( this.$Buttons );
+
 
             this.$buttons.Address = new QUIButton({
                 name   : 'address',
@@ -154,6 +166,11 @@ define([
                 }
             }).inject( this.$Buttons );
 
+            // hide all
+            this.$buttons.myData.hide();
+            this.$buttons.changePassword.hide();
+            this.$buttons.MyAddress.hide();
+            this.$buttons.Address.hide();
 
 
             this.$Menu.addEvents({
@@ -261,17 +278,22 @@ define([
 
             this.Loader.show();
 
-            Ajax.get('package_quiqqer_intranet_ajax_user_profile_getCategories', function(result)
+            Ajax.get([
+                'package_quiqqer_intranet_ajax_user_profile_getCategories',
+                'package_quiqqer_intranet_ajax_user_profile_config'
+            ], function(categories, config)
             {
-                var i, len, Btn;
+                var i, len, Btn, Category;
 
-                for ( i = 0, len = result.length; i < len; i++ )
+                for ( i = 0, len = categories.length; i < len; i++ )
                 {
+                    Category = categories[ i ];
+
                     Btn = new QUIButton({
-                        name    : result[ i ].name || '',
-                        text    : result[ i ].text || '',
-                        icon    : result[ i ].icon || '',
-                        require : result[ i ].require || '',
+                        name    : Category.name || '',
+                        text    : Category.text || '',
+                        icon    : Category.icon || '',
+                        require : Category.require || '',
                         events  : {
                             onClick : self.$onCategoryClick
                         }
@@ -280,10 +302,38 @@ define([
                     self.$buttons[ Btn.getId() ] = Btn;
                 }
 
+                // show available buttons
+                if ( ( config.userProfile.showMyData ).toInt() ) {
+                    self.$buttons.myData.show();
+                }
+
+                if ( ( config.userProfile.showPasswordChange ).toInt() ) {
+                    self.$buttons.changePassword.show();
+                }
+
+                if ( ( config.userProfile.showAddress ).toInt() ) {
+                    self.$buttons.MyAddress.show();
+                }
+
+                if ( ( config.userProfile.showAddressManager ).toInt() ) {
+                    self.$buttons.Address.show();
+                }
+
+
                 self.resize();
 
-                self.refresh(function() {
-                    self.$buttons.myData.click();
+                self.refresh(function()
+                {
+                    // fist available button
+                    for ( var i in self.$buttons )
+                    {
+                        if ( self.$buttons[ i ].isHidden() ) {
+                            continue;
+                        }
+
+                        self.$buttons[ i ].click()
+                        break;
+                    }
                 });
             }, {
                 'package' : 'quiqqer/intranet'
@@ -546,6 +596,76 @@ define([
                 'package' : 'quiqqer/intranet',
                 data      : JSON.encode( data ),
                 lang      : Locale.getCurrent()
+            });
+        },
+
+        /**
+         * Show the my address
+         */
+        showAddress : function()
+        {
+            var self = this;
+
+            this.$normalizeButtons();
+            this.$buttons.MyAddress.setActive();
+
+            this.$Content.set( 'html', '' );
+
+            this.Loader.show();
+
+            Ajax.get([
+                'package_quiqqer_intranet_ajax_address_getStandard',
+                'package_quiqqer_intranet_ajax_address_template'
+            ], function(address, template)
+            {
+                self.$Content.set( 'html', template );
+
+                var Form = self.$Content.getElement( 'form' );
+
+                Form.addClass( 'package-intranet-profile-myaddress' );
+
+                var Header = new Element('h2', {
+                    html : Locale.get('quiqqer/intranet', 'profile.myaddress.header')
+                }).inject( Form, 'top' );
+
+                new Element('p', {
+                    'html' : Locale.get('quiqqer/intranet', 'profile.myaddress.header.description')
+                }).inject( Header, 'after' );
+
+                QUIFormUtils.setDataToForm( address, Form );
+
+
+                new QUIButton({
+                    text : Locale.get(
+                        'quiqqer/intranet',
+                        'address.manager.create.sheet.button.edit'
+                    ),
+                    textimage : 'icon-save fa fa-save',
+                    'class'   : 'btn-green',
+                    events    :
+                    {
+                        onClick : function()
+                        {
+                            var data = QUIFormUtils.getFormData( Form );
+
+                            self.Loader.show();
+
+                            Ajax.post('package_quiqqer_intranet_ajax_address_edit', function()
+                            {
+                                self.Loader.hide();
+                            }, {
+                                'package' : 'quiqqer/intranet',
+                                aid       : address.id,
+                                data      : JSON.encode( data )
+                            });
+                        }
+                    }
+                }).inject( self.$Content );
+
+                self.Loader.hide();
+
+            }, {
+                'package' : 'quiqqer/intranet'
             });
         },
 
