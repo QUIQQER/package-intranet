@@ -1,10 +1,10 @@
 @CHARSET "UTF-8";
 
-.intranet-address h2 {
+.intranet-addresses h2 {
     margin-bottom: 20px;
 }
 
-.intranet-address h3 {
+.intranet-addresses h3 {
     border-bottom: 1px solid #999;
     margin-bottom: 10px;
 }
@@ -35,4 +35,8 @@
     margin: 0;
     padding: 0;
     width: 120px;
+}
+
+.intranet-address-window-delete .vcard {
+    padding: 10px 0;
 }

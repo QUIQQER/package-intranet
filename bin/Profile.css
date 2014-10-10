@@ -159,6 +159,45 @@
 }
 
 
+/** my address
+ * ============================================================= */
+
+.package-intranet-profile-myaddress p {
+    padding : 10px 0;
+}
+
+.package-intranet-profile-myaddress .intranet-address-data {
+    margin-top: 20px;
+}
+
+.package-intranet-profile-myaddress .intranet-address-data,
+.package-intranet-profile-myaddress .intranet-address-address {
+    clear: both;
+    max-width: 100%;
+    width: 500px;
+}
+
+.package-intranet-profile-myaddress .intranet-address-data input,
+.package-intranet-profile-myaddress .intranet-address-data select,
+.package-intranet-profile-myaddress .intranet-address-address input,
+.package-intranet-profile-myaddress .intranet-address-address select {
+    clear: none;
+    margin: 0 !important;
+    width: 300px;
+}
+
+.package-intranet-profile-myaddress .intranet-address-data label,
+.package-intranet-profile-myaddress .intranet-address-address label {
+    line-height: 34px;
+    margin: 0;
+    padding: 0;
+    width: 120px;
+}
+
+.package-intranet-profile-myaddress .intranet-address-window-delete .vcard {
+    padding: 10px 0;
+}
+
 /** form elements
  * ============================================================= */
 
