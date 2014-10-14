@@ -37,6 +37,30 @@ class Registration extends \QUI\QDOM
     }
 
     /**
+     * Set important login data,
+     * if the user loged in via sovial media, so session authentication works
+     *
+     * @param \QUI\Users\User $User
+     */
+    public function setLoginData(\QUI\Users\User $User)
+    {
+        $useragent = '';
+
+        if ( isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
+            $useragent = $_SERVER['HTTP_USER_AGENT'];
+        }
+
+        \QUI::getDataBase()->update(
+            \QUI::getUsers()->Table(),
+            array(
+                'lastvisit'  => time(),
+                'user_agent' => $useragent
+            ),
+            array('id' => $User->getId())
+        );
+    }
+
+    /**
      * Register a user over $data params
      *
      * $data['nickname']

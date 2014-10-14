@@ -20,6 +20,10 @@ function package_quiqqer_intranet_ajax_user_socialLogin($socialType, $token)
 
     $User = $Social->login( $token );
 
+    if ( $User->getId() ) {
+        $Reg->setLoginData( $User );
+    }
+
     return $User->getAttributes();
 }
 

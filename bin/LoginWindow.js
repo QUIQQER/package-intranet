@@ -67,7 +67,7 @@ define([
 
                         } else
                         {
-                            window.location.reload();
+                            window.location = window.location;
                         }
                     }
                 }
