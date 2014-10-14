@@ -5,5 +5,7 @@
         <attribute>quiqqer.intranet.googleid</attribute>
         <attribute>quiqqer.intranet.facebookid</attribute>
         <attribute>quiqqer.intranet.passwordForgotten.hash</attribute>
+        <attribute>quiqqer.intranet.disable.hash</attribute>
+        <attribute>quiqqer.intranet.disable.time</attribute>
     </attributes>
 </user>

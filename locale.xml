@@ -91,6 +91,53 @@
             <de><![CDATA[<h1>Möchten Sie folgende Adresse wirkliche löschen?</h1>[address]]]></de>
             <en><![CDATA[<h1>Do you really want to delete the address?</h1>[address]]]></en>
         </locale>
+
+
+        <!-- delete account -->
+        <locale name="profile.deleteAccount.header">
+            <de><![CDATA[Account löschen]]></de>
+            <en><![CDATA[Delete your Account]]></en>
+        </locale>
+        <locale name="profile.btn.deleteAccount">
+            <de><![CDATA[Account löschen]]></de>
+            <en><![CDATA[Delete your Account]]></en>
+        </locale>
+        <locale name="profile.deleteAccount.header.description" html="true">
+            <de><![CDATA[Um Ihre Account-Löschung zu starten klicken Sie bitte auf "Account-Löschung starten".]]></de>
+            <en><![CDATA[To start your account deletion, click on "Start Account Deletion".]]></en>
+        </locale>
+        <locale name="profile.deleteAccount.button">
+            <de><![CDATA[Account-Löschung starten]]></de>
+            <en><![CDATA[Start account deletion]]></en>
+        </locale>
+
+        <locale name="profile.delete.account.header">
+            <de><![CDATA[Möchten Sie Ihren Account wirklich löschen?]]></de>
+            <en><![CDATA[Are you sure you want to delete your account?]]></en>
+        </locale>
+
+        <locale name="profile.delete.account.text" html="true">
+            <de><![CDATA[
+                <p>Ihre Daten werden unwiderruflich gelöscht und können nicht wiederhergestellt werden.</p>
+                <p>Wenn Sie sicher sind, klicken Sie bitte auf "Ja, Account wirklich löschen".</p>
+                <p>Danach wird Ihnen eine E-Mail mit einem Bestätigungslink gesendet.</p>
+            ]]></de>
+            <en><![CDATA[
+                <p>All data is deleted and cannot be restored.</p>
+                <p>If you are sure you want to delete your account, click on "Yes, delete my account".</p>
+                <p>Afterwards you will receive a confirmation e-mail with a verification link.</p>
+            ]]></en>
+        </locale>
+        <locale name="profile.delete.account.button">
+            <de><![CDATA[Ja, Account wirklich löschen]]></de>
+            <en><![CDATA[Yes, delete my account]]></en>
+        </locale>
+        <locale name="profile.delete.account.button.cancel">
+            <de><![CDATA[Abbrechen]]></de>
+            <en><![CDATA[Cancel]]></en>
+        </locale>
+
+
     </groups>
 
     <groups name="quiqqer/intranet" datatype="php,js">
@@ -226,6 +273,27 @@
         <locale name="profile.new.pw.repeat">
             <de><![CDATA[Passwort wiederhohlen]]></de>
             <en><![CDATA[Repeat password]]></en>
+        </locale>
+
+        <!-- messages -->
+        <locale name="message.profile.delete.account.start.success" html="true">
+            <de><![CDATA[
+                <p>Ihre Account-Löschung wurde erfolgreich gestartet. Sie erhalten nun eine E-Mail an die hinterlegte Adresse um Ihre Kündigung zu bestätigen.</p>
+                <p>Mit einem Klick auf den Abmeldelink in dieser E-Mail löschen Sie Ihren Account endgültig.</p>
+                <br />
+                <p>Falls Sie die E-Mail nicht erhalten haben, werfen Sie bitte einen Blick in Ihren Spam-Ordner.</p>
+            ]]></de>
+            <en><![CDATA[
+                <p>Your account deletion has started successfully. You will receive an e-mail to the address you registered with.</p>
+                <p>To finish, click the link provided in the e-mail to permanently delete your account.</p>
+                <br />
+                <p>If you do not receive an e-mail, please take a look at your spam folder.</p>
+            ]]></en>
+        </locale>
+
+        <locale name="message.profile.disable.successfully" html="true">
+            <de><![CDATA[Ihr Account wurde erfolgreich gelöscht.]]></de>
+            <en><![CDATA[Your account has been deleted successfully.]]></en>
         </locale>
 
         <!-- exceptions -->
@@ -453,6 +521,55 @@
             ]]></en>
         </locale>
 
+        <!-- mail user disable -->
+        <locale name="mail.disable.MAILFromText">
+            <de><![CDATA[Account-Löschung]]></de>
+            <en><![CDATA[Deletion of your account]]></en>
+        </locale>
+        <locale name="mail.disable.Subject">
+            <de><![CDATA[Account-Löschung]]></de>
+            <en><![CDATA[Deletion of your account]]></en>
+        </locale>
+        <locale name="mail.disable.Body" html="true">
+            <de><![CDATA[
+                <p>
+                    Sie haben in Ihrem Profil die Löschung Ihres Accounts beantragt.
+                </p>
+                <h3>Sind Sie sicher?</h3>
+                <p>
+                    Um die Löschung Ihres Accounts zu verifizieren, klicken Sie bitte <a href="[disable_link]">hier</a>
+                    oder kopieren Sie die folgende URL in die Adresszeile Ihres Browsers.
+                </p>
+                <br />
+                <p>[disable_link]</p>
+                <br />
+                <p>
+                    Bitte beachten Sie, dass Ihre personenbezogenen Daten unwiderruflich gelöscht werden und nicht wiederhergestellt werden können.
+                </p>
+            ]]></de>
+            <en><![CDATA[
+                <p>
+                    Using your profile, you have applied to delete your NameRobot account.
+                </p>
+                <h3>Are you sure?</h3>
+
+                <p>
+                    You would still like to delete your NameRobot account? No problem!
+                </p>
+                <p>
+                    In order to authenticate your deletion request, please click <a href="[disable_link]">here</a>
+                    or copy the following URL into your browser's address bar.
+                </p>
+                <br />
+                <p>[disable_link]</p>
+                <br />
+
+                <p>
+                    Please be aware that all your personal details will be permanently deleted and will not be recoverable.
+                </p>
+            ]]></en>
+        </locale>
+
         <!-- address daten -->
         <locale name="template.address.header.data">
             <de><![CDATA[Daten]]></de>
@@ -462,9 +579,6 @@
             <de><![CDATA[Anschrift]]></de>
             <en><![CDATA[Address]]></en>
         </locale>
-
-
-
 
         <!-- messages -->
         <locale name="message.registration.finish">

@@ -5,38 +5,47 @@
     type: quiqqer/intranet:intranet/registration
 *}
 
-{if $Template->getAttribute('content-header')}
-<section class="content-header grid-100 mobile-grid-100">
-    <header>
-        <h1>{$Site->getAttribute('title')}</h1>
-    </header>
+{if isset( $INTRANET_DISABLE_MESSAGE )}
 
-    {if $Site->getAttribute('short')}
-    <div class="content-short">
-        {$Site->getAttribute('short')}
+    <div class="registration-message-disabled">
+        {$INTRANET_DISABLE_MESSAGE}
     </div>
-    {/if}
-</section>
-{/if}
 
-{if $Template->getAttribute('content-body') && $Site->getAttribute('content')}
-<section class="content-body grid-100 mobile-grid-100">
-    {$Site->getAttribute('content')}
-</section>
-{/if}
-
-{if isset( $INTRANET_SUCCESS_MESSAGE )}
-
-    {$INTRANET_SUCCESS_MESSAGE}
-
-{else if isset( $INTRANET_ERROR_MESSAGE )}
-    {$INTRANET_ERROR_MESSAGE}
 {else}
 
-    {if isset( $INTRANET_REGISTRATION_ERROR_MESSAGE )}
-        {$INTRANET_REGISTRATION_ERROR_MESSAGE}
+    {if $Template->getAttribute('content-header')}
+    <section class="content-header grid-100 mobile-grid-100">
+        <header>
+            <h1>{$Site->getAttribute('title')}</h1>
+        </header>
+
+        {if $Site->getAttribute('short')}
+        <div class="content-short">
+            {$Site->getAttribute('short')}
+        </div>
+        {/if}
+    </section>
     {/if}
 
-    {control control="\QUI\Intranet\Controls\Registration"}
+    {if $Template->getAttribute('content-body') && $Site->getAttribute('content')}
+    <section class="content-body grid-100 mobile-grid-100">
+        {$Site->getAttribute('content')}
+    </section>
+    {/if}
 
+    {if isset( $INTRANET_SUCCESS_MESSAGE )}
+
+        {$INTRANET_SUCCESS_MESSAGE}
+
+    {else if isset( $INTRANET_ERROR_MESSAGE )}
+        {$INTRANET_ERROR_MESSAGE}
+    {else}
+
+        {if isset( $INTRANET_REGISTRATION_ERROR_MESSAGE )}
+            {$INTRANET_REGISTRATION_ERROR_MESSAGE}
+        {/if}
+
+        {control control="\QUI\Intranet\Controls\Registration"}
+
+    {/if}
 {/if}

@@ -21,7 +21,17 @@
                     <type><![CDATA[bool]]></type>
                     <defaultvalue>0</defaultvalue>
                 </conf>
+                <conf name="showDeleteAccount">
+                    <type><![CDATA[bool]]></type>
+                    <defaultvalue>0</defaultvalue>
+                </conf>
+            </section>
 
+            <section name="disable">
+                <conf name="hashLifetime">
+                    <type><![CDATA[int]]></type>
+                    <defaultvalue>3600</defaultvalue>
+                </conf>
             </section>
 
             <section name="registration">
@@ -73,21 +83,22 @@
                         <title>Profil Einstellungen</title>
 
                         <input conf="userProfile.showMyData" type="checkbox">
-                            <text>Meine Daten anzeigen</text>
+                            <text><u>Meine Daten</u> anzeigen</text>
                         </input>
                         <input conf="userProfile.showPasswordChange" type="checkbox">
-                            <text>Passwort ändern anzeigen</text>
+                            <text><u>Passwort ändern</u> anzeigen</text>
                         </input>
                         <input conf="userProfile.showAddress" type="checkbox">
-                            <text>Meine Adresse anzeigen</text>
+                            <text><u>Meine Adresse</u> anzeigen</text>
                         </input>
                         <input conf="userProfile.showAddressManager" type="checkbox">
-                            <text>Meine Adressen anzeigen (Address Verwaltung)</text>
+                            <text><u>Meine Adressen</u> anzeigen (Address Verwaltung)</text>
                         </input>
-
+                        <input conf="userProfile.showDeleteAccount" type="checkbox">
+                            <text><u>Mein Account löschen</u> anzeigen</text>
+                        </input>
                     </settings>
                 </category>
-
 
                 <category name="registration">
                     <text>Registrierung</text>

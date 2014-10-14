@@ -18,6 +18,9 @@ use \QUI\Utils\Security\Orthos as Orthos;
  * @example new \QUI\Intranet\Registration(array(
  * 		'Project' => $Project
  * ));
+ *
+ * @event onRegistrationUserDisable [ $this ]  -> user starts account deletion
+ * @event onRegistrationUserDisabled [ $this ] -> User is deleted / disabled
  */
 
 class Registration extends \QUI\QDOM
@@ -290,6 +293,51 @@ class Registration extends \QUI\QDOM
     }
 
     /**
+     * Disable the user
+     *
+     * @param Integer|String $user
+     * @param unknown $code
+     */
+    public function disable($user, $disableHash)
+    {
+        $User    = $this->_getUser( $user );
+        $Package = \QUI::getPackageManager()->getInstalledPackage( 'quiqqer/intranet' );
+
+        $hashLifetime = $Package->getConfig()->get( 'disable', 'hashLifetime' );
+        $hash         = $User->getAttribute( 'quiqqer.intranet.disable.hash' );
+        $hashTime     = $User->getAttribute( 'quiqqer.intranet.disable.time' );
+
+        if ( !isset( $Site ) || !$Site ) {
+            $Site = $this->_getRegSite();
+        }
+
+        if ( $hashTime < time() - $hashLifetime  )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/intranet',
+                    'exception.disable.hash.expired'
+                )
+            );
+        }
+
+        if ( $disableHash != $hash )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/intranet',
+                    'exception.disable.hash.wrong'
+                )
+            );
+        }
+
+        $User->disable( \QUI::getUsers()->getSystemUser() );
+
+        // disable event
+        \QUI::getEvents()->fireEvent( 'registrationUserDisabled', array( $this ) );
+    }
+
+    /**
      * helper methods
      */
 
@@ -385,7 +433,7 @@ class Registration extends \QUI\QDOM
         $project = $Project->getAttribute('name');
 
         // if no site, find a registration site
-        if ( !$Site ) {
+        if ( !isset( $Site ) || !$Site ) {
             $Site = $this->_getRegSite();
         }
 
@@ -452,7 +500,7 @@ class Registration extends \QUI\QDOM
         $Locale  = \QUI::getLocale();
         $Engine  = \QUI::getTemplateManager()->getEngine();
 
-        if ( !isset( $Site ) ) {
+        if ( !isset( $Site ) || !$Site ) {
             $Site = $this->_getRegSite();
         }
 
@@ -465,7 +513,6 @@ class Registration extends \QUI\QDOM
             'User'    => $User
         ));
 
-        $Plugin = \QUI::getPluginManager()->get( 'quiqqer/intranet' );
 
         // Mail vars
         $MAILFromText = '';
@@ -519,6 +566,114 @@ class Registration extends \QUI\QDOM
     }
 
     /**
+     * Send an disable mail
+     * it starts the disable process
+     *
+     * @param \QUI\Users\User $User
+     * @param \QUI\Projects\Site $Site - [optional]
+     */
+    public function sendDisableMail(\QUI\Users\User $User, $Site=false)
+    {
+        $Project = $this->_getProject();
+        $Locale  = \QUI::getLocale();
+        $Engine  = \QUI::getTemplateManager()->getEngine();
+        $Package = \QUI::getPackageManager()->getInstalledPackage( 'quiqqer/intranet' );
+
+        if ( !isset( $Site ) || !$Site ) {
+            $Site = $this->_getRegSite();
+        }
+
+        // disable event
+        \QUI::getEvents()->fireEvent( 'registrationUserDisable', array( $this ) );
+
+        // create new disable link
+        $hashLifetime = $Package->getConfig()->get( 'disable', 'hashLifetime' );
+        $hashtime     = $User->getAttribute( 'quiqqer.intranet.disable.time' );
+
+        $hash = $User->getAttribute( 'quiqqer.intranet.disable.hash' );
+
+        // wenn hash abgelaufen, neuen hash setzen
+        if ( !$hashtime || $hashLifetime < time() - $hashtime )
+        {
+            $hash = Orthos::getPassword();
+
+            $User->setAttribute( 'quiqqer.intranet.disable.hash', $hash );
+            $User->setAttribute( 'quiqqer.intranet.disable.time', time() );
+            $User->save();
+        }
+
+        /**
+         * Disable Mail
+         */
+        $Engine->assign(array(
+            'Project' => $Project,
+            'Site'    => $Site,
+            'User'    => $User
+        ));
+
+        $disable_link = $Project->getVHost( true ) . $Site->getUrl(array(
+            'uid'  => $User->getId(),
+            'hash' => $hash,
+            'type' => 'disable'
+        ), true);
+
+
+
+        // Mail vars
+        $MAILFromText = '';
+        $MailSubject  = '';
+
+        $Locale  = \QUI::getLocale();
+        $project = $Project->getAttribute('name');
+
+        // schauen ob es übersetzungen dafür gibt
+        if ( $Locale->exists('project/'. $project, 'intranet.disable.MAILFromText') )
+        {
+            $MAILFromText = $Locale->get('project/'. $project, 'intranet.disable.MAILFromText');
+        } else
+        {
+            $MAILFromText = $Locale->get('quiqqer/intranet', 'mail.disable.MAILFromText');
+        }
+
+
+        if ( $Locale->exists('project/'. $project, 'intranet.disable.Subject') )
+        {
+            $MailSubject = $Locale->get('project/'. $project, 'intranet.disable.MailSubject');
+        } else
+        {
+            $MailSubject = $Locale->get('quiqqer/intranet', 'mail.disable.MailSubject');
+        }
+
+        $MailBody = \QUI::getLocale()->get(
+            'quiqqer/intranet',
+            'mail.disable.Body',
+            array(
+                'disable_link' => $disable_link
+            )
+        );
+
+
+        // send mail
+        $Mail = new \QUI\Mail\Mailer();
+
+        $Mail->setProject( $this->_getProject() );
+        $Mail->setSubject( $MailSubject );
+        $Mail->setFromName( $MAILFromText );
+        $Mail->addRecipient( $User->getAttribute('email') );
+        $Mail->setBody( $MailBody );
+
+        if ( !$Mail->send() )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/intranet',
+                    'exception.send.disable.mail.fail'
+                )
+            );
+        }
+    }
+
+    /**
      * Sends a password forgotten Mail
      *
      * @param Integer|String $user
@@ -544,7 +699,7 @@ class Registration extends \QUI\QDOM
 
 
         $RegSite = $this->_getRegSite();
-        $hash    = \QUI\Utils\Security\Orthos::getPassword();
+        $hash    = Orthos::getPassword();
 
         $url = $Project->getVHost( true ) . $RegSite->getUrl(array(
             'uid'  => $User->getId(),
@@ -667,7 +822,7 @@ class Registration extends \QUI\QDOM
         }
 
         // set new password
-        $newpass = \QUI\Utils\Security\Orthos::getPassword();
+        $newpass = Orthos::getPassword();
 
         $User->setPassword( $newpass, $Users->getSystemUser() );
         $User->save( $Users->getSystemUser() );
@@ -749,7 +904,7 @@ class Registration extends \QUI\QDOM
 
         $User->setAttribute(
             'quiqqer.intranet.passwordForgotten.hash',
-            \QUI\Utils\Security\Orthos::getPassword()
+            Orthos::getPassword()
         );
 
         $User->save( $Users->getSystemUser() );

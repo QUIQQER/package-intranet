@@ -2,7 +2,10 @@
 /**
  * Profil control
  *
+ * @module package/quiqqer/intranet/bin/Profile
  * @author www.pcsg.de (Henning Leutz)
+ *
+ * @event onProfileDelete
  */
 
 define([
@@ -12,6 +15,7 @@ define([
     'qui/controls/loader/Loader',
     'qui/controls/buttons/Button',
     'qui/controls/utils/Background',
+    'qui/controls/windows/Alert',
     'qui/utils/Form',
     'Ajax',
     'Locale',
@@ -29,9 +33,10 @@ define([
         QUILoader     = arguments[ 2 ],
         QUIButton     = arguments[ 3 ],
         QUIBackground = arguments[ 4 ],
-        QUIFormUtils  = arguments[ 5 ],
-        Ajax          = arguments[ 6 ],
-        Locale        = arguments[ 7 ];
+        QUIAlert      = arguments[ 5 ],
+        QUIFormUtils  = arguments[ 6 ],
+        Ajax          = arguments[ 7 ],
+        Locale        = arguments[ 8 ];
 
 
     return new Class({
@@ -168,11 +173,24 @@ define([
                 }
             }).inject( this.$Buttons );
 
+            this.$buttons.DeleteAccount = new QUIButton({
+                name   : 'address',
+                text   : Locale.get( lg, 'profile.btn.deleteAccount' ),
+                icon   : 'icon-trash fa fa-trash',
+                events :
+                {
+                    onClick : function()  {
+                        self.showDeleteAccount();
+                    }
+                }
+            }).inject( this.$Buttons );
+
             // hide all
             this.$buttons.myData.hide();
             this.$buttons.changePassword.hide();
             this.$buttons.MyAddress.hide();
             this.$buttons.Address.hide();
+            this.$buttons.DeleteAccount.hide();
 
 
             this.$Menu.addEvents({
@@ -314,6 +332,16 @@ define([
                     self.$buttons[ Btn.getId() ] = Btn;
                 }
 
+                // config, with default config
+                config.userProfile = Object.merge({
+                    showMyData         : 0,
+                    showPasswordChange : 0,
+                    showAddress        : 0,
+                    showAddressManager : 0,
+                    showDeleteAccount  : 0
+                }, (config.userProfile || {} ));
+
+
                 // show available buttons
                 if ( ( config.userProfile.showMyData ).toInt() ) {
                     self.$buttons.myData.show();
@@ -329,6 +357,10 @@ define([
 
                 if ( ( config.userProfile.showAddressManager ).toInt() ) {
                     self.$buttons.Address.show();
+                }
+
+                if ( ( config.userProfile.showDeleteAccount ).toInt() ) {
+                    self.$buttons.DeleteAccount.show();
                 }
 
 
@@ -716,6 +748,113 @@ define([
                     }
                 }).inject( self.$Content );
             });
+        },
+
+        /**
+         * show account deletion
+         */
+        showDeleteAccount : function()
+        {
+            var self = this;
+
+            this.$normalizeButtons();
+            this.$buttons.DeleteAccount.setActive();
+
+            this.$Content.set( 'html', '' );
+
+            this.$Content.set(
+                'html',
+
+                '<div class="address-content-header">'+
+                    '<h2>'+
+                        Locale.get( lg, 'profile.deleteAccount.header') +
+                    '</h2>'+
+                    '<p>'+
+                        Locale.get( lg, 'profile.deleteAccount.header.description') +
+                    '</p>'+
+                '</div>'
+            );
+
+            new QUIButton({
+                textimage : 'icon-trash fa fa-trash',
+                text : Locale.get( lg, 'profile.deleteAccount.button'),
+                styles : {
+                    margin : '20px 0'
+                },
+                events :
+                {
+                    onClick : function()
+                    {
+                        self.openSheet(function(Content, Sheet)
+                        {
+                            Sheet.setStyles({
+                                padding : 20
+                            });
+
+                            Sheet.getElements( '.qui-sheet-buttons' ).destroy();
+
+                            var Container = new Element('div', {
+                                'class' : 'package-intranet-profile-delete',
+                                html    : '<h1>'+ Locale.get( lg, 'profile.delete.account.header' ) +'</h1>'+
+                                          Locale.get( lg, 'profile.delete.account.text' )
+                            }).inject( Content );
+
+
+                            new QUIButton({
+                                text   : Locale.get( lg, 'profile.delete.account.button' ),
+                                styles : {
+                                    'float' : 'none',
+                                    margin  : 10
+                                },
+                                events :
+                                {
+                                    onClick : function()
+                                    {
+                                        Sheet.fireEvent( 'close' );
+
+                                        self.Loader.show();
+
+                                        Ajax.post('package_quiqqer_intranet_ajax_user_profile_disable', function(result)
+                                        {
+                                            if ( !result )
+                                            {
+                                                self.Loader.hide();
+                                                return;
+                                            }
+
+                                            new QUIAlert({
+                                                title   : '',
+                                                icon    : 'fa fa-trash icon-trash',
+                                                content : Locale.get( lg, 'message.profile.delete.account.start.success' )
+                                            }).open();
+
+                                            self.Loader.hide();
+                                            self.fireEvent( 'onProfileDelete' );
+                                        }, {
+                                            'package' : 'quiqqer/intranet'
+                                        });
+                                    }
+                                }
+                            }).inject( Container );
+
+                            new QUIButton({
+                                text    : Locale.get( lg, 'profile.delete.account.button.cancel' ),
+                                'class' : 'btn-red',
+                                styles  : {
+                                    'float' : 'none',
+                                    margin  : 10
+                                },
+                                events :
+                                {
+                                    onClick : function() {
+                                        Sheet.fireEvent( 'close' );
+                                    }
+                                }
+                            }).inject( Container );
+                        });
+                    }
+                }
+            }).inject( this.$Content );
         },
 
         /**

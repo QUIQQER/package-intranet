@@ -63,7 +63,8 @@ define([
          */
         $onOpen : function()
         {
-            var Content = this.getContent();
+            var self    = this,
+                Content = this.getContent();
 
             Content.set({
                 html   : '',
@@ -73,7 +74,13 @@ define([
             });
 
             this.$Profile = new Profile({
-                header : false
+                header : false,
+                events :
+                {
+                    onProfileDelete : function() {
+                        self.close();
+                    }
+                }
             }).inject( Content );
         },
 

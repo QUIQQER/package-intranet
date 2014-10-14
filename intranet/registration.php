@@ -65,3 +65,39 @@ if ( isset( $_REQUEST['uid'] ) &&
         );
     }
 }
+
+/**
+ * Disable account
+ */
+
+if ( isset( $_REQUEST['uid'] ) &&
+     isset( $_REQUEST['hash'] ) &&
+     isset( $_REQUEST['type'] ) &&
+     $_REQUEST['type'] == 'disable' )
+{
+    try
+    {
+        $Registration->disable( $_REQUEST['uid'], $_REQUEST['hash'] );
+
+        $Engine->assign(
+            'INTRANET_DISABLE_MESSAGE',
+            \QUI::getLocale()->get(
+                'quiqqer/intranet',
+                'message.disable.successfully'
+            )
+        );
+
+    } catch ( \QUI\Exception $Exception )
+    {
+        $Engine->assign(
+            'INTRANET_ERROR_MESSAGE',
+            $Exception->getMessage()
+        );
+    }
+
+
+    exit;
+}
+
+
+
