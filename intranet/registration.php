@@ -94,10 +94,5 @@ if ( isset( $_REQUEST['uid'] ) &&
             $Exception->getMessage()
         );
     }
-
-
-    exit;
 }
-
-
 

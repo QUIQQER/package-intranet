@@ -7,9 +7,11 @@
 
 {if isset( $INTRANET_DISABLE_MESSAGE )}
 
-    <div class="registration-message-disabled">
-        {$INTRANET_DISABLE_MESSAGE}
-    </div>
+    <section class="content-body grid-100 mobile-grid-100">
+        <div class="registration-message-disabled">
+            {$INTRANET_DISABLE_MESSAGE}
+        </div>
+    </section>
 
 {else}
 
@@ -48,4 +50,5 @@
         {control control="\QUI\Intranet\Controls\Registration"}
 
     {/if}
+
 {/if}

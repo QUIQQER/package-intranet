@@ -300,7 +300,19 @@ class Registration extends \QUI\QDOM
      */
     public function disable($user, $disableHash)
     {
-        $User    = $this->_getUser( $user );
+        $User = $this->_getUser( $user );
+
+        if ( $User->isDeleted() )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/intranet',
+                    'exception.disable.user.already.deleted'
+                )
+            );
+        }
+
+
         $Package = \QUI::getPackageManager()->getInstalledPackage( 'quiqqer/intranet' );
 
         $hashLifetime = $Package->getConfig()->get( 'disable', 'hashLifetime' );

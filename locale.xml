@@ -629,6 +629,11 @@
             <en><![CDATA[An email could not be sent. Please contact an administrator.]]></en>
         </locale>
 
+        <locale name="exception.disable.user.already.deleted">
+            <de><![CDATA[Der Benutzer ist bereits gelöscht.]]></de>
+            <en><![CDATA[The user is already deleted.]]></en>
+        </locale>
+
     </groups>
 
 </locales>
