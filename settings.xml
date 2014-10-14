@@ -47,6 +47,10 @@
                 <conf name="loggedInDuringRegistrationn">
                     <type><![CDATA[bool]]></type>
                 </conf>
+                <conf name="sendInfoMailOnRegistrationTo">
+                    <type><![CDATA[String]]></type>
+                </conf>
+
             </section>
             <section name="social">
                 <conf name="googleApplicationName">
@@ -109,12 +113,23 @@
 
                         <input conf="registration.standardGroups" type="groups">
                             <text>Standard Gruppen</text>
-                            <description>Legen Sie fest welche Gruppen dem Benutzer bei einer Registrierung zugewiesen werden.</description>
+                            <description>
+                                Legen Sie fest welche Gruppen dem Benutzer bei einer Registrierung zugewiesen werden.
+                            </description>
                         </input>
+
+                        <input conf="registration.sendInfoMailOnRegistrationTo" type="text">
+                            <text>Info Mail bei Registrierung senden</text>
+                            <description>
+                                An die angegebene E-Mail Adresse eine Informationsmail verschicken das sich ein neuer Benutzer registriert hat.
+                            </description>
+                        </input>
+
                         <input conf="registration.sendMailOnRegistration" type="checkbox">
                             <text>Registrierungs-Aktivierungs-Mail versenden</text>
                             <description>Eine Aktivierungs E-Mail versenden damit der Benutzer sich aktivieren kann.</description>
                         </input>
+
                         <input conf="registration.loggedInDuringRegistrationn" type="checkbox">
                             <text>Eingeloggte Benutzer können sich registrieren</text>
                             <description>
@@ -122,6 +137,7 @@
                                 Eingeloggte Benutzer haben sich schon registriert und benötigen keine Registrierung.
                             </description>
                         </input>
+
                     </settings>
                 </category>
 

@@ -79,7 +79,8 @@ class Google implements \QUI\Intranet\Interfaces\Social
                 \QUI::getLocale(
                     'quiqqer/intranet',
                     'exception.social.google.user.not.found'
-                )
+                ),
+                404
             );
         }
 

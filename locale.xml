@@ -570,6 +570,42 @@
             ]]></en>
         </locale>
 
+
+        <!-- admin registration info mail -->
+        <locale name="mail.registration.admin.info.subject">
+            <de><![CDATA[Neue Registrierung]]></de>
+            <en><![CDATA[New registration]]></en>
+        </locale>
+        <locale name="mail.registration.admin.info.subject.social">
+            <de><![CDATA[Neue Registrierung - [social]]]></de>
+            <en><![CDATA[New registration - [social]]]></en>
+        </locale>
+        <locale name="mail.registration.admin.info.body" html="true">
+            <de><![CDATA[
+
+                <h1>Es hat sich ein neuer Benutzer angemeldet</h1>
+                <p>Benutzername: [user_name]</p>
+                <p>Benutzer-ID: [user_id]</p>
+                <p>User Agent: [user_agent]</p>
+                <p>IP: [user_ip]</p>
+
+                <h2>Herkunft</h2>
+                <pre>[geo_ip_data]</pre>
+
+                <h2>Daten</h2>
+                <pre>[data]</pre>
+
+
+            ]]></de>
+            <en><![CDATA[
+
+
+            ]]></en>
+        </locale>
+
+
+
+
         <!-- address daten -->
         <locale name="template.address.header.data">
             <de><![CDATA[Daten]]></de>

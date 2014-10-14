@@ -59,7 +59,8 @@ class Facebook implements \QUI\Intranet\Interfaces\Social
                 \QUI::getLocale()->get(
                     'quiqqer/intranet',
                     'exception.social.facebook.user.not.found'
-                )
+                ),
+                404
             );
         }
 

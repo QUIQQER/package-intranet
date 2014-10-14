@@ -152,6 +152,10 @@ class Registration extends \QUI\QDOM
             $this->sendRegistrationMail( $User );
         }
 
+        if ( $Plugin->getSettings('registration', 'sendInfoMailOnRegistrationTo') ) {
+            $this->_sendInformationRegistrationMailTo( $User );
+        }
+
         return $User;
     }
 
@@ -238,6 +242,10 @@ class Registration extends \QUI\QDOM
 
         // user via social media are directly activated
         $this->activate( $User->getId(), $User->getAttribute( 'activation' ) );
+
+        if ( $Plugin->getSettings('registration', 'sendInfoMailOnRegistrationTo') ) {
+            $this->_sendInformationRegistrationMailTo( $User );
+        }
     }
 
     /**
@@ -951,5 +959,99 @@ class Registration extends \QUI\QDOM
                 'message.send.new.password.successfully'
             )
         );
+    }
+
+    /**
+     * Sends an information mail to an admin about a registration
+     *
+     * @param \QUI\Users\User $User
+     */
+    protected function _sendInformationRegistrationMailTo(\QUI\Users\User $User)
+    {
+        $Package = \QUI::getPackageManager()->getInstalledPackage( 'quiqqer/intranet' );
+        $Config  = $Package->getConfig();
+
+        $email = $Config->get('registration', 'sendInfoMailOnRegistrationTo');
+
+        if ( !$email ) {
+            return;
+        }
+
+        if ( !Orthos::checkMailSyntax( $email ) ) {
+            return;
+        }
+
+        // mail subject
+        $subject = \QUI::getLocale()->get(
+            'quiqqer/intranet',
+            'mail.registration.admin.info.subject'
+        );
+
+        if ( $User->getAttribute('quiqqer.intranet.googleid') )
+        {
+            $subject = \QUI::getLocale()->get(
+                'quiqqer/intranet',
+                'mail.registration.admin.info.subject.social',
+                array( 'social' => 'Google SignIn' )
+            );
+        }
+
+        if ( $User->getAttribute('quiqqer.intranet.facebookid') )
+        {
+            $subject = \QUI::getLocale()->get(
+                'quiqqer/intranet',
+                'mail.registration.admin.info.subject.social',
+                array( 'social' => 'Facebook SignIn' )
+            );
+        }
+
+
+        $useragent = '';
+
+        if ( isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
+            $useragent = $_SERVER['HTTP_USER_AGENT'];
+        }
+
+        // geodaten wenn vorhanden
+        $geopIpData = "".
+                 ( isset( $_SERVER["GEOIP_COUNTRY_CODE"] ) ? $_SERVER["GEOIP_COUNTRY_CODE"] : '')." ".
+                 ( isset( $_SERVER["GEOIP_COUNTRY_NAME"] ) ? $_SERVER["GEOIP_COUNTRY_NAME"] : '').", ".
+                 ( isset( $_SERVER["GEOIP_CITY"] ) ? utf8_encode($_SERVER["GEOIP_CITY"]) : '')." (".
+                 ( isset( $_SERVER["GEOIP_LATITUDE"] ) ? $_SERVER["GEOIP_LATITUDE"] : '')." / ".
+                 ( isset( $_SERVER["GEOIP_LONGITUDE"] ) ? $_SERVER["GEOIP_LONGITUDE"] : '')." )\n";
+
+        // userdata
+        $attributes = $User->getAttributes();
+        $data       = "";
+
+        foreach ( $attributes as $key => $value )
+        {
+            if ( !is_string( $value ) ) {
+                continue;
+            }
+
+            if ( empty( $value ) ) {
+                continue;
+            }
+
+            $data .= $key .': '. $value ."\n";
+        }
+
+
+        $body = \QUI::getLocale()->get(
+            'quiqqer/intranet',
+            'mail.registration.admin.info.body',
+            array(
+                'user_name'   => $User->getName(),
+                'user_id'     => $User->getId(),
+                'user_agent'  => $useragent,
+                'user_ip'     => \QUI\Utils\System::getClientIP(),
+                'geo_ip_data' => $geopIpData,
+                'data'        => $data
+            )
+        );
+
+
+        \QUI::getMailManager()->send( $email, $subject, $body );
     }
 }

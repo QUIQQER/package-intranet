@@ -224,7 +224,7 @@ define([
         {
             var self = this;
 
-            Ajax.post('package_quiqqer_intranet_ajax_user_socialLogin', function(result)
+            Ajax.post('package_quiqqer_intranet_ajax_user_socialLogin', function(result, Request)
             {
                 if ( !result )
                 {
@@ -245,7 +245,22 @@ define([
                 token      : JSON.encode( params.token ),
                 socialType : Social.getAttribute( 'name' ),
                 project    : QUIQQER_PROJECT.name,
-                'package'  : 'quiqqer/intranet'
+                'package'  : 'quiqqer/intranet',
+                showError  : false,
+                onError    : function(Exception)
+                {
+                    if ( Exception.getCode() == 404 )
+                    {
+                        self.openRegistration();
+                        return;
+                    }
+
+                    self.Loader.hide();
+
+                    QUI.getMessageHandler(function(MH) {
+                        MH.addError( Exception.getMessage() );
+                    });
+                }
             });
         },
 
@@ -262,7 +277,7 @@ define([
             {
                 self.Loader.show();
 
-                if ( result ) {
+                if ( window.location.toString() != result ) {
                     window.location = result;
                 }
 
@@ -388,7 +403,6 @@ define([
                 'package' : 'quiqqer/intranet'
             });
         }
-
     });
 
  });
