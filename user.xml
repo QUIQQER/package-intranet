@@ -7,5 +7,7 @@
         <attribute>quiqqer.intranet.passwordForgotten.hash</attribute>
         <attribute>quiqqer.intranet.disable.hash</attribute>
         <attribute>quiqqer.intranet.disable.time</attribute>
+        <attribute>quiqqer.intranet.new.email</attribute>
+        <attribute>quiqqer.intranet.new.email.hash</attribute>
     </attributes>
 </user>

@@ -570,8 +570,11 @@
             ]]></en>
         </locale>
 
-
         <!-- admin registration info mail -->
+        <locale name="mail.registration.admin.info.MAILFromText">
+            <de><![CDATA[Neue Registrierung]]></de>
+            <en><![CDATA[New registration]]></en>
+        </locale>
         <locale name="mail.registration.admin.info.subject">
             <de><![CDATA[Neue Registrierung]]></de>
             <en><![CDATA[New registration]]></en>
@@ -595,15 +598,54 @@
                 <h2>Daten</h2>
                 <pre>[data]</pre>
 
-
             ]]></de>
             <en><![CDATA[
 
+                <h1>A new user has registered</h1>
+                <p>Username: [user_name]</p>
+                <p>User-ID: [user_id]</p>
+                <p>User Agent: [user_agent]</p>
+                <p>IP: [user_ip]</p>
+
+                <h2>Origin</h2>
+                <pre>[geo_ip_data]</pre>
+
+                <h2>Data</h2>
+                <pre>[data]</pre>
 
             ]]></en>
         </locale>
 
-
+        <!-- new mail activasion -->
+        <locale name="intranet.new.email.MAILFromText">
+            <de><![CDATA[E-Mail bestätigen]]></de>
+            <en><![CDATA[E-mail confirmation]]></en>
+        </locale>
+        <locale name="intranet.new.email.MailSubject">
+            <de><![CDATA[E-Mail bestätigen]]></de>
+            <en><![CDATA[E-mail confirmation]]></en>
+        </locale>
+        <locale name="intranet.new.email.Body" html="true">
+            <de><![CDATA[
+                <p>
+                    Sie haben die Änderung Ihrer E-Mail-Adresse angefordert.
+                    Klicken Sie bitte <a href="[activasion_link]">hier</a> oder kopieren Sie folgenden Link
+                    <br /><br />
+                    [activasion_link]
+                    <br /><br />
+                    um Ihre geänderte E-Mail-Adresse zu aktivieren.
+                </p>
+            ]]></de>
+            <en><![CDATA[
+                <p>
+                    You requested the change of your e-mail address.
+                    Please click <a href="[activasion_link]">here</a> or copy the following link to your browser to verify your changed e-mail address:
+                    <br /><br />
+                    [activasion_link]
+                    <br /><br />
+                </p>
+            ]]></en>
+        </locale>
 
 
         <!-- address daten -->
@@ -628,6 +670,14 @@
         <locale name="message.send.new.password.successfully">
             <de><![CDATA[Ihnen wurde eine E-Mail mit einem neuen Password gesendet.]]></de>
             <en><![CDATA[An e-mail with a new password has been sent to you.]]></en>
+        </locale>
+        <locale name="message.send.new.email.successfully">
+            <de><![CDATA[Sie haben Ihre E-Mail Adresse geändert. Ihnen wurde eine E-Mail mit weiteren Anweisungen gesendet.]]></de>
+            <en><![CDATA[You have changed your e-mail address. An e-mail with further instructions has been sent to you.]]></en>
+        </locale>
+        <locale name="message.new.email.successfully">
+            <de><![CDATA[Ihre E-Mail Adresse wurde erfolgreich geändert.]]></de>
+            <en><![CDATA[You have changed your e-mail address successful.]]></en>
         </locale>
 
         <!-- exceptions -->
@@ -664,10 +714,13 @@
             <de><![CDATA[Es konnte keine E-Mail versendet werden. Bitte wenden Sie sich an einen Administrator.]]></de>
             <en><![CDATA[An email could not be sent. Please contact an administrator.]]></en>
         </locale>
-
         <locale name="exception.disable.user.already.deleted">
             <de><![CDATA[Der Benutzer ist bereits gelöscht.]]></de>
             <en><![CDATA[The user is already deleted.]]></en>
+        </locale>
+        <locale name="exception.send.new.email.fail">
+            <de><![CDATA[Fehler beim Versenden der Mail. Ihre neue E-Mail Adresse konnte nicht bestätigt werden.]]></de>
+            <en><![CDATA[Error while sending mail. Your new e-mail address could not be confirmed.]]></en>
         </locale>
 
     </groups>

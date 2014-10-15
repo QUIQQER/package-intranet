@@ -38,7 +38,8 @@ class Registration extends \QUI\QDOM
 
     /**
      * Set important login data,
-     * if the user loged in via sovial media, so session authentication works
+     * if the user loged in via sovial media,
+     * session authentication must works, this method helps
      *
      * @param \QUI\Users\User $User
      */
@@ -379,6 +380,112 @@ class Registration extends \QUI\QDOM
 
         // disable event
         \QUI::getEvents()->fireEvent( 'registrationUserDisabled', array( $this ) );
+    }
+
+    /**
+     * Change the E-Mail from an user
+     * The user get a mail for the mail confirmation if the new mail is different as the current
+     *
+     * @param \QUI\Users\User $User - User
+     * @param String $email - new mail
+     */
+    public function changeMailFromUser($User, $email)
+    {
+        if ( $email == $User->getAttribute('email') ) {
+            return;
+        }
+
+        if ( !Orthos::checkMailSyntax( $email ) )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/system',
+                    'exception.not.correct.email'
+                )
+            );
+        }
+
+        // check if the new mail exists in the system
+        if ( \QUI::getUsers()->existEmail( $email ) )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/system',
+                    'exception.user.register.email.exists'
+                )
+            );
+        }
+
+
+        // if the quiqqer.intranet.new.email is the same,
+        // we only send a new activasion and dont set a new hash
+        $newMail  = $User->getAttribute( 'quiqqer.intranet.new.email' );
+        $mailhash = $User->getAttribute( 'quiqqer.intranet.new.email.hash' );
+
+
+        if ( empty( $newMail ) || empty( $mailhash ) || $newMail != $email )
+        {
+            $hash = Orthos::getPassword();
+
+            $User->setAttribute( 'quiqqer.intranet.new.email' , $email );
+            $User->setAttribute( 'quiqqer.intranet.new.email.hash' , $hash );
+            $User->save();
+        }
+
+        $this->_sendNewEMailActivasion( $User );
+    }
+
+    /**
+     * Set the new email for the user
+     *
+     * @param {String|Integer} $user - username, user-id
+     * @param {String} $hash - hash to activate the new mail
+     */
+    public function setNewEmail($user, $hash)
+    {
+        $User = $this->_getUser( $user );
+
+        $newMail  = $User->getAttribute( 'quiqqer.intranet.new.email' );
+        $mailHash = $User->getAttribute( 'quiqqer.intranet.new.email.hash' );
+
+
+        if ( !$newMail || !Orthos::checkMailSyntax( $newMail ) )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/intranet',
+                    'exception.wrong.hash'
+                )
+            );
+        }
+
+        // check if the new mail exists in the system
+        if ( \QUI::getUsers()->existEmail( $newMail ) )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/system',
+                    'exception.user.register.email.exists'
+                )
+            );
+        }
+
+
+        if ( $mailHash != $hash )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/intranet',
+                    'exception.wrong.hash'
+                )
+            );
+        }
+
+        $User->setAttribute( 'email', $newMail );
+        $User->removeAttribute( 'quiqqer.intranet.new.email' );
+        $User->removeAttribute( 'quiqqer.intranet.new.email.hash' );
+
+        $User->save( \QUI::getUsers()->getSystemUser() );
     }
 
     /**
@@ -918,7 +1025,6 @@ class Registration extends \QUI\QDOM
             )
         );
 
-        \QUI\System\Log::write( 'sendNewPasswordMail' );
 
         // send mail
         $Mail = new \QUI\Mail\Mailer();
@@ -1054,4 +1160,114 @@ class Registration extends \QUI\QDOM
 
         \QUI::getMailManager()->send( $email, $subject, $body );
     }
+
+    /**
+     * Send the user an email activasion for its new email
+     *
+     * @param \QUI\Users\User $User
+     */
+    protected function _sendNewEMailActivasion(\QUI\Users\User $User)
+    {
+        $Project = $this->_getProject();
+        $RegSite = $this->_getRegSite();
+
+        $Users   = \QUI::getUsers();
+        $Engine  = \QUI::getTemplateManager()->getEngine();
+
+
+        $emailHash = $User->getAttribute( 'quiqqer.intranet.new.email.hash' );
+        $newEmail  = $User->getAttribute( 'quiqqer.intranet.new.email' );
+
+        // create mail
+        $MAILFromText = '';
+        $MailSubject  = '';
+        $project      = $Project->getName();
+
+        // schauen ob es übersetzungen dafür gibt
+        if ( \QUI::getLocale()->exists('project/'. $project, 'intranet.new.email.MAILFromText') )
+        {
+            $MAILFromText = \QUI::getLocale()->get(
+                'project/'. $project,
+                'intranet.new.email.MAILFromText'
+            );
+
+        } else
+        {
+            $MAILFromText = \QUI::getLocale()->get(
+                'quiqqer/intranet',
+                'intranet.new.email.MAILFromText'
+            );
+        }
+
+
+        if ( \QUI::getLocale()->exists('project/'. $project, 'intranet.new.email.MailSubject') )
+        {
+            $MailSubject = \QUI::getLocale()->get(
+                'project/'. $project,
+                'intranet.new.email.MailSubject'
+            );
+
+        } else
+        {
+            $MailSubject = \QUI::getLocale()->get(
+                'quiqqer/intranet',
+                'intranet.new.email.MailSubject'
+            );
+        }
+
+
+        $activasion_link = $Project->getVHost( true ) . $RegSite->getUrl(array(
+            'uid'  => $User->getId(),
+            'hash' => $emailHash,
+            'type' => 'newMail'
+        ), true);
+
+
+        $MailBody = \QUI::getLocale()->get(
+            'quiqqer/intranet',
+            'intranet.new.email.Body',
+            array(
+                'username' => $User->getName(),
+                'uid'      => $User->getId(),
+                'hash'     => $emailHash,
+                'activasion_link' => $activasion_link
+            )
+        );
+
+
+        // send mail
+        $Mail = new \QUI\Mail\Mailer();
+
+        $Mail->setProject( $this->_getProject() );
+        $Mail->setSubject( $MailSubject );
+        $Mail->setFromName( $MAILFromText );
+        $Mail->addRecipient( $newEmail );
+        $Mail->setBody( $MailBody );
+
+        $Mail->Template->setAttributes(array(
+            'Project' => $Project,
+            'Site'    => $RegSite,
+            'User'    => $User,
+            'hash'    => $emailHash
+        ));
+
+        if ( !$Mail->send() )
+        {
+            throw new \QUI\Exception(
+                \QUI::getLocale()->get(
+                    'quiqqer/intranet',
+                    'exception.send.new.email.fail'
+                )
+            );
+        }
+
+
+        \QUI::getMessagesHandler()->addSuccess(
+            \QUI::getLocale()->get(
+                'quiqqer/intranet',
+                'message.send.new.email.successfully'
+            )
+        );
+    }
 }
+

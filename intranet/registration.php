@@ -67,6 +67,37 @@ if ( isset( $_REQUEST['uid'] ) &&
 }
 
 /**
+ * Activate new E-Mail
+ */
+
+if ( isset( $_REQUEST['uid'] ) &&
+     isset( $_REQUEST['hash'] ) &&
+     isset( $_REQUEST['type'] ) &&
+     $_REQUEST['type'] == 'newMail' )
+{
+    try
+    {
+        $Registration->setNewEmail( $_REQUEST['uid'], $_REQUEST['hash'] );
+
+        $Engine->assign(
+            'INTRANET_SUCCESS_MESSAGE',
+            \QUI::getLocale()->get(
+                'quiqqer/intranet',
+                'message.new.email.successfully'
+            )
+        );
+
+    } catch ( \QUI\Exception $Exception )
+    {
+        $Engine->assign(
+            'INTRANET_ERROR_MESSAGE',
+            $Exception->getMessage()
+        );
+    }
+}
+
+
+/**
  * Disable account
  */
 

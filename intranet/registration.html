@@ -13,6 +13,14 @@
         </div>
     </section>
 
+{else if isset( $INTRANET_SUCCESS_MESSAGE )}
+
+    <section class="content-body grid-100 mobile-grid-100">
+        <div class="registration-message-disabled">
+            {$INTRANET_SUCCESS_MESSAGE}
+        </div>
+    </section>
+
 {else}
 
     {if $Template->getAttribute('content-header')}
@@ -35,12 +43,9 @@
     </section>
     {/if}
 
-    {if isset( $INTRANET_SUCCESS_MESSAGE )}
-
-        {$INTRANET_SUCCESS_MESSAGE}
-
-    {else if isset( $INTRANET_ERROR_MESSAGE )}
+    {if isset( $INTRANET_ERROR_MESSAGE )}
         {$INTRANET_ERROR_MESSAGE}
+
     {else}
 
         {if isset( $INTRANET_REGISTRATION_ERROR_MESSAGE )}
@@ -50,5 +55,4 @@
         {control control="\QUI\Intranet\Controls\Registration"}
 
     {/if}
-
 {/if}
