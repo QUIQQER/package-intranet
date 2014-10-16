@@ -42,7 +42,6 @@ define([
             this.parent( options );
 
             this.addEvents({
-                onOpen   : this.$onOpen,
                 onSubmit : this.logout
             });
         },
