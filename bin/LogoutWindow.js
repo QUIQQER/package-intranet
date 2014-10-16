@@ -23,8 +23,7 @@ define([
         Type    : 'package/quiqqer/intranet/bin/LogoutWindow',
 
         Binds : [
-            'logout',
-            '$onOpen'
+            'logout'
         ],
 
         options : {
