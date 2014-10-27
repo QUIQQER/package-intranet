@@ -48,7 +48,13 @@ define([
         $onOpen : function()
         {
             var Content = this.getContent();
-                Content.set( 'html', '' );
+
+            Content.set({
+                html   : '',
+                styles : {
+                    padding : 0
+                }
+            });
 
             new Login({
                 events :

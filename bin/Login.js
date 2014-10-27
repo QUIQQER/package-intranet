@@ -375,6 +375,8 @@ define([
                     }
                 }
             }).inject( this.$Elm ).show();
+
+            console.log( this.$Elm );
         },
 
         /**
