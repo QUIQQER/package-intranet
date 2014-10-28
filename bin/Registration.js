@@ -24,13 +24,16 @@ define([
 {
     "use strict";
 
+    var lg = 'quiqqer/intranet';
+
     return new Class({
 
         Extends : QUIControl,
         Type    : 'package/quiqqer/intranet/bin/Registration',
 
         Binds : [
-            '$onImport'
+            '$onImport',
+            '$onMailInputBlur'
         ],
 
         initialize : function(options)
@@ -132,9 +135,13 @@ define([
             SecField.bindInput( this.$Pass1 );
 
             // form submit
-            Elm.getElements( 'form' ).addEvent('submit', function(event) {
+            Elm.getElements( 'form' ).addEvent('submit', function(event)
+            {
                 event.stop();
+                self.submit();
             });
+
+            this.$Mail1.addEvent( 'blur', this.$onMailInputBlur );
 
             // qui parsing
             QUI.parse(Elm, function()
@@ -173,10 +180,12 @@ define([
                 QUI.getMessageHandler(function(MH)
                 {
                     MH.addAttention(
-                        Locale.get( 'quiqqer/intranet', 'message.error.email.empty' ),
+                        Locale.get( lg, 'exception.error.email.empty' ),
                         self.$Mail1
                     );
                 });
+
+                this.$Mail1.focus();
 
                 return;
             }
@@ -186,10 +195,12 @@ define([
                 QUI.getMessageHandler(function(MH)
                 {
                     MH.addAttention(
-                        Locale.get( 'quiqqer/intranet', 'message.error.password.empty' ),
+                        Locale.get( lg, 'exception.error.password.empty' ),
                         self.$Pass1
                     );
                 });
+
+                this.$Pass1.focus();
 
                 return;
             }
@@ -199,10 +210,12 @@ define([
                 QUI.getMessageHandler(function(MH)
                 {
                     MH.addAttention(
-                        Locale.get( 'quiqqer/intranet', 'message.error.emails.unequal' ),
+                        Locale.get( lg, 'exception.error.emails.unequal' ),
                         self.$Mail2
                     );
                 });
+
+                this.$Mail2.focus();
 
                 return;
             }
@@ -212,10 +225,12 @@ define([
                 QUI.getMessageHandler(function(MH)
                 {
                     MH.addAttention(
-                        Locale.get( 'quiqqer/intranet', 'message.error.passwords.unequal' ),
+                        Locale.get( lg, 'exception.error.passwords.unequal' ),
                         self.$Pass2
                     );
                 });
+
+                this.$Pass2.focus();
 
                 return;
             }
@@ -228,6 +243,31 @@ define([
 
                 }
             );
+        },
+
+        /**
+         * event : on email input blur
+         */
+        $onMailInputBlur : function()
+        {
+            var self = this;
+
+            this.isUsernameAvailable( this.$Mail1.value, function(result)
+            {
+                if ( result ) {
+                    return;
+                }
+
+                QUI.getMessageHandler(function(MH)
+                {
+                    MH.addAttention(
+                        Locale.get( lg, 'exception.mail.not.available' ),
+                        self.$Mail1
+                    );
+
+                    self.$Mail1.focus();
+                });
+            });
         },
 
         /**
@@ -253,7 +293,7 @@ define([
                     QUI.getMessageHandler(function(MH)
                     {
                         MH.addAttention(
-                            Locale.get( 'quiqqer/intranet', 'message.error.user.not.allowed' ),
+                            Locale.get( lg, 'message.error.user.not.allowed' ),
                             self.$Pass2
                         );
                     });
@@ -394,6 +434,40 @@ define([
             }
 
             return false;
+        },
+
+        /**
+         * Check the e-mail and username, if is the str usable as an username
+         *
+         * @param {String} str - string to test
+         * @param {Function} callback - Callback function -> callback( true || false )
+         */
+        isUsernameAvailable : function(str, callback)
+        {
+            if ( str === '' )
+            {
+                callback( false );
+                return;
+            }
+
+            Ajax.get([
+                'package_quiqqer_intranet_ajax_user_existsUsername',
+                'package_quiqqer_intranet_ajax_user_existsMail'
+            ], function(usernameExists, mailExists)
+            {
+                if ( usernameExists || mailExists  )
+                {
+                    callback( false );
+                    return;
+                }
+
+                callback( true );
+
+            }, {
+                username  : str,
+                email     : str,
+                'package' : 'quiqqer/intranet'
+            });
         }
     });
 

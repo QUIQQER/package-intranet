@@ -309,6 +309,35 @@
             <de><![CDATA[Ihre Passwörter stimmen nicht überein.]]></de>
             <en><![CDATA[Your passwords do not match.]]></en>
         </locale>
+
+        <locale name="exception.mail.not.available" html="true">
+            <de><![CDATA[
+                Diese E-Mail Adresse ist als Benutzername nicht vefügbar.<br />
+                Bitte benutzen sie eine andere E-Mail Adresse.
+            ]]></de>
+            <en><![CDATA[
+                This e-mail address is unavailable as an username. <br />
+                Please use a different email address.
+            ]]></en>
+        </locale>
+
+        <locale name="exception.error.email.empty" html="true">
+            <de><![CDATA[Bitte benutzen sie eine E-Mail Adresse.]]></de>
+            <en><![CDATA[Please use a email address.]]></en>
+        </locale>
+        <locale name="exception.error.password.empty" html="true">
+            <de><![CDATA[Bitte benutzen sie ein Passwort.]]></de>
+            <en><![CDATA[Please use a password.]]></en>
+        </locale>
+        <locale name="exception.error.emails.unequal" html="true">
+            <de><![CDATA[Ihre angegebenen E-Mail-Adressen stimmen leider nicht überein.]]></de>
+            <en><![CDATA[Unfortunately your specified e-mail addresses do not match.]]></en>
+        </locale>
+        <locale name="exception.error.passwords.unequal" html="true">
+            <de><![CDATA[Ihre angegebenen Passwörter stimmen leider nicht überein.]]></de>
+            <en><![CDATA[Unfortunately your specified passwords do not match.]]></en>
+        </locale>
+
     </groups>
 
 

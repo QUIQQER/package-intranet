@@ -1,6 +1,6 @@
 
 /**
- * Intranet Loading
+ * Intranet Loading - page onload event
  *
  * @module package/quiqqer/intranet/bin/page/Load
  * @author www.pcsg.de (Henning Leutz)
