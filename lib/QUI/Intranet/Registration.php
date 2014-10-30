@@ -22,6 +22,7 @@ use QUI\Utils\Security\Orthos as Orthos;
  *
  * @event onRegistrationUserDisable [ $this ]  -> user starts account deletion
  * @event onRegistrationUserDisabled [ $this ] -> User is deleted / disabled
+ * @event onRegistrationUserActivate [ $this ] -> User activate itself
  */
 
 class Registration extends QUI\QDOM
@@ -322,6 +323,8 @@ class Registration extends QUI\QDOM
 
         $User->activate( $code );
         $this->sendActivasionSuccessMail( $User );
+
+        QUI::getEvents()->fireEvent( 'registrationUserActivate', array( $this ) );
 
         return $User;
     }

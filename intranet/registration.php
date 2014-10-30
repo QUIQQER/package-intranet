@@ -19,6 +19,10 @@ if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['uid'] ) )
     {
         $Registration->activate( $_REQUEST['uid'], $_REQUEST['code'] );
 
+        // login
+        \QUI::getSession()->set( 'uid', $User->getId() );
+        \QUI::getSession()->set( 'auth', 1 );
+
         $Engine->assign(
             'INTRANET_SUCCESS_MESSAGE',
             \QUI::getLocale()->get(
@@ -29,6 +33,8 @@ if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['uid'] ) )
 
     } catch ( \QUI\Exception $Exception )
     {
+        \QUI::getEvents()->fireEvent( 'registrationUserActivate', array( $this ) );
+
         $Engine->assign(
             'INTRANET_ERROR_MESSAGE',
             $Exception->getMessage()
