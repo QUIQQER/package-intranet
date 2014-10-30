@@ -13,11 +13,11 @@ $Registration = new \QUI\Intranet\Registration(array(
 /**
  * activation
  */
-if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['nickname'] ) )
+if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['uid'] ) )
 {
     try
     {
-        $Registration->activate( $_REQUEST['nickname'], $_REQUEST['code'] );
+        $Registration->activate( $_REQUEST['uid'], $_REQUEST['code'] );
 
         $Engine->assign(
             'INTRANET_SUCCESS_MESSAGE',
