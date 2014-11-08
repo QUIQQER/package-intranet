@@ -690,6 +690,57 @@ define([
 
                 QUIFormUtils.setDataToForm( address, Form );
 
+                // anrede firma
+                var InputCompany     = self.$Content.getElement( '[name="company"]' ),
+                    SelectSalutation = self.$Content.getElement( '[name="salutation"]' );
+
+                SelectSalutation.addEvents({
+                    change : function()
+                    {
+                        var Table = InputCompany.getParent('table'),
+                            TR    = InputCompany.getParent('tr');
+
+                        if ( this.value == 'company' )
+                        {
+                            TR.setStyle( 'display', null );
+                        } else
+                        {
+                            TR.setStyle( 'display', 'none' );
+                        }
+
+                        // table even / odd
+                        var i, len, Row;
+
+                        var list  = Table.getElements( 'tbody tr' ),
+                            count = 0;
+
+                        list.removeClass( 'even' ).removeClass( 'odd' );
+
+                        for ( i = 0, len = list.length; i < len; i++ )
+                        {
+                            Row = list[ i ];
+
+                            if ( Row.getStyle( 'display' ) == 'none' ) {
+                                continue;
+                            }
+
+                            count++;
+
+                            if ( count % 2 )
+                            {
+                                Row.addClass( 'odd' );
+                                continue;
+                            }
+
+                            Row.addClass( 'even' );
+                        }
+                    }
+                });
+
+                if ( address.company ) {
+                    SelectSalutation.fireEvent( 'change' );
+                }
+
 
                 new QUIButton({
                     text      : Locale.get( lg, 'address.manager.create.sheet.button.edit' ),
