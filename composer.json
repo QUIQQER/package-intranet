@@ -18,7 +18,7 @@
 
     "require": {
         "quiqqer/quiqqer" : "*@dev",
-        "google/apiclient": "1.0.6-beta",
+        "google/apiclient": "1.0.x@beta",
         "facebook/php-sdk": "3.*"
     },
 
