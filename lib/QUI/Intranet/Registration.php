@@ -324,7 +324,7 @@ class Registration extends QUI\QDOM
         $User->activate( $code );
         $this->sendActivasionSuccessMail( $User );
 
-        QUI::getEvents()->fireEvent( 'registrationUserActivate', array( $this ) );
+        QUI::getEvents()->fireEvent( 'registrationUserActivate', array( $this, $User ) );
 
         return $User;
     }
