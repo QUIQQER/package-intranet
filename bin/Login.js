@@ -224,7 +224,7 @@ define([
         {
             var self = this;
 
-            Ajax.post('package_quiqqer_intranet_ajax_user_socialLogin', function(result, Request)
+            Ajax.post('package_quiqqer_intranet_ajax_user_socialLogin', function(result)
             {
                 if ( !result )
                 {
