@@ -20,10 +20,12 @@ if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['uid'] ) )
         $Registration->activate( $_REQUEST['uid'], $_REQUEST['code'] );
 
         // login
-        \QUI::getSession()->set( 'uid', $User->getId() );
+        \QUI::getSession()->set( 'uid', $_REQUEST['uid'] );
         \QUI::getSession()->set( 'auth', 1 );
 
-        \QUI::getEvents()->fireEvent( 'registrationUserActivate', array( $this ) );
+        $Registration->setLoginData(
+            \QUI::getUsers()->get( $_REQUEST['uid'] )
+        );
 
         $Engine->assign(
             'INTRANET_SUCCESS_MESSAGE',
