@@ -37,6 +37,11 @@
             <section name="registration">
                 <conf name="userActivasion">
                     <type><![CDATA[bool]]></type>
+                    <defaultvalue>1</defaultvalue>
+                </conf>
+                <conf name="autoLoginOnActivasion">
+                    <type><![CDATA[bool]]></type>
+                    <defaultvalue>1</defaultvalue>
                 </conf>
                 <conf name="standardGroups">
                     <type><![CDATA[string]]></type>
@@ -135,6 +140,13 @@
                             <description>
                                 Wenn diese Option nicht aktiv ist, können sich nur <u>nicht</u> eingeloggte Benutzer registrieren.<br />
                                 Eingeloggte Benutzer haben sich schon registriert und benötigen keine Registrierung.
+                            </description>
+                        </input>
+
+                        <input conf="registration.autoLoginOnActivasion" type="checkbox">
+                            <text>Benutzer bei Aktivierung automatisch einloggen</text>
+                            <description>
+                                Wenn diese Option aktiv ist, werden Benutzer automatisch bei Klick auf den Aktivierungslink eingeloggt.
                             </description>
                         </input>
 

@@ -324,13 +324,19 @@ class Registration extends QUI\QDOM
         $User->activate( $code );
         $this->sendActivasionSuccessMail( $User );
 
-        // login
-        \QUI::getSession()->set( 'uid', $User->getId() );
-        \QUI::getSession()->set( 'auth', 1 );
+        $Package   = QUI::getPackageManager()->getInstalledPackage( 'quiqqer/intranet' );
+        $autoLogin = $Package->getConfig()->get( 'registration', 'autoLoginOnActivasion' );
 
-        $this->setLoginData(
-            \QUI::getUsers()->get( $User->getId() )
-        );
+        if ( $autoLogin )
+        {
+            // login
+            \QUI::getSession()->set( 'uid', $User->getId() );
+            \QUI::getSession()->set( 'auth', 1 );
+
+            $this->setLoginData(
+                \QUI::getUsers()->get( $User->getId() )
+            );
+        }
 
         QUI::getEvents()->fireEvent( 'registrationUserActivate', array( $this, $User ) );
 
