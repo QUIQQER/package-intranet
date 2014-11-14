@@ -51,7 +51,8 @@ define([
         ],
 
         options : {
-            header : true // show the header
+            header       : true, // show the header
+            activeButton : false
         },
 
         initialize : function(options)
@@ -368,6 +369,8 @@ define([
 
                 self.refresh(function()
                 {
+                    var activeButton = self.getAttribute('activeButton' );
+
                     // fist available button
                     for ( var i in self.$buttons )
                     {
@@ -375,9 +378,20 @@ define([
                             continue;
                         }
 
-                        self.$buttons[ i ].click()
-                        break;
+                        if ( !activeButton )
+                        {
+                            self.$buttons[ i ].click()
+                            return;
+                        }
+
+                        if ( activeButton == self.$buttons[ i ].getAttribute( 'name' ) )
+                        {
+                            self.$buttons[ i ].click();
+                            return;
+                        }
                     }
+
+                    self.$buttons[ i ].click();
                 });
             }, {
                 'package' : 'quiqqer/intranet'

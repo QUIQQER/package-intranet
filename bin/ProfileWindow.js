@@ -31,7 +31,8 @@ define([
             title     : 'Profil',
             maxWidth  : 1200,
             maxHeight : 650,
-            buttons   : false
+            buttons   : false,
+            activeButton : false
         },
 
         initialize : function(options)
@@ -74,7 +75,8 @@ define([
             });
 
             this.$Profile = new Profile({
-                header : false,
+                header       : false,
+                activeButton : this.getAttribute( 'activeButton' ),
                 events :
                 {
                     onProfileDelete : function() {
