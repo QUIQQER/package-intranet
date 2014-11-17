@@ -32,7 +32,8 @@ define([
             maxWidth  : 1200,
             maxHeight : 650,
             buttons   : false,
-            activeButton : false
+            activeButton : false,
+            backgroundClosable : false
         },
 
         initialize : function(options)
