@@ -8,6 +8,7 @@ namespace QUI\Intranet;
 
 use QUI;
 use QUI\Utils\Security\Orthos as Orthos;
+use QUI\Users\User;
 
 /**
  * QUIQQER Registration
@@ -45,7 +46,7 @@ class Registration extends QUI\QDOM
      *
      * @param QUI\Users\User $User
      */
-    public function setLoginData(QUI\Users\User $User)
+    public function setLoginData(User $User)
     {
         $useragent = '';
 
@@ -66,11 +67,13 @@ class Registration extends QUI\QDOM
     /**
      * Register a user over $data params
      *
-     * $data['nickname']
-     * $data['email']
-     * $data['password']
-     * $data['password2']
-     * $data['agbs']
+     * @param array $data - $data['nickname']
+     *                      $data['email']
+     *                      $data['password']
+     *                      $data['password2']
+     *                      $data['agbs']
+     * @return User
+     * @throws QUI\Exception
      */
     public function register($data)
     {
@@ -167,6 +170,7 @@ class Registration extends QUI\QDOM
      *
      * @param String $socialType - Social media name
      * @param Array $socialData - Social media data
+     * @return User
      * @throws QUI\Exception
      */
     public function socialRegister($socialType, $socialData)
@@ -214,7 +218,6 @@ class Registration extends QUI\QDOM
             );
         }
 
-
         // user creation
         $Plugin   = QUI::getPluginManager()->get( 'quiqqer/intranet' );
         $groupids = $Plugin->getSettings('registration', 'standardGroups');
@@ -236,19 +239,21 @@ class Registration extends QUI\QDOM
             'lang'      => $userLang
         ));
 
-        // social media, user is directly loged in
-        QUI::getSession()->set( 'uid', $User->getId() );
-        QUI::getSession()->set( 'auth', 1 );
-
         // social media data
         $Social->onRegistration( $User, $token );
 
         // user via social media are directly activated
         $this->activate( $User->getId(), $User->getAttribute( 'activation' ) );
 
+        // social media, user is directly loged in
+        QUI::getSession()->set( 'uid', $User->getId() );
+        QUI::getSession()->set( 'auth', 1 );
+
         if ( $Plugin->getSettings('registration', 'sendInfoMailOnRegistrationTo') ) {
             $this->_sendInformationRegistrationMailTo( $User );
         }
+
+        return $User;
     }
 
     /**
@@ -262,11 +267,11 @@ class Registration extends QUI\QDOM
     public function getSocial($socialType)
     {
         if ( $socialType == 'google' ) {
-            return new QUI\Intranet\Social\Google();
+            return new Social\Google();
         }
 
         if ( $socialType == 'facebook' ) {
-            return new QUI\Intranet\Social\Facebook();
+            return new Social\Facebook();
         }
 
         throw new QUI\Exception(
@@ -282,6 +287,8 @@ class Registration extends QUI\QDOM
      *
      * @param Integer|String $uid - use-id or username
      * @param String $code
+     * @return User
+     * @throws QUI\Exception
      */
     public function activate($uid, $code)
     {
@@ -306,7 +313,6 @@ class Registration extends QUI\QDOM
                 )
             );
         }
-
 
         $Users = QUI::getUsers();
 
@@ -347,7 +353,8 @@ class Registration extends QUI\QDOM
      * Disable the user
      *
      * @param Integer|String $user
-     * @param unknown $code
+     * @param string $disableHash
+     * @throws QUI\Exception
      */
     public function disable($user, $disableHash)
     {
@@ -369,10 +376,6 @@ class Registration extends QUI\QDOM
         $hashLifetime = $Package->getConfig()->get( 'disable', 'hashLifetime' );
         $hash         = $User->getAttribute( 'quiqqer.intranet.disable.hash' );
         $hashTime     = $User->getAttribute( 'quiqqer.intranet.disable.time' );
-
-        if ( !isset( $Site ) || !$Site ) {
-            $Site = $this->_getRegSite();
-        }
 
         if ( $hashTime < time() - $hashLifetime  )
         {
@@ -406,6 +409,7 @@ class Registration extends QUI\QDOM
      *
      * @param QUI\Users\User $User - User
      * @param String $email - new mail
+     * @throws QUI\Exception
      */
     public function changeMailFromUser($User, $email)
     {
@@ -424,7 +428,7 @@ class Registration extends QUI\QDOM
         }
 
         // check if the new mail exists in the system
-        if ( QUI::getUsers()->existEmail( $email ) )
+        if ( QUI::getUsers()->emailExists( $email ) )
         {
             throw new QUI\Exception(
                 QUI::getLocale()->get(
@@ -458,6 +462,7 @@ class Registration extends QUI\QDOM
      *
      * @param {String|Integer} $user - username, user-id
      * @param {String} $hash - hash to activate the new mail
+     * @throws QUI\Exception
      */
     public function setNewEmail($user, $hash)
     {
@@ -478,7 +483,7 @@ class Registration extends QUI\QDOM
         }
 
         // check if the new mail exists in the system
-        if ( QUI::getUsers()->existEmail( $newMail ) )
+        if ( QUI::getUsers()->emailExists( $newMail ) )
         {
             throw new QUI\Exception(
                 QUI::getLocale()->get(
@@ -559,16 +564,17 @@ class Registration extends QUI\QDOM
      *
      * @param String|Integer $user
      * @return QUI\Users\User
+     * @throws QUI\Exception
      */
     protected function _getUser($user)
     {
         $Users = QUI::getUsers();
 
-        if ( $Users->existsUsername( $user ) )  {
+        if ( $Users->usernameExists( $user ) )  {
             return $Users->getUserByName( $user );
         }
 
-        if ( $Users->existEmail( $user ) ) {
+        if ( $Users->emailExists( $user ) ) {
             return $Users->getUserByMail( $user );
         }
 
@@ -593,9 +599,10 @@ class Registration extends QUI\QDOM
      * Send a registration mail to the user
      *
      * @param QUI\Users\User $User
-     * @param QUI\Projects\Site $Site - [optional]
+     * @param QUI\Projects\Site|bool $Site - (optional)
+     * @throws QUI\Exception
      */
-    public function sendRegistrationMail(QUI\Users\User $User, $Site=false)
+    public function sendRegistrationMail(User $User, $Site=false)
     {
         $Project = $this->_getProject();
         $Locale  = QUI::getLocale();
@@ -611,9 +618,6 @@ class Registration extends QUI\QDOM
         $reg_url .= 'code='. $User->getAttribute('activation') .'&';
         $reg_url .= 'uid='. $User->getId();
 
-
-        $MAILFromText = '';
-        $MailSubject  = '';
 
         if ( $Locale->exists( 'project/'. $project, 'intranet.registration.MAILFromText' ) )
         {
@@ -661,12 +665,12 @@ class Registration extends QUI\QDOM
      * Send an activasion success mail
      *
      * @param QUI\Users\User $User
-     * @param QUI\Projects\Site $Site - [optional]
+     * @param QUI\Projects\Site|bool $Site - (optional)
+     * @throws QUI\Exception
      */
-    public function sendActivasionSuccessMail(QUI\Users\User $User, $Site=false)
+    public function sendActivasionSuccessMail(User $User, $Site=false)
     {
         $Project = $this->_getProject();
-        $Locale  = QUI::getLocale();
         $Engine  = QUI::getTemplateManager()->getEngine();
 
         if ( !isset( $Site ) || !$Site ) {
@@ -684,9 +688,6 @@ class Registration extends QUI\QDOM
 
 
         // Mail vars
-        $MAILFromText = '';
-        $MailSubject  = '';
-
         $Locale  = QUI::getLocale();
         $project = $Project->getAttribute('name');
 
@@ -739,12 +740,12 @@ class Registration extends QUI\QDOM
      * it starts the disable process
      *
      * @param QUI\Users\User $User
-     * @param QUI\Projects\Site $Site - [optional]
+     * @param QUI\Projects\Site|bool $Site - (optional)
+     * @throws QUI\Exception
      */
-    public function sendDisableMail(QUI\Users\User $User, $Site=false)
+    public function sendDisableMail(User $User, $Site=false)
     {
         $Project = $this->_getProject();
-        $Locale  = QUI::getLocale();
         $Engine  = QUI::getTemplateManager()->getEngine();
         $Package = QUI::getPackageManager()->getInstalledPackage( 'quiqqer/intranet' );
 
@@ -789,9 +790,6 @@ class Registration extends QUI\QDOM
 
 
         // Mail vars
-        $MAILFromText = '';
-        $MailSubject  = '';
-
         $Locale  = QUI::getLocale();
         $project = $Project->getAttribute('name');
 
@@ -846,14 +844,13 @@ class Registration extends QUI\QDOM
      * Sends a password forgotten Mail
      *
      * @param Integer|String $user
-     * @param QUI\Projects\Project $Project
+     * @throws QUI\Exception
      */
     public function sendPasswordForgottenMail($user)
     {
         $Project = $this->_getProject();
         $User    = $this->_getUser( $user );
         $Users   = QUI::getUsers();
-        $Engine  = QUI::getTemplateManager()->getEngine();
 
         if ( !$Users->isUser($User) )
         {
@@ -883,9 +880,7 @@ class Registration extends QUI\QDOM
         /**
          * create mail
          */
-        $MAILFromText = '';
-        $MailSubject  = '';
-        $project      = $Project->getName();
+        $project = $Project->getName();
 
         // schauen ob es übersetzungen dafür gibt
         if ( QUI::getLocale()->exists('project/'. $project, 'intranet.forgotten.password.MAILFromText') )
@@ -966,16 +961,14 @@ class Registration extends QUI\QDOM
      *
      * @param String $user - User E-Mail, User-Id, Username
      * @param String $hash - User password hash
+     * @throws QUI\Exception
      */
     public function sendNewPasswordMail($user, $hash)
     {
         $Project = $this->_getProject();
         $User    = $this->_getUser( $user );
         $RegSite = $this->_getRegSite();
-
         $Users   = QUI::getUsers();
-        $Engine  = QUI::getTemplateManager()->getEngine();
-
 
         // Hash Abfrage
         $userHash = $User->getAttribute( 'quiqqer.intranet.passwordForgotten.hash' );
@@ -997,9 +990,7 @@ class Registration extends QUI\QDOM
         $User->save( $Users->getSystemUser() );
 
         // create mail
-        $MAILFromText = '';
-        $MailSubject  = '';
-        $project      = $Project->getName();
+        $project = $Project->getName();
 
         // schauen ob es übersetzungen dafür gibt
         if ( QUI::getLocale()->exists('project/'. $project, 'intranet.new.password.MAILFromText') )
@@ -1090,7 +1081,7 @@ class Registration extends QUI\QDOM
      *
      * @param QUI\Users\User $User
      */
-    protected function _sendInformationRegistrationMailTo(QUI\Users\User $User)
+    protected function _sendInformationRegistrationMailTo(User $User)
     {
         $Package = QUI::getPackageManager()->getInstalledPackage( 'quiqqer/intranet' );
         $Config  = $Package->getConfig();
@@ -1183,23 +1174,18 @@ class Registration extends QUI\QDOM
      * Send the user an email activasion for its new email
      *
      * @param QUI\Users\User $User
+     * @throws QUI\Exception
      */
-    protected function _sendNewEMailActivasion(QUI\Users\User $User)
+    protected function _sendNewEMailActivasion(User $User)
     {
         $Project = $this->_getProject();
         $RegSite = $this->_getRegSite();
-
-        $Users   = QUI::getUsers();
-        $Engine  = QUI::getTemplateManager()->getEngine();
-
 
         $emailHash = $User->getAttribute( 'quiqqer.intranet.new.email.hash' );
         $newEmail  = $User->getAttribute( 'quiqqer.intranet.new.email' );
 
         // create mail
-        $MAILFromText = '';
-        $MailSubject  = '';
-        $project      = $Project->getName();
+        $project = $Project->getName();
 
         // schauen ob es übersetzungen dafür gibt
         if ( QUI::getLocale()->exists('project/'. $project, 'intranet.new.email.MAILFromText') )

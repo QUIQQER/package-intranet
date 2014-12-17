@@ -7,6 +7,8 @@
 /**
  * Return true | false if the user registered with social media
  *
+ * @param String $email - mail | username
+ * @param string $socialType - social media
  * @return Bool
  */
 
@@ -15,11 +17,11 @@ function package_quiqqer_intranet_ajax_user_hasSocialAccess($email, $socialType)
     $Users = \QUI::getUsers();
 
     // falls es den benutzer schon gibt
-    if ( $Users->existsUsername( $email ) )
+    if ( $Users->usernameExists( $email ) )
     {
         $User = $Users->getUserByName( $email );
 
-    } else if ( $Users->existEmail( $email ) )
+    } else if ( $Users->emailExists( $email ) )
     {
         $User = $Users->getUserByMail( $email );
 

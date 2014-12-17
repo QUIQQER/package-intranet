@@ -9,7 +9,7 @@
  * @event onLogedIn [ {self}, {object} user data ]
  */
 
-define([
+define('package/quiqqer/intranet/bin/Login', [
 
     'qui/QUI',
     'qui/controls/Control',
@@ -139,12 +139,10 @@ define([
         /**
          * Create the DOMNode Element
          *
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
-            var self = this;
-
             this.$Elm = this.parent();
             this.$Elm.addClass( 'quiqqer-intranet-login' );
 
@@ -217,7 +215,7 @@ define([
         /**
          * social login -> event onAuth
          *
-         * @param {package/quiqqer/intranet/social/Google|package/quiqqer/intranet/social/Facebook} Social
+         * @param {Object} Social - package/quiqqer/intranet/social/Google | package/quiqqer/intranet/social/Facebook
          * @param {Object} params - Social params
          */
         $onAuth : function(Social, params)
@@ -244,7 +242,10 @@ define([
             }, {
                 token      : JSON.encode( params.token ),
                 socialType : Social.getAttribute( 'name' ),
-                project    : QUIQQER_PROJECT.name,
+                project    : JSON.encode({
+                    name : QUIQQER_PROJECT.name,
+                    lang : QUIQQER_PROJECT.lang
+                }),
                 'package'  : 'quiqqer/intranet',
                 showError  : false,
                 onError    : function(Exception)
@@ -282,8 +283,10 @@ define([
                 }
 
             }, {
-                project   : QUIQQER_PROJECT.name,
-                lang      : QUIQQER_PROJECT.lang,
+                project : JSON.encode({
+                    name : QUIQQER_PROJECT.name,
+                    lang : QUIQQER_PROJECT.lang
+                }),
                 'package' : 'quiqqer/intranet'
             });
         },
@@ -336,7 +339,7 @@ define([
                         Content.getElement( '.cancel' ).addEvent(
                             'click',
                             function() {
-                                Sheet.hide()
+                                Sheet.hide();
                             }
                         );
 
@@ -375,8 +378,6 @@ define([
                     }
                 }
             }).inject( this.$Elm ).show();
-
-            console.log( this.$Elm );
         },
 
         /**
@@ -387,7 +388,7 @@ define([
          */
         sendForgetPassword : function(user, callback)
         {
-            if ( user == '' )
+            if ( user === '' )
             {
                 callback();
                 return;
@@ -400,8 +401,10 @@ define([
                 }
             }, {
                 user      : user,
-                project   : QUIQQER_PROJECT.name,
-                lang      : QUIQQER_PROJECT.lang,
+                project   : JSON.encode({
+                    name : QUIQQER_PROJECT.name,
+                    lang : QUIQQER_PROJECT.lang
+                }),
                 'package' : 'quiqqer/intranet'
             });
         }

@@ -6,19 +6,23 @@
 
 namespace QUI\Intranet\Social;
 
+use QUI;
+use QUI\Users\User;
+
 /**
  * Registration with google plus
  *
  * @author www.pcsg.de (Henning Leutz)
  */
 
-class Facebook implements \QUI\Intranet\Interfaces\Social
+class Facebook implements QUI\Intranet\Interfaces\Social
 {
     /**
      * Checks if the token is correct
      *
-     * @throws \QUI\Exception
+     * @param string $token
      * @return Bool
+     * @throws \QUI\Exception
      */
     public function checkToken($token)
     {
@@ -26,8 +30,8 @@ class Facebook implements \QUI\Intranet\Interfaces\Social
 
         if ( !$Token->accessToken )
         {
-            throw new \QUI\Exception(
-                \QUI::getLocale()->get(
+            throw new QUI\Exception(
+                QUI::getLocale()->get(
                     'quiqqer/intranet',
                     'exception.social.facebook.wrong.token'
                 )
@@ -50,13 +54,13 @@ class Facebook implements \QUI\Intranet\Interfaces\Social
 
         $data = $this->getUserDataByToken( $token );
 
-        $Users = \QUI::getUsers();
+        $Users = QUI::getUsers();
         $User  = $Users->getUserByMail( $data['email'] );
 
         if ( !isset( $data['id'] ) || $data['id'] != $User->getAttribute( 'quiqqer.intranet.facebookid' ) )
         {
-            throw new \QUI\Exception(
-                \QUI::getLocale()->get(
+            throw new QUI\Exception(
+                QUI::getLocale()->get(
                     'quiqqer/intranet',
                     'exception.social.facebook.user.not.found'
                 ),
@@ -70,27 +74,31 @@ class Facebook implements \QUI\Intranet\Interfaces\Social
     /**
      * (non-PHPdoc)
      * @see \QUI\Intranet\Interfaces\Social::getUserDataByToken()
+     *
+     * @param string $token
+     * @return array
+     * @throws QUI\Exception
      */
     public function getUserDataByToken($token)
     {
         $this->checkToken( $token );
 
-        $Plugin         = \QUI::getPluginManager()->get( 'quiqqer/intranet' );
+        $Plugin         = QUI::getPluginManager()->get( 'quiqqer/intranet' );
         $facebookAppId  = $Plugin->getSettings( 'social', 'facebookAppId' );
         $facebookSecret = $Plugin->getSettings( 'social', 'facebookSecret' );
 
         if ( empty( $facebookSecret ) || empty( $facebookAppId ) )
         {
-            \QUI\System\Log::write(
-                \QUI::getLocale()->get(
+            QUI\System\Log::write(
+                QUI::getLocale()->get(
                     'quiqqer/intranet',
                     'exception.intranet.social.facebook.missing.config'
                 ),
-                \QUI\System\Log::LEVEL_ERROR
+                QUI\System\Log::LEVEL_ERROR
             );
 
-            throw new \QUI\Exception(
-                \QUI::getLocale()->get(
+            throw new QUI\Exception(
+                QUI::getLocale()->get(
                     'quiqqer/intranet',
                     'exception.intranet.social.facebook.missing.config'
                 )
@@ -113,8 +121,8 @@ class Facebook implements \QUI\Intranet\Interfaces\Social
 
         if ( !$user )
         {
-            throw new \QUI\Exception(
-                \QUI::getLocale(
+            throw new QUI\Exception(
+                QUI::getLocale(
                     'quiqqer/intranet',
                     'exception.social.facebook.user.not.found'
                 )
@@ -128,8 +136,8 @@ class Facebook implements \QUI\Intranet\Interfaces\Social
 
         } catch ( \FacebookApiException $Exception )
         {
-            throw new \QUI\Exception(
-                \QUI::getLocale(
+            throw new QUI\Exception(
+                QUI::getLocale(
                     'quiqqer/intranet',
                     'exception.social.facebook.user.not.found'
                 )
@@ -140,8 +148,11 @@ class Facebook implements \QUI\Intranet\Interfaces\Social
     /**
      * (non-PHPdoc)
      * @see \QUI\Intranet\Interfaces\Social::hasAccess()
+     *
+     * @param User $User
+     * @return string
      */
-    public function hasAccess(\QUI\Users\User $User)
+    public function hasAccess(User $User)
     {
         return $User->getAttribute( 'quiqqer.intranet.facebookid' );
     }
@@ -149,7 +160,7 @@ class Facebook implements \QUI\Intranet\Interfaces\Social
     /**
      * Check if the user is authenticated
      *
-     * @param String $token
+     * @param string $token
      * @return false|\QUI\Users\User
      */
     public function isAuth($token)
@@ -160,7 +171,7 @@ class Facebook implements \QUI\Intranet\Interfaces\Social
 
             return true;
 
-        } catch ( \QUI\Exception $Exception )
+        } catch ( QUI\Exception $Exception )
         {
             return false;
         }
@@ -169,14 +180,22 @@ class Facebook implements \QUI\Intranet\Interfaces\Social
     /**
      * (non-PHPdoc)
      * @see \QUI\Intranet\Interfaces\Social::login()
+     *
+     * @param string $token
+     * @return User
+     * @throws QUI\Exception
      */
     public function login($token)
     {
         $User = $this->getUserByToken( $token );
 
+        if ( !$User->isActive() ) {
+            throw new QUI\Exception( 'User is not activated' );
+        }
+
         // social media, user is directly loged in
-        \QUI::getSession()->set( 'uid', $User->getId() );
-        \QUI::getSession()->set( 'auth', 1 );
+        QUI::getSession()->set( 'uid', $User->getId() );
+        QUI::getSession()->set( 'auth', 1 );
 
         return $User;
     }
@@ -184,8 +203,11 @@ class Facebook implements \QUI\Intranet\Interfaces\Social
     /**
      * (non-PHPdoc)
      * @see \QUI\Intranet\Interfaces\Social::onRegistration()
+     *
+     * @param User $User
+     * @param string $token
      */
-    public function onRegistration(\QUI\Users\User $User, $token)
+    public function onRegistration(User $User, $token)
     {
         $data = $this->getUserDataByToken( $token );
 
@@ -201,9 +223,9 @@ class Facebook implements \QUI\Intranet\Interfaces\Social
         {
             $locale = explode( '_', $data['locale'] );
             $lang   = $locale[0];
-            $langs  = \QUI::availableLanguages();
+            $langs  = QUI::availableLanguages();
 
-            $userLang = \QUI::getLocale()->getCurrent();
+            $userLang = QUI::getLocale()->getCurrent();
 
             if ( in_array( $lang, $langs ) ) {
                 $userLang = $lang;

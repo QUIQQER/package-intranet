@@ -6,6 +6,10 @@
 
 namespace QUI\Intranet;
 
+use \QUI\Utils\DOM;
+use \QUI\Utils\XML;
+use \QUI\Utils\System\File as QUIFile;
+
 /**
  * Intranet utils - little helper for intranet
  *
@@ -22,9 +26,8 @@ class Utils
      */
     static function getProfileExtendCategories()
     {
-        $packages_dir = OPT_DIR;
-        $packages     = \QUI\Utils\System\File::readDir( OPT_DIR );
-        $result       = array();
+        $packages = QUIFile::readDir( OPT_DIR );
+        $result   = array();
 
         foreach ( $packages as $package )
         {
@@ -33,7 +36,7 @@ class Utils
             }
 
             $package_dir = OPT_DIR .'/'. $package;
-            $list        = \QUI\Utils\System\File::readDir( $package_dir );
+            $list        = QUIFile::readDir( $package_dir );
 
 
             foreach ( $list as $sub )
@@ -49,15 +52,15 @@ class Utils
                 }
 
                 // read intranet xml
-                $items = \QUI\Utils\XML::getMenuItemsXml( $xmlFile );
-
+                $items = XML::getMenuItemsXml( $xmlFile );
 
                 foreach ( $items as $Item )
                 {
+                    /* @var $Item \DOMElement */
                     $result[] = array(
-                        'text'    => \QUI\Utils\DOM::getTextFromNode( $Item ),
+                        'text'    => DOM::getTextFromNode( $Item ),
                         'name'    => $Item->getAttribute( 'name' ),
-                        'icon'    => \QUI\Utils\DOM::parseVar( $Item->getAttribute( 'icon' ) ),
+                        'icon'    => DOM::parseVar( $Item->getAttribute( 'icon' ) ),
                         'require' => $Item->getAttribute( 'require' ),
                         'exec'    => $Item->getAttribute( 'exec' ),
                     );

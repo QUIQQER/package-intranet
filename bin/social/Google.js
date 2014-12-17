@@ -17,7 +17,7 @@
  * @event onAuth [ {self}, {Object} data ]
  */
 
-define([
+define('package/quiqqer/intranet/bin/social/Google', [
 
     'qui/QUI',
     'qui/controls/Control',
@@ -49,7 +49,7 @@ define([
         /**
          * Creates the DOMNode Element
          *
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -77,9 +77,7 @@ define([
          */
         login : function()
         {
-            if ( typeof QUIQQER_USER !== 'undefined' &&
-                 parseInt( QUIQQER_USER.id ) )
-            {
+            if ( typeof QUIQQER_USER !== 'undefined' && parseInt( QUIQQER_USER.id ) ) {
                 return;
             }
 
@@ -159,6 +157,30 @@ define([
                 {
                     self.fireEvent( 'signInEnd', [ self ] );
 
+                    if ( authResult.error == 'immediate_failed' )
+                    {
+                        gapi.auth.authorize({
+                            client_id : self.getAttribute( 'clientid' ),
+                            scope     : 'https://www.googleapis.com/auth/plus.login '+
+                                        'https://www.googleapis.com/auth/userinfo.email '+
+                                        'https://www.googleapis.com/auth/userinfo.profile',
+                            immediate : false
+                        }, function (authResult)
+                        {
+                            if ( authResult.status.signed_in )
+                            {
+                                callback( authResult );
+                                return;
+                            }
+
+                            QUI.getMessageHandler(function(MH) {
+                                MH.addError( authResult.error );
+                            });
+                        });
+
+                        return;
+                    }
+
                     if ( !authResult.access_token )
                     {
                         QUI.getMessageHandler(function(MH) {
@@ -177,6 +199,7 @@ define([
                 clientid     : this.getAttribute( 'clientid' ),
                 cookiepolicy : "single_host_origin",
                 accesstype   : "offline",
+                immediate    : false,
 
                 requestvisibleactions : "http://schemas.google.com/AddActivity",
 

@@ -6,12 +6,14 @@
 
 namespace QUI\Intranet\Controls;
 
+use QUI;
+
 /**
  * Registration control
  *
  * @author www.pcsg.de (Henning Leutz)
  */
-class Registration extends \QUI\Control
+class Registration extends QUI\Control
 {
     /**
      * constructor
@@ -35,21 +37,21 @@ class Registration extends \QUI\Control
      */
     public function getBody()
     {
-        $Engine  = \QUI::getTemplateManager()->getEngine();
+        $Engine  = QUI::getTemplateManager()->getEngine();
         $Project = $this->_getProject();
 
         $Engine->assign(array(
             'Project' => $this->getAttribute('Project'),
             'Site'    => $this->getAttribute('Site'),
-            'Locale'  => \QUI::getLocale()
+            'Locale'  => QUI::getLocale()
         ));
 
 
         // user loged in check
-        $Plugin   = \QUI::getPluginManager()->get( 'quiqqer/intranet' );
+        $Plugin   = QUI::getPluginManager()->get( 'quiqqer/intranet' );
         $loggedIn = $Plugin->getSettings('registration', 'loggedInDuringRegistrationn');
 
-        if ( !$loggedIn && \QUI::getUserBySession()->getId() ) {
+        if ( !$loggedIn && QUI::getUserBySession()->getId() ) {
             return $Engine->fetch( dirname( __FILE__ ) .'/RegistrationLogedIn.html' );
         }
 
@@ -85,7 +87,8 @@ class Registration extends \QUI\Control
 
     /**
      * Return the Project
-     * @return Ambigous <\QUI\unknown_type, boolean, multitype:>|\QUI\Projects\Project
+     * @return \QUI\Projects\Project
+     * @throw QUI\Exception
      */
     protected function _getProject()
     {
@@ -93,7 +96,7 @@ class Registration extends \QUI\Control
             return $this->getAttribute('Project');
         }
 
-        return \QUI::getProjectManager()->get();
+        return QUI::getProjectManager()->get();
     }
 
 }

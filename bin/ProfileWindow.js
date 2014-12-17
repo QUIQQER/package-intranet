@@ -6,7 +6,7 @@
  * @module package/quiqqer/intranet/bin/ProfileWindow
  */
 
-define([
+define('package/quiqqer/intranet/bin/ProfileWindow', [
 
     'qui/QUI',
     'qui/controls/windows/Popup',

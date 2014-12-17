@@ -7,13 +7,13 @@
 /**
  * Send an password forgotten mail
  *
- * @return Array
+ * @param string $user - user mail or username
+ * @param string $project - project params, JSON Array
  */
-
-function package_quiqqer_intranet_ajax_user_password_forgotten($user, $project, $lang)
+function package_quiqqer_intranet_ajax_user_password_forgotten($user, $project)
 {
     $Reg = new \QUI\Intranet\Registration(array(
-        'Project' => \QUI::getProject( $project, $lang )
+        'Project' => \QUI::getProjectManager( $project )
     ));
 
     $Reg->sendPasswordForgottenMail( $user );
@@ -21,5 +21,5 @@ function package_quiqqer_intranet_ajax_user_password_forgotten($user, $project, 
 
 \QUI::$Ajax->register(
     'package_quiqqer_intranet_ajax_user_password_forgotten',
-    array( 'user', 'project', 'lang' )
+    array( 'user', 'project' )
 );

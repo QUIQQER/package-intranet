@@ -9,7 +9,7 @@
  * @event onRegisterSuccess
  */
 
-define([
+define('package/quiqqer/intranet/bin/Registration', [
 
     'qui/QUI',
     'qui/controls/Control',
@@ -58,12 +58,12 @@ define([
         /**
          * on import
          *
-         * @param {package/quiqqer/intranet/Registration} self
-         * @param {DOMNode} Elm
+         * @param {Object} self - package/quiqqer/intranet/Registration
+         * @param {HTMLElement} Elm
          */
         $onImport : function(self, Elm)
         {
-            var self = this;
+            //var self = this;
 
             this.Loader.inject( Elm );
             this.Loader.show();
@@ -131,7 +131,7 @@ define([
                 }
             });
 
-            SecField.inject( this.$PWSecContainer )
+            SecField.inject( this.$PWSecContainer );
             SecField.bindInput( this.$Pass1 );
 
             // form submit
@@ -175,7 +175,7 @@ define([
         {
             var self = this;
 
-            if ( this.$Mail1.value == '' )
+            if ( this.$Mail1.value === '' )
             {
                 QUI.getMessageHandler(function(MH)
                 {
@@ -186,11 +186,10 @@ define([
                 });
 
                 this.$Mail1.focus();
-
                 return;
             }
 
-            if ( this.$Pass1.value == '' )
+            if ( this.$Pass1.value === '' )
             {
                 QUI.getMessageHandler(function(MH)
                 {
@@ -201,7 +200,6 @@ define([
                 });
 
                 this.$Pass1.focus();
-
                 return;
             }
 
@@ -216,7 +214,6 @@ define([
                 });
 
                 this.$Mail2.focus();
-
                 return;
             }
 
@@ -276,7 +273,7 @@ define([
          * @param {String} email
          * @param {String} password
          * @param {Object} data
-         * @param {Function} callback
+         * @param {Function} [callback]
          */
         register : function(email, password, data, callback)
         {
@@ -307,6 +304,11 @@ define([
                 {
                     self.getElm().set( 'html', result );
                     self.fireEvent( 'registerSuccess' );
+
+                    if ( typeof callback !== 'undefined' ) {
+                        callback( result );
+                    }
+
                     self.Loader.hide();
 
                 }, {
@@ -314,7 +316,7 @@ define([
                     password  : password,
                     data      : JSON.decode( data ),
                     'package' : 'quiqqer/intranet',
-                    onError   : function(Exception) {
+                    onError   : function() {
                         self.Loader.hide();
                     }
                 });
@@ -354,7 +356,10 @@ define([
                         }, {
                             socialType : socialType,
                             socialData : JSON.encode( socialData ),
-                            project    : QUIQQER_PROJECT.name,
+                            project    : JSON.encode({
+                                name : QUIQQER_PROJECT.name,
+                                lang : QUIQQER_PROJECT.lang
+                            }),
                             'package'  : 'quiqqer/intranet'
                         });
 
@@ -374,7 +379,10 @@ define([
                     }, {
                         token      : JSON.encode( socialData.token ),
                         socialType : socialType,
-                        project    : QUIQQER_PROJECT.name,
+                        project    : JSON.encode({
+                            name : QUIQQER_PROJECT.name,
+                            lang : QUIQQER_PROJECT.lang
+                        }),
                         'package'  : 'quiqqer/intranet'
                     });
 
@@ -394,7 +402,10 @@ define([
 
             Ajax.get('package_quiqqer_intranet_ajax_user_isRegistered', callback, {
                 email     : email,
-                project   : QUIQQER_PROJECT.name,
+                project   : JSON.encode({
+                    name : QUIQQER_PROJECT.name,
+                    lang : QUIQQER_PROJECT.lang
+                }),
                 'package' : 'quiqqer/intranet'
             });
         },
@@ -413,7 +424,10 @@ define([
             Ajax.get('package_quiqqer_intranet_ajax_user_hasSocialAccess', callback, {
                 email      : email,
                 socialType : socialType,
-                project    : QUIQQER_PROJECT.name,
+                project    : JSON.encode({
+                    name : QUIQQER_PROJECT.name,
+                    lang : QUIQQER_PROJECT.lang
+                }),
                 'package'  : 'quiqqer/intranet'
             });
         },
@@ -421,7 +435,7 @@ define([
         /**
          * is the user loged in?
          *
-         * @return {Bool}
+         * @return {Boolean}
          */
         isLogedIn : function()
         {
@@ -429,11 +443,7 @@ define([
                 return false;
             }
 
-            if ( "id" in QUIQQER_USER && parseInt( QUIQQER_USER.id ) ) {
-                return true;
-            }
-
-            return false;
+            return ( "id" in QUIQQER_USER && parseInt( QUIQQER_USER.id ) );
         },
 
         /**
