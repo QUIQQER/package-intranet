@@ -697,7 +697,7 @@
             <en><![CDATA[An e-mail with further instructions has been sent to you.]]></en>
         </locale>
         <locale name="message.send.new.password.successfully">
-            <de><![CDATA[Ihnen wurde eine E-Mail mit einem neuen Password gesendet.]]></de>
+            <de><![CDATA[Ihnen wurde eine E-Mail mit einem neuen Passwort gesendet.]]></de>
             <en><![CDATA[An e-mail with a new password has been sent to you.]]></en>
         </locale>
         <locale name="message.send.new.email.successfully">
