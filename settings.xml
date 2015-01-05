@@ -55,7 +55,10 @@
                 <conf name="sendInfoMailOnRegistrationTo">
                     <type><![CDATA[String]]></type>
                 </conf>
-
+                <conf name="mailFromText">
+                    <type><![CDATA[string]]></type>
+                    <defaultvalue>QUIQQER System</defaultvalue>
+                </conf>
             </section>
             <section name="social">
                 <conf name="googleApplicationName">

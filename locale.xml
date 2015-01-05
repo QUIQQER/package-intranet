@@ -411,8 +411,8 @@
 
         <!-- registration mails -->
         <locale name="mail.registration.MAILFromText">
-            <de><![CDATA[Registrierung]]></de>
-            <en><![CDATA[Register]]></en>
+            <de><![CDATA[[mailFromText]]]></de>
+            <en><![CDATA[[mailFromText]]]></en>
         </locale>
         <locale name="mail.registration.MailSubject">
             <de><![CDATA[Registrierung]]></de>
@@ -451,8 +451,8 @@
 
         <!-- activation mails -->
         <locale name="mail.activation.MAILFromText">
-            <de><![CDATA[Aktivierung]]></de>
-            <en><![CDATA[Activation]]></en>
+            <de><![CDATA[[mailFromText]]]></de>
+            <en><![CDATA[[mailFromText]]]></en>
         </locale>
         <locale name="mail.activation.MailSubject">
             <de><![CDATA[Aktivierung]]></de>
@@ -518,8 +518,8 @@
 
         <!-- mail new password generated -->
         <locale name="mail.new.password.MAILFromText">
-            <de><![CDATA[Passwort vergessen]]></de>
-            <en><![CDATA[Forgotten password]]></en>
+            <de><![CDATA[[mailFromText]]]></de>
+            <en><![CDATA[[mailFromText]]]></en>
         </locale>
         <locale name="mail.new.password.MailSubject">
             <de><![CDATA[Passwort vergessen]]></de>
@@ -552,8 +552,8 @@
 
         <!-- mail user disable -->
         <locale name="mail.disable.MAILFromText">
-            <de><![CDATA[Account-Löschung]]></de>
-            <en><![CDATA[Deletion of your account]]></en>
+            <de><![CDATA[[mailFromText]]]></de>
+            <en><![CDATA[[mailFromText]]]></en>
         </locale>
         <locale name="mail.disable.Subject">
             <de><![CDATA[Account-Löschung]]></de>
@@ -601,8 +601,8 @@
 
         <!-- admin registration info mail -->
         <locale name="mail.registration.admin.info.MAILFromText">
-            <de><![CDATA[Neue Registrierung]]></de>
-            <en><![CDATA[New registration]]></en>
+            <de><![CDATA[[mailFromText]]]></de>
+            <en><![CDATA[[mailFromText]]]></en>
         </locale>
         <locale name="mail.registration.admin.info.subject">
             <de><![CDATA[Neue Registrierung]]></de>
@@ -647,8 +647,8 @@
 
         <!-- new mail activasion -->
         <locale name="intranet.new.email.MAILFromText">
-            <de><![CDATA[E-Mail bestätigen]]></de>
-            <en><![CDATA[E-mail confirmation]]></en>
+            <de><![CDATA[[mailFromText]]]></de>
+            <en><![CDATA[[mailFromText]]]></en>
         </locale>
         <locale name="intranet.new.email.MailSubject">
             <de><![CDATA[E-Mail bestätigen]]></de>

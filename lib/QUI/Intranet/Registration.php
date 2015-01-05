@@ -29,6 +29,12 @@ use QUI\Users\User;
 class Registration extends QUI\QDOM
 {
     /**
+     * internal intranet config
+     * @var QUI\Config
+     */
+    protected $_Config;
+
+    /**
      * constructor
      *
      * @param array $params
@@ -330,8 +336,7 @@ class Registration extends QUI\QDOM
         $User->activate( $code );
         $this->sendActivasionSuccessMail( $User );
 
-        $Package   = QUI::getPackageManager()->getInstalledPackage( 'quiqqer/intranet' );
-        $autoLogin = $Package->getConfig()->get( 'registration', 'autoLoginOnActivasion' );
+        $autoLogin = $this->_getConfig()->get( 'registration', 'autoLoginOnActivasion' );
 
         if ( $autoLogin )
         {
@@ -371,9 +376,7 @@ class Registration extends QUI\QDOM
         }
 
 
-        $Package = QUI::getPackageManager()->getInstalledPackage( 'quiqqer/intranet' );
-
-        $hashLifetime = $Package->getConfig()->get( 'disable', 'hashLifetime' );
+        $hashLifetime = $this->_getConfig()->get( 'disable', 'hashLifetime' );
         $hash         = $User->getAttribute( 'quiqqer.intranet.disable.hash' );
         $hashTime     = $User->getAttribute( 'quiqqer.intranet.disable.time' );
 
@@ -592,6 +595,23 @@ class Registration extends QUI\QDOM
     }
 
     /**
+     * Returns the intranet config object
+     *
+     * @return Bool|QUI\Config
+     */
+    protected function _getConfig()
+    {
+        if ( $this->_Config ) {
+             return $this->_Config;
+        }
+
+        $Package = QUI::getPackageManager()->getInstalledPackage( 'quiqqer/intranet' );
+        $this->_Config  = $Package->getConfig();
+
+        return $this->_Config;
+    }
+
+    /**
      * Mail Methods
      */
 
@@ -621,10 +641,21 @@ class Registration extends QUI\QDOM
 
         if ( $Locale->exists( 'project/'. $project, 'intranet.registration.MAILFromText' ) )
         {
-            $MAILFromText = $Locale->get( 'project/'. $project, 'intranet.registration.MAILFromText' );
+            $MAILFromText = $Locale->get(
+                'project/'. $project,
+                'intranet.registration.MAILFromText', array(
+                    'mailFromText' => $this->_getConfig()->get( 'registration', 'mailFromText' )
+                )
+            );
+
         } else
         {
-            $MAILFromText = $Locale->get( 'quiqqer/intranet', 'mail.registration.MAILFromText' );
+            $MAILFromText = $Locale->get(
+                'quiqqer/intranet',
+                'mail.registration.MAILFromText', array(
+                    'mailFromText' => $this->_getConfig()->get( 'registration', 'mailFromText' )
+                )
+            );
         }
 
         if ( $Locale->exists( 'project/'. $project, 'intranet.registration.MailSubject' ) )
@@ -694,10 +725,20 @@ class Registration extends QUI\QDOM
         // schauen ob es übersetzungen dafür gibt
         if ( $Locale->exists('project/'. $project, 'intranet.activation.MAILFromText') )
         {
-            $MAILFromText = $Locale->get('project/'. $project, 'intranet.activation.MAILFromText');
+            $MAILFromText = $Locale->get(
+                'project/'. $project,
+                'intranet.activation.MAILFromText', array(
+                    'mailFromText' => $this->_getConfig()->get( 'registration', 'mailFromText' )
+                )
+            );
         } else
         {
-            $MAILFromText = $Locale->get('quiqqer/intranet', 'mail.activation.MAILFromText');
+            $MAILFromText = $Locale->get(
+                'quiqqer/intranet',
+                'mail.activation.MAILFromText', array(
+                    'mailFromText' => $this->_getConfig()->get( 'registration', 'mailFromText' )
+                )
+            );
         }
 
 
@@ -747,7 +788,6 @@ class Registration extends QUI\QDOM
     {
         $Project = $this->_getProject();
         $Engine  = QUI::getTemplateManager()->getEngine();
-        $Package = QUI::getPackageManager()->getInstalledPackage( 'quiqqer/intranet' );
 
         if ( !isset( $Site ) || !$Site ) {
             $Site = $this->_getRegSite();
@@ -757,7 +797,7 @@ class Registration extends QUI\QDOM
         QUI::getEvents()->fireEvent( 'registrationUserDisable', array( $this ) );
 
         // create new disable link
-        $hashLifetime = $Package->getConfig()->get( 'disable', 'hashLifetime' );
+        $hashLifetime = $this->_getConfig()->get( 'disable', 'hashLifetime' );
         $hashtime     = $User->getAttribute( 'quiqqer.intranet.disable.time' );
 
         $hash = $User->getAttribute( 'quiqqer.intranet.disable.hash' );
@@ -796,10 +836,21 @@ class Registration extends QUI\QDOM
         // schauen ob es übersetzungen dafür gibt
         if ( $Locale->exists('project/'. $project, 'intranet.disable.MAILFromText') )
         {
-            $MAILFromText = $Locale->get('project/'. $project, 'intranet.disable.MAILFromText');
+            $MAILFromText = $Locale->get(
+                'project/'. $project,
+                'intranet.disable.MAILFromText', array(
+                    'mailFromText' => $this->_getConfig()->get( 'registration', 'mailFromText' )
+                )
+            );
+
         } else
         {
-            $MAILFromText = $Locale->get('quiqqer/intranet', 'mail.disable.MAILFromText');
+            $MAILFromText = $Locale->get(
+                'quiqqer/intranet',
+                'mail.disable.MAILFromText', array(
+                    'mailFromText' => $this->_getConfig()->get( 'registration', 'mailFromText' )
+                )
+            );
         }
 
 
@@ -887,14 +938,18 @@ class Registration extends QUI\QDOM
         {
             $MAILFromText = QUI::getLocale()->get(
                 'project/'. $project,
-                'intranet.forgotten.password.MAILFromText'
+                'intranet.forgotten.password.MAILFromText', array(
+                    'mailFromText' => $this->_getConfig()->get( 'registration', 'mailFromText' )
+                )
             );
 
         } else
         {
             $MAILFromText = QUI::getLocale()->get(
                 'quiqqer/intranet',
-                'mail.forgotten.password.MAILFromText'
+                'mail.forgotten.password.MAILFromText', array(
+                    'mailFromText' => $this->_getConfig()->get( 'registration', 'mailFromText' )
+                )
             );
         }
 
@@ -997,14 +1052,18 @@ class Registration extends QUI\QDOM
         {
             $MAILFromText = QUI::getLocale()->get(
                 'project/'. $project,
-                'intranet.new.password.MAILFromText'
+                'intranet.new.password.MAILFromText', array(
+                    'mailFromText' => $this->_getConfig()->get( 'registration', 'mailFromText' )
+                )
             );
 
         } else
         {
             $MAILFromText = QUI::getLocale()->get(
                 'quiqqer/intranet',
-                'mail.new.password.MAILFromText'
+                'mail.new.password.MAILFromText', array(
+                    'mailFromText' => $this->_getConfig()->get( 'registration', 'mailFromText' )
+                )
             );
         }
 
@@ -1083,10 +1142,7 @@ class Registration extends QUI\QDOM
      */
     protected function _sendInformationRegistrationMailTo(User $User)
     {
-        $Package = QUI::getPackageManager()->getInstalledPackage( 'quiqqer/intranet' );
-        $Config  = $Package->getConfig();
-
-        $email = $Config->get('registration', 'sendInfoMailOnRegistrationTo');
+        $email = $this->_getConfig()->get('registration', 'sendInfoMailOnRegistrationTo');
 
         if ( !$email ) {
             return;
@@ -1192,14 +1248,18 @@ class Registration extends QUI\QDOM
         {
             $MAILFromText = QUI::getLocale()->get(
                 'project/'. $project,
-                'intranet.new.email.MAILFromText'
+                'intranet.new.email.MAILFromText', array(
+                    'mailFromText' => $this->_getConfig()->get( 'registration', 'mailFromText' )
+                )
             );
 
         } else
         {
             $MAILFromText = QUI::getLocale()->get(
                 'quiqqer/intranet',
-                'intranet.new.email.MAILFromText'
+                'intranet.new.email.MAILFromText', array(
+                    'mailFromText' => $this->_getConfig()->get( 'registration', 'mailFromText' )
+                )
             );
         }
 
