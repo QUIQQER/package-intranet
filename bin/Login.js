@@ -409,5 +409,4 @@ define('package/quiqqer/intranet/bin/Login', [
             });
         }
     });
-
  });

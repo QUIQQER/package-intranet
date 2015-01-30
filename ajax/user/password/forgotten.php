@@ -13,7 +13,7 @@
 function package_quiqqer_intranet_ajax_user_password_forgotten($user, $project)
 {
     $Reg = new \QUI\Intranet\Registration(array(
-        'Project' => \QUI::getProjectManager( $project )
+        'Project' => \QUI::getProjectManager()->decode( $project )
     ));
 
     $Reg->sendPasswordForgottenMail( $user );
