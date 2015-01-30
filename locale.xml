@@ -527,7 +527,7 @@
         </locale>
         <locale name="mail.new.password.Body" html="true">
             <de><![CDATA[
-                <p>Sie haben ein neues Passwort für Ihr NameRobot-Benutzerkonto angefordert.</p>
+                <p>Sie haben ein neues Passwort für Ihr Benutzerkonto angefordert.</p>
                 <p>Ihr neues Passwort lautet: <strong>[password]</strong></p>
 
                 <br />
@@ -538,7 +538,7 @@
                 </p>
             ]]></de>
             <en><![CDATA[
-                <p>You have requested a new password for your NameRobot user account.</p>
+                <p>You have requested a new password for your user account.</p>
                 <p>Your new password is: <strong>[password]</strong></p>
 
                 <br />
@@ -578,12 +578,12 @@
             ]]></de>
             <en><![CDATA[
                 <p>
-                    Using your profile, you have applied to delete your NameRobot account.
+                    Using your profile, you have applied to delete your account.
                 </p>
                 <h3>Are you sure?</h3>
 
                 <p>
-                    You would still like to delete your NameRobot account? No problem!
+                    You would still like to delete your account? No problem!
                 </p>
                 <p>
                     In order to authenticate your deletion request, please click <a href="[disable_link]">here</a>
