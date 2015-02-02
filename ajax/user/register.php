@@ -27,6 +27,7 @@ function package_quiqqer_intranet_ajax_user_register($email, $password, $data, $
         );
     }
 
+
     try
     {
         $Project = QUI::getProjectManager()->decode( $project );

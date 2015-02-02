@@ -325,6 +325,10 @@ define('package/quiqqer/intranet/bin/Registration', [
                     email     : email,
                     password  : password,
                     data      : JSON.decode( data ),
+                    project   : JSON.encode({
+                        name : QUIQQER_PROJECT.name,
+                        lang : QUIQQER_PROJECT.lang
+                    }),
                     'package' : 'quiqqer/intranet',
                     onError   : function() {
                         self.Loader.hide();
