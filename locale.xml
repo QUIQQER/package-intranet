@@ -142,7 +142,7 @@
 
     <groups name="quiqqer/intranet" datatype="php,js">
         <locale name="registration.btn.submit">
-            <de><![CDATA[Jetzt registrieren]]]></de>
+            <de><![CDATA[Jetzt registrieren]]></de>
             <en><![CDATA[Register now]]></en>
         </locale>
 
