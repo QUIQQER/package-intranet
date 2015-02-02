@@ -313,7 +313,7 @@ define('package/quiqqer/intranet/bin/Registration', [
                     self.fireEvent( 'registerSuccess' );
 
                     document.body.getElements( '.content-short' ).set( 'html', '' );
-                    document.body.getElements( '.content-body' ).set( 'html', '' );
+                    
 
                     if ( typeof callback !== 'undefined' ) {
                         callback( result );
