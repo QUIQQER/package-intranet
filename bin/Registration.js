@@ -305,7 +305,7 @@ define('package/quiqqer/intranet/bin/Registration', [
                     self.getElm().set(
                         'html',
 
-                        '<div class="messages-message message-error">'+
+                        '<div class="messages-message message-success">'+
                             result +
                         '</div>'
                     );
