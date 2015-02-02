@@ -84,13 +84,13 @@ define('package/quiqqer/intranet/bin/Registration', [
             this.$Pass2 = Elm.getElement( '#reg-password2' );
             this.$AGB   = Elm.getElement( '#reg-agb-privacy' );
 
-            this.$PWSecContainer = Elm.getElement( '#reg-pwsecurity' )
+            this.$PWSecContainer = Elm.getElement( '#reg-pwsecurity' );
 
 
             // send button
             new QUIButton({
                 name   : 'register-button',
-                text   : 'Jetzt registrieren',
+                text   : Locale.get( 'quiqqer/intranet', 'registration.btn.submit' ),
                 styles : {
                     display : 'block',
                     'float' : 'none',
@@ -302,8 +302,18 @@ define('package/quiqqer/intranet/bin/Registration', [
 
                 Ajax.post('package_quiqqer_intranet_ajax_user_register', function(result)
                 {
-                    self.getElm().set( 'html', result );
+                    self.getElm().set(
+                        'html',
+
+                        '<div class="messages-message message-error">'+
+                            result +
+                        '</div>'
+                    );
+
                     self.fireEvent( 'registerSuccess' );
+
+                    document.body.getElements( '.content-short' ).set( 'html', '' );
+                    document.body.getElements( '.content-body' ).set( 'html', '' );
 
                     if ( typeof callback !== 'undefined' ) {
                         callback( result );

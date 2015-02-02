@@ -141,6 +141,11 @@
     </groups>
 
     <groups name="quiqqer/intranet" datatype="php,js">
+        <locale name="registration.btn.submit">
+            <de><![CDATA[Jetzt registrieren]]]></de>
+            <en><![CDATA[Register now]]></en>
+        </locale>
+
         <locale name="loged.in.as">
             <de><![CDATA[Eingeloggt als: [username]]]></de>
             <en><![CDATA[Loged in as: [username]]]></en>
