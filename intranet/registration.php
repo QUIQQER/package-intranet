@@ -10,6 +10,8 @@ $Registration = new \QUI\Intranet\Registration(array(
     'Project' => $Project
 ));
 
+$Engine->assign( 'INTRANET_TYPE', '' );
+
 /**
  * activation
  */
@@ -17,6 +19,8 @@ if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['uid'] ) )
 {
     try
     {
+        $Engine->assign( 'INTRANET_TYPE', 'ACTIVATION' );
+
         $Registration->activate( $_REQUEST['uid'], $_REQUEST['code'] );
 
         $Engine->assign(
@@ -47,6 +51,8 @@ if ( isset( $_REQUEST['uid'] ) &&
 {
     try
     {
+        $Engine->assign( 'INTRANET_TYPE', 'NEW_PASS' );
+
         $Registration->sendNewPasswordMail( $_REQUEST['uid'], $_REQUEST['hash'] );
 
         $Engine->assign(
@@ -77,6 +83,8 @@ if ( isset( $_REQUEST['uid'] ) &&
 {
     try
     {
+        $Engine->assign( 'INTRANET_TYPE', 'ACTIVATE_NEW_EMAIL' );
+
         $Registration->setNewEmail( $_REQUEST['uid'], $_REQUEST['hash'] );
 
         $Engine->assign(
@@ -108,6 +116,8 @@ if ( isset( $_REQUEST['uid'] ) &&
 {
     try
     {
+        $Engine->assign( 'INTRANET_TYPE', 'DISABLE_ACCOUNT' );
+
         $Registration->disable( $_REQUEST['uid'], $_REQUEST['hash'] );
 
         $Engine->assign(
