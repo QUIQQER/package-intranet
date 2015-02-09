@@ -1,146 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <locales>
 
-    <groups name="quiqqer/intranet" datatype="js">
-        <!-- logout window -->
-        <locale name="window.logout.title">
-            <de><![CDATA[Abmelden]]></de>
-            <en><![CDATA[Logout]]></en>
-        </locale>
-        <locale name="window.logout.text">
-            <de><![CDATA[Abmelden]]></de>
-            <en><![CDATA[Logout]]></en>
-        </locale>
-        <locale name="window.logout.information">
-            <de><![CDATA[Möchten Sie sich wirklich abmelden?]]></de>
-            <en><![CDATA[Do you really want to log out?]]></en>
-        </locale>
-
-        <!-- my address -->
-        <locale name="profile.myaddress.header">
-            <de><![CDATA[Meine Adresse]]></de>
-            <en><![CDATA[My Address]]></en>
-        </locale>
-        <locale name="profile.myaddress.header.description">
-            <de><![CDATA[Bitte füllen Sie alle Felder aus.]]></de>
-            <en><![CDATA[Please fill out all fields.]]></en>
-        </locale>
-
-
-        <!-- address-manager -->
-        <locale name="address.manager.header.title" html="true">
-            <de><![CDATA[Adressverwaltung]]></de>
-            <en><![CDATA[Address management]]></en>
-        </locale>
-        <locale name="address.manager.header.short" html="true">
-            <de><![CDATA[&nbsp;]]></de>
-            <en><![CDATA[&nbsp;]]></en>
-        </locale>
-        <locale name="address.manager.buttons.add">
-            <de><![CDATA[Adresse hinzufügen]]></de>
-            <en><![CDATA[Add address]]></en>
-        </locale>
-        <locale name="address.manager.buttons.edit">
-            <de><![CDATA[Markierte Adresse bearbeiten]]></de>
-            <en><![CDATA[Edit selected address]]></en>
-        </locale>
-        <locale name="address.manager.buttons.delete">
-            <de><![CDATA[Markierte Adresse löschen]]></de>
-            <en><![CDATA[Delete selected address]]></en>
-        </locale>
-
-
-        <locale name="address.manager.create.sheet.edit.header">
-            <de><![CDATA[Adresse ändern]]></de>
-            <en><![CDATA[Edit Address]]></en>
-        </locale>
-        <locale name="address.manager.create.sheet.edit.desc">
-            <de><![CDATA[Bitte füllen Sie alle Felder aus.]]></de>
-            <en><![CDATA[Please fill out all fields.]]></en>
-        </locale>
-
-        <locale name="address.manager.create.sheet.create.header">
-            <de><![CDATA[Neue Adresse anlegen]]></de>
-            <en><![CDATA[Create new address]]></en>
-        </locale>
-        <locale name="address.manager.create.sheet.create.desc">
-            <de><![CDATA[Bitte füllen Sie alle Felder aus.]]></de>
-            <en><![CDATA[Please fill out all fields.]]></en>
-        </locale>
-
-
-        <locale name="address.manager.create.sheet.button.cancel">
-            <de><![CDATA[Abbrechen]]></de>
-            <en><![CDATA[Cancel]]></en>
-        </locale>
-        <locale name="address.manager.create.sheet.button.create">
-            <de><![CDATA[Neue Adresse anlegen]]></de>
-            <en><![CDATA[Create new address]]></en>
-        </locale>
-        <locale name="address.manager.create.sheet.button.edit">
-            <de><![CDATA[Addresse speichern]]></de>
-            <en><![CDATA[Save address]]></en>
-        </locale>
-
-
-        <locale name="address.manager.delete.window.title">
-            <de><![CDATA[Addresse wirklich löschen?]]></de>
-            <en><![CDATA[Really delete the address?]]></en>
-        </locale>
-        <locale name="address.manager.delete.window.text" html="true">
-            <de><![CDATA[<h1>Möchten Sie folgende Adresse wirkliche löschen?</h1>[address]]]></de>
-            <en><![CDATA[<h1>Do you really want to delete the address?</h1>[address]]]></en>
-        </locale>
-
-
-        <!-- delete account -->
-        <locale name="profile.deleteAccount.header">
-            <de><![CDATA[Account löschen]]></de>
-            <en><![CDATA[Delete your Account]]></en>
-        </locale>
-        <locale name="profile.btn.deleteAccount">
-            <de><![CDATA[Account löschen]]></de>
-            <en><![CDATA[Delete your Account]]></en>
-        </locale>
-        <locale name="profile.deleteAccount.header.description" html="true">
-            <de><![CDATA[Um Ihre Account-Löschung zu starten klicken Sie bitte auf "Account-Löschung starten".]]></de>
-            <en><![CDATA[To start your account deletion, click on "Start Account Deletion".]]></en>
-        </locale>
-        <locale name="profile.deleteAccount.button">
-            <de><![CDATA[Account-Löschung starten]]></de>
-            <en><![CDATA[Start account deletion]]></en>
-        </locale>
-
-        <locale name="profile.delete.account.header">
-            <de><![CDATA[Möchten Sie Ihren Account wirklich löschen?]]></de>
-            <en><![CDATA[Are you sure you want to delete your account?]]></en>
-        </locale>
-
-        <locale name="profile.delete.account.text" html="true">
-            <de><![CDATA[
-                <p>Ihre Daten werden unwiderruflich gelöscht und können nicht wiederhergestellt werden.</p>
-                <p>Wenn Sie sicher sind, klicken Sie bitte auf "Ja, Account wirklich löschen".</p>
-                <p>Danach wird Ihnen eine E-Mail mit einem Bestätigungslink gesendet.</p>
-            ]]></de>
-            <en><![CDATA[
-                <p>All data is deleted and cannot be restored.</p>
-                <p>If you are sure you want to delete your account, click on "Yes, delete my account".</p>
-                <p>Afterwards you will receive a confirmation e-mail with a verification link.</p>
-            ]]></en>
-        </locale>
-        <locale name="profile.delete.account.button">
-            <de><![CDATA[Ja, Account wirklich löschen]]></de>
-            <en><![CDATA[Yes, delete my account]]></en>
-        </locale>
-        <locale name="profile.delete.account.button.cancel">
-            <de><![CDATA[Abbrechen]]></de>
-            <en><![CDATA[Cancel]]></en>
-        </locale>
-
-
-    </groups>
-
     <groups name="quiqqer/intranet" datatype="php,js">
+        <locale name="package.title">
+            <de><![CDATA[QUIQQER - Frontend-User]]></de>
+            <en><![CDATA[QUIQQER - Frontend-User]]></en>
+        </locale>
+
+
         <locale name="registration.btn.submit">
             <de><![CDATA[Jetzt registrieren]]></de>
             <en><![CDATA[Register now]]></en>
@@ -342,9 +209,145 @@
             <de><![CDATA[Ihre angegebenen Passwörter stimmen leider nicht überein.]]></de>
             <en><![CDATA[Unfortunately your specified passwords do not match.]]></en>
         </locale>
-
     </groups>
 
+
+    <groups name="quiqqer/intranet" datatype="js">
+        <!-- logout window -->
+        <locale name="window.logout.title">
+            <de><![CDATA[Abmelden]]></de>
+            <en><![CDATA[Logout]]></en>
+        </locale>
+        <locale name="window.logout.text">
+            <de><![CDATA[Abmelden]]></de>
+            <en><![CDATA[Logout]]></en>
+        </locale>
+        <locale name="window.logout.information">
+            <de><![CDATA[Möchten Sie sich wirklich abmelden?]]></de>
+            <en><![CDATA[Do you really want to log out?]]></en>
+        </locale>
+
+        <!-- my address -->
+        <locale name="profile.myaddress.header">
+            <de><![CDATA[Meine Adresse]]></de>
+            <en><![CDATA[My Address]]></en>
+        </locale>
+        <locale name="profile.myaddress.header.description">
+            <de><![CDATA[Bitte füllen Sie alle Felder aus.]]></de>
+            <en><![CDATA[Please fill out all fields.]]></en>
+        </locale>
+
+
+        <!-- address-manager -->
+        <locale name="address.manager.header.title" html="true">
+            <de><![CDATA[Adressverwaltung]]></de>
+            <en><![CDATA[Address management]]></en>
+        </locale>
+        <locale name="address.manager.header.short" html="true">
+            <de><![CDATA[&nbsp;]]></de>
+            <en><![CDATA[&nbsp;]]></en>
+        </locale>
+        <locale name="address.manager.buttons.add">
+            <de><![CDATA[Adresse hinzufügen]]></de>
+            <en><![CDATA[Add address]]></en>
+        </locale>
+        <locale name="address.manager.buttons.edit">
+            <de><![CDATA[Markierte Adresse bearbeiten]]></de>
+            <en><![CDATA[Edit selected address]]></en>
+        </locale>
+        <locale name="address.manager.buttons.delete">
+            <de><![CDATA[Markierte Adresse löschen]]></de>
+            <en><![CDATA[Delete selected address]]></en>
+        </locale>
+
+
+        <locale name="address.manager.create.sheet.edit.header">
+            <de><![CDATA[Adresse ändern]]></de>
+            <en><![CDATA[Edit Address]]></en>
+        </locale>
+        <locale name="address.manager.create.sheet.edit.desc">
+            <de><![CDATA[Bitte füllen Sie alle Felder aus.]]></de>
+            <en><![CDATA[Please fill out all fields.]]></en>
+        </locale>
+
+        <locale name="address.manager.create.sheet.create.header">
+            <de><![CDATA[Neue Adresse anlegen]]></de>
+            <en><![CDATA[Create new address]]></en>
+        </locale>
+        <locale name="address.manager.create.sheet.create.desc">
+            <de><![CDATA[Bitte füllen Sie alle Felder aus.]]></de>
+            <en><![CDATA[Please fill out all fields.]]></en>
+        </locale>
+
+
+        <locale name="address.manager.create.sheet.button.cancel">
+            <de><![CDATA[Abbrechen]]></de>
+            <en><![CDATA[Cancel]]></en>
+        </locale>
+        <locale name="address.manager.create.sheet.button.create">
+            <de><![CDATA[Neue Adresse anlegen]]></de>
+            <en><![CDATA[Create new address]]></en>
+        </locale>
+        <locale name="address.manager.create.sheet.button.edit">
+            <de><![CDATA[Addresse speichern]]></de>
+            <en><![CDATA[Save address]]></en>
+        </locale>
+
+
+        <locale name="address.manager.delete.window.title">
+            <de><![CDATA[Addresse wirklich löschen?]]></de>
+            <en><![CDATA[Really delete the address?]]></en>
+        </locale>
+        <locale name="address.manager.delete.window.text" html="true">
+            <de><![CDATA[<h1>Möchten Sie folgende Adresse wirkliche löschen?</h1>[address]]]></de>
+            <en><![CDATA[<h1>Do you really want to delete the address?</h1>[address]]]></en>
+        </locale>
+
+
+        <!-- delete account -->
+        <locale name="profile.deleteAccount.header">
+            <de><![CDATA[Account löschen]]></de>
+            <en><![CDATA[Delete your Account]]></en>
+        </locale>
+        <locale name="profile.btn.deleteAccount">
+            <de><![CDATA[Account löschen]]></de>
+            <en><![CDATA[Delete your Account]]></en>
+        </locale>
+        <locale name="profile.deleteAccount.header.description" html="true">
+            <de><![CDATA[Um Ihre Account-Löschung zu starten klicken Sie bitte auf "Account-Löschung starten".]]></de>
+            <en><![CDATA[To start your account deletion, click on "Start Account Deletion".]]></en>
+        </locale>
+        <locale name="profile.deleteAccount.button">
+            <de><![CDATA[Account-Löschung starten]]></de>
+            <en><![CDATA[Start account deletion]]></en>
+        </locale>
+
+        <locale name="profile.delete.account.header">
+            <de><![CDATA[Möchten Sie Ihren Account wirklich löschen?]]></de>
+            <en><![CDATA[Are you sure you want to delete your account?]]></en>
+        </locale>
+
+        <locale name="profile.delete.account.text" html="true">
+            <de><![CDATA[
+                <p>Ihre Daten werden unwiderruflich gelöscht und können nicht wiederhergestellt werden.</p>
+                <p>Wenn Sie sicher sind, klicken Sie bitte auf "Ja, Account wirklich löschen".</p>
+                <p>Danach wird Ihnen eine E-Mail mit einem Bestätigungslink gesendet.</p>
+            ]]></de>
+            <en><![CDATA[
+                <p>All data is deleted and cannot be restored.</p>
+                <p>If you are sure you want to delete your account, click on "Yes, delete my account".</p>
+                <p>Afterwards you will receive a confirmation e-mail with a verification link.</p>
+            ]]></en>
+        </locale>
+        <locale name="profile.delete.account.button">
+            <de><![CDATA[Ja, Account wirklich löschen]]></de>
+            <en><![CDATA[Yes, delete my account]]></en>
+        </locale>
+        <locale name="profile.delete.account.button.cancel">
+            <de><![CDATA[Abbrechen]]></de>
+            <en><![CDATA[Cancel]]></en>
+        </locale>
+    </groups>
 
     <!-- registration template -->
     <groups name="quiqqer/intranet" datatype="php">
