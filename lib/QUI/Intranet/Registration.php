@@ -1148,9 +1148,6 @@ class Registration extends QUI\QDOM
             return;
         }
 
-        if ( !Orthos::checkMailSyntax( $email ) ) {
-            return;
-        }
 
         // mail subject
         $subject = QUI::getLocale()->get(
@@ -1221,7 +1218,6 @@ class Registration extends QUI\QDOM
                 'data'        => $data
             )
         );
-
 
         QUI::getMailManager()->send( $email, $subject, $body );
     }
