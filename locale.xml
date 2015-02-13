@@ -6,7 +6,16 @@
             <de><![CDATA[QUIQQER - Frontend-User]]></de>
             <en><![CDATA[QUIQQER - Frontend-User]]></en>
         </locale>
+        <locale name="package.description" html="true">
+            <de><![CDATA[
+            <p>Mit der Frontend-User / Quick Registraton erlauben Sie Ihren Nutzern sich auf Ihrer Homepage mit Email-Adresse und Passwort zu registrieren.</p>
+            <p>Sollte der Nutzer bereits auf einer Social Media Plattform wie Facebook, Google+ oder Twitter angemeldet sein,
+            reicht auch der Klick auf einen der entsprechenden Buttons um sich in Ihrem Projekt zu registrieren.</p>
+            ]]></de>
+            <en><![CDATA[
 
+            ]]></en>
+        </locale>
 
         <locale name="registration.btn.submit">
             <de><![CDATA[Jetzt registrieren]]></de>
