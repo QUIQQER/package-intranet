@@ -109,6 +109,15 @@
     padding: 10px 0;
 }
 
+.address-content-buttons {
+    border-top: 1px solid #d0d3d3;
+    float: left;
+    padding: 10px 0;
+    margin-top: 10px;
+    width: 100%;
+}
+
+
 /** login
  * ============================================================= */
 
@@ -242,5 +251,20 @@
 
 .package-intranet-profile input[type="submit"] {
     cursor: pointer;
+}
+
+/** form elements
+ * ============================================================= */
+
+.package-intranet-profile-delete {
+    text-align: center;
+}
+
+.package-intranet-profile-delete h1 {
+    margin: 0 0 20px 0;
+}
+
+.package-intranet-profile-delete p {
+    margin-bottom: 10px;
 }
 

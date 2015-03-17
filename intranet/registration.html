@@ -5,38 +5,58 @@
     type: quiqqer/intranet:intranet/registration
 *}
 
-{if $Template->getAttribute('content-header')}
-<section class="content-header grid-100 mobile-grid-100">
-    <header>
-        <h1>{$Site->getAttribute('title')}</h1>
-    </header>
+{if isset( $INTRANET_DISABLE_MESSAGE )}
 
-    {if $Site->getAttribute('short')}
-    <div class="content-short">
-        {$Site->getAttribute('short')}
-    </div>
-    {/if}
-</section>
-{/if}
+    <section class="content-body grid-100 mobile-grid-100">
+        <div class="registration-message-disabled">
+            {$INTRANET_DISABLE_MESSAGE}
+        </div>
+    </section>
 
-{if $Template->getAttribute('content-body') && $Site->getAttribute('content')}
-<section class="content-body grid-100 mobile-grid-100">
-    {$Site->getAttribute('content')}
-</section>
-{/if}
+{else if isset( $INTRANET_SUCCESS_MESSAGE )}
 
-{if isset( $INTRANET_SUCCESS_MESSAGE )}
+    <section class="content-body grid-100 mobile-grid-100">
+        <div class="registration-message-disabled">
+            {$INTRANET_SUCCESS_MESSAGE}
+        </div>
+    </section>
 
-    {$INTRANET_SUCCESS_MESSAGE}
-
-{else if isset( $INTRANET_ERROR_MESSAGE )}
-    {$INTRANET_ERROR_MESSAGE}
 {else}
 
-    {if isset( $INTRANET_REGISTRATION_ERROR_MESSAGE )}
-        {$INTRANET_REGISTRATION_ERROR_MESSAGE}
+    {if empty( $INTRANET_TYPE )}
+        {if $Template->getAttribute('content-header')}
+        <section class="content-header grid-100 mobile-grid-100">
+            <header>
+                <h1>{$Site->getAttribute('title')}</h1>
+            </header>
+
+            {if $Site->getAttribute('short')}
+            <div class="content-short">
+                {$Site->getAttribute('short')}
+            </div>
+            {/if}
+        </section>
+        {/if}
+
+        {if $Template->getAttribute('content-body') && $Site->getAttribute('content')}
+        <section class="content-body grid-100 mobile-grid-100">
+            {$Site->getAttribute('content')}
+        </section>
+        {/if}
     {/if}
 
-    {control control="\QUI\Intranet\Controls\Registration"}
+    {if isset( $INTRANET_ERROR_MESSAGE )}
+        <div class="messages-message message-error">
+            {$INTRANET_ERROR_MESSAGE}
+        </div>
+    {else}
+        {if isset( $INTRANET_REGISTRATION_ERROR_MESSAGE )}
+            <div class="messages-message message-error">
+                {$INTRANET_REGISTRATION_ERROR_MESSAGE}
+            </div>
+        {/if}
+
+        {control control="\QUI\Intranet\Controls\Registration"}
+    {/if}
 
 {/if}

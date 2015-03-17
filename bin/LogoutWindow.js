@@ -23,8 +23,7 @@ define([
         Type    : 'package/quiqqer/intranet/bin/LogoutWindow',
 
         Binds : [
-            'logout',
-            '$onOpen'
+            'logout'
         ],
 
         options : {
@@ -42,7 +41,6 @@ define([
             this.parent( options );
 
             this.addEvents({
-                onOpen   : this.$onOpen,
                 onSubmit : this.logout
             });
         },

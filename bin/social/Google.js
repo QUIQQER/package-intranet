@@ -2,24 +2,31 @@
 /**
  * Social Login via Google
  *
- * @author www.pcsg.de (Henning Leutz)
  * @module package/quiqqer/intranet/bin/social/Google
+ * @author www.pcsg.de (Henning Leutz)
  *
- * @event signInBegin [ {self} ]
- * @event signInEnd [ {self} ]
+ * @require qui/QUI
+ * @require qui/controls/Control
+ * @require qui/Locale
+ * @require css!package/quiqqer/intranet/bin/social/Google.css
+ *
+ * @event onSignInBegin [ {self} ]
+ * @event onSignInEnd [ {self} ]
+ * @event onSignInError [ {self}, {Object} authResult ]
  * @event onLoginBegin [ {self} ]
  * @event onAuth [ {self}, {Object} data ]
  */
 
-define([
+define('package/quiqqer/intranet/bin/social/Google', [
 
     'qui/QUI',
     'qui/controls/Control',
     'qui/Locale',
+    'Ajax',
 
     'css!package/quiqqer/intranet/bin/social/Google.css'
 
-], function(QUI, QUIControl, QUILocale)
+], function(QUI, QUIControl, QUILocale, Ajax)
 {
     "use strict";
 
@@ -29,8 +36,9 @@ define([
         Type    : 'package/quiqqer/intranet/bin/social/Google',
 
         options : {
-            name   : 'google',
-            styles : false
+            name     : 'google',
+            styles   : false,
+            clientid : ''
         },
 
         initialize : function(options)
@@ -41,7 +49,7 @@ define([
         /**
          * Creates the DOMNode Element
          *
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {
@@ -69,9 +77,7 @@ define([
          */
         login : function()
         {
-            if ( typeof QUIQQER_USER !== 'undefined' &&
-                 parseInt( QUIQQER_USER.id ) )
-            {
+            if ( typeof QUIQQER_USER !== 'undefined' && parseInt( QUIQQER_USER.id ) ) {
                 return;
             }
 
@@ -94,13 +100,11 @@ define([
                             require(['MessageHandler'], function(MH)
                             {
                                 MH.addError(
-                                    QUILocale.get(
-                                        'plugins/intranet',
-                                        'google.registration.error'
-                                    )
+                                    QUILocale.get( 'plugins/intranet', 'google.registration.error' )
                                 );
                             });
 
+                            self.fireEvent( 'signInError', [ self, obj ] );
                             return;
                         }
 
@@ -153,12 +157,37 @@ define([
                 {
                     self.fireEvent( 'signInEnd', [ self ] );
 
+                    if ( authResult.error == 'immediate_failed' )
+                    {
+                        gapi.auth.authorize({
+                            client_id : self.getAttribute( 'clientid' ),
+                            scope     : 'https://www.googleapis.com/auth/plus.login '+
+                                        'https://www.googleapis.com/auth/userinfo.email '+
+                                        'https://www.googleapis.com/auth/userinfo.profile',
+                            immediate : false
+                        }, function (authResult)
+                        {
+                            if ( authResult.status.signed_in )
+                            {
+                                callback( authResult );
+                                return;
+                            }
+
+                            QUI.getMessageHandler(function(MH) {
+                                MH.addError( authResult.error );
+                            });
+                        });
+
+                        return;
+                    }
+
                     if ( !authResult.access_token )
                     {
                         QUI.getMessageHandler(function(MH) {
                             MH.addError( authResult.error );
                         });
 
+                        self.fireEvent( 'signInError', [ self, authResult ] );
                         return;
                     }
 
@@ -167,9 +196,10 @@ define([
                     }
                 },
 
-                clientid     : "675767772092-6boaf9imuk5p5skcl9oh83su4mlc7it2.apps.googleusercontent.com",
+                clientid     : this.getAttribute( 'clientid' ),
                 cookiepolicy : "single_host_origin",
                 accesstype   : "offline",
+                immediate    : false,
 
                 requestvisibleactions : "http://schemas.google.com/AddActivity",
 
@@ -188,6 +218,8 @@ define([
         {
             try
             {
+                var self = this;
+
                 window.gPlusSigninCallback = function()
                 {
                     if ( typeOf( callback ) === 'function' ) {
@@ -195,18 +227,25 @@ define([
                     }
                 };
 
-
-                if ( !document.id( 'gplusapi' ) )
+                Ajax.get('package_quiqqer_intranet_ajax_social_clientData', function(clientData)
                 {
-                    var po = document.createElement( 'script' );
-                        po.type  = 'text/javascript';
-                        po.async = true;
-                        po.src   = '//apis.google.com/js/client:plusone.js?onload=gPlusSigninCallback';
-                        po.id    = 'gplusapi';
+                    self.setAttribute( 'clientid', clientData.googleClientId );
 
-                    var s = document.getElementsByTagName( 'script' )[0];
-                        s.parentNode.insertBefore( po, s );
-                }
+                    if ( !document.id( 'gplusapi' ) )
+                    {
+                        var po = document.createElement( 'script' );
+                            po.type  = 'text/javascript';
+                            po.async = true;
+                            po.src   = '//apis.google.com/js/client:plusone.js?onload=gPlusSigninCallback';
+                            po.id    = 'gplusapi';
+
+                        var s = document.getElementsByTagName( 'script' )[0];
+                            s.parentNode.insertBefore( po, s );
+                    }
+
+                }, {
+                    'package' : 'quiqqer/intranet'
+                });
 
             } catch ( e )
             {

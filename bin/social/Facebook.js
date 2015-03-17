@@ -2,11 +2,17 @@
 /**
  * Social Login via Facebook
  *
- * @author www.pcsg.de (Henning Leutz)
  * @module package/quiqqer/intranet/bin/social/Facebook
+ * @author www.pcsg.de (Henning Leutz)
  *
- * @event signInBegin [ {self} ]
- * @event signInEnd [ {self} ]
+ * @require qui/QUI
+ * @require qui/controls/Control
+ * @require qui/Locale
+ * @require css!package/quiqqer/intranet/bin/social/Facebook.css
+ *
+ * @event onSignInBegin [ {self} ]
+ * @event onSignInEnd [ {self} ]
+ * @event onSignInError [ {self}, {Object} authResult ]
  * @event onLoginBegin [ {self} ]
  * @event onAuth [ {self}, {Object} data ]
  */
@@ -16,10 +22,11 @@ define([
     'qui/QUI',
     'qui/controls/Control',
     'qui/Locale',
+    'Ajax',
 
     'css!package/quiqqer/intranet/bin/social/Facebook.css'
 
-], function(QUI, QUIControl, QUILocale)
+], function(QUI, QUIControl, QUILocale, Ajax)
 {
     "use strict";
 
@@ -30,7 +37,7 @@ define([
 
         options : {
             name   : 'facebook',
-            appId  : '1516174485267386',
+            appId  : '',
             styles : false
         },
 
@@ -112,11 +119,10 @@ define([
                     require(['MessageHandler'], function(MH)
                     {
                         MH.addError(
-                            QUILocale.get(
-                                'plugins/intranet',
-                                'facebook.registration.error'
-                            )
+                            QUILocale.get( 'plugins/intranet', 'facebook.registration.error' )
                         );
+
+                        self.fireEvent( 'signInError', [ self, response ] );
                     });
 
                 }, true);
@@ -131,9 +137,7 @@ define([
          */
         facebookSignIn : function(callback)
         {
-            if ( typeof QUIQQER_USER !== 'undefined' &&
-                 parseInt( QUIQQER_USER.id ) )
-            {
+            if ( typeof QUIQQER_USER !== 'undefined' && parseInt( QUIQQER_USER.id ) ) {
                 return;
             }
 
@@ -183,17 +187,24 @@ define([
                 }
 
                 // fb js
-                if ( !document.getElementById( 'facebook-jssdk' ) )
+                Ajax.get('package_quiqqer_intranet_ajax_social_clientData', function(clientData)
                 {
-                    var js,
-                        fjs = document.getElementsByTagName( 'script' )[0];
+                    self.setAttribute( 'appId', clientData.facebookAppId );
 
-                    js     = document.createElement( 'script' );
-                    js.id  = 'facebook-jssdk';
-                    js.src = "//connect.facebook.net/de_DE/all.js#xfbml=1&appId="+ this.getAttribute('appId');
+                    if ( !document.getElementById( 'facebook-jssdk' ) )
+                    {
+                        var js,
+                            fjs = document.getElementsByTagName( 'script' )[0];
 
-                    fjs.parentNode.insertBefore( js, fjs );
-                }
+                        js     = document.createElement( 'script' );
+                        js.id  = 'facebook-jssdk';
+                        js.src = "//connect.facebook.net/de_DE/all.js#xfbml=1&appId="+ clientData.facebookAppId;
+
+                        fjs.parentNode.insertBefore( js, fjs );
+                    }
+                }, {
+                    'package' : 'quiqqer/intranet'
+                });
 
             } catch ( e )
             {
@@ -203,5 +214,4 @@ define([
             }
         }
     });
-
 });

@@ -21,12 +21,27 @@
                     <type><![CDATA[bool]]></type>
                     <defaultvalue>0</defaultvalue>
                 </conf>
+                <conf name="showDeleteAccount">
+                    <type><![CDATA[bool]]></type>
+                    <defaultvalue>0</defaultvalue>
+                </conf>
+            </section>
 
+            <section name="disable">
+                <conf name="hashLifetime">
+                    <type><![CDATA[int]]></type>
+                    <defaultvalue>3600</defaultvalue>
+                </conf>
             </section>
 
             <section name="registration">
                 <conf name="userActivasion">
                     <type><![CDATA[bool]]></type>
+                    <defaultvalue>1</defaultvalue>
+                </conf>
+                <conf name="autoLoginOnActivasion">
+                    <type><![CDATA[bool]]></type>
+                    <defaultvalue>1</defaultvalue>
                 </conf>
                 <conf name="standardGroups">
                     <type><![CDATA[string]]></type>
@@ -36,6 +51,13 @@
                 </conf>
                 <conf name="loggedInDuringRegistrationn">
                     <type><![CDATA[bool]]></type>
+                </conf>
+                <conf name="sendInfoMailOnRegistrationTo">
+                    <type><![CDATA[String]]></type>
+                </conf>
+                <conf name="mailFromText">
+                    <type><![CDATA[string]]></type>
+                    <defaultvalue>QUIQQER System</defaultvalue>
                 </conf>
             </section>
             <section name="social">
@@ -73,21 +95,22 @@
                         <title>Profil Einstellungen</title>
 
                         <input conf="userProfile.showMyData" type="checkbox">
-                            <text>Meine Daten anzeigen</text>
+                            <text><u>Meine Daten</u> anzeigen</text>
                         </input>
                         <input conf="userProfile.showPasswordChange" type="checkbox">
-                            <text>Passwort ändern anzeigen</text>
+                            <text><u>Passwort ändern</u> anzeigen</text>
                         </input>
                         <input conf="userProfile.showAddress" type="checkbox">
-                            <text>Meine Adresse anzeigen</text>
+                            <text><u>Meine Adresse</u> anzeigen</text>
                         </input>
                         <input conf="userProfile.showAddressManager" type="checkbox">
-                            <text>Meine Adressen anzeigen (Address Verwaltung)</text>
+                            <text><u>Meine Adressen</u> anzeigen (Address Verwaltung)</text>
                         </input>
-
+                        <input conf="userProfile.showDeleteAccount" type="checkbox">
+                            <text><u>Mein Account löschen</u> anzeigen</text>
+                        </input>
                     </settings>
                 </category>
-
 
                 <category name="registration">
                     <text>Registrierung</text>
@@ -98,12 +121,23 @@
 
                         <input conf="registration.standardGroups" type="groups">
                             <text>Standard Gruppen</text>
-                            <description>Legen Sie fest welche Gruppen dem Benutzer bei einer Registrierung zugewiesen werden.</description>
+                            <description>
+                                Legen Sie fest welche Gruppen dem Benutzer bei einer Registrierung zugewiesen werden.
+                            </description>
                         </input>
+
+                        <input conf="registration.sendInfoMailOnRegistrationTo" type="text">
+                            <text>Info Mail bei Registrierung senden</text>
+                            <description>
+                                An die angegebene E-Mail Adresse eine Informationsmail verschicken das sich ein neuer Benutzer registriert hat.
+                            </description>
+                        </input>
+
                         <input conf="registration.sendMailOnRegistration" type="checkbox">
                             <text>Registrierungs-Aktivierungs-Mail versenden</text>
                             <description>Eine Aktivierungs E-Mail versenden damit der Benutzer sich aktivieren kann.</description>
                         </input>
+
                         <input conf="registration.loggedInDuringRegistrationn" type="checkbox">
                             <text>Eingeloggte Benutzer können sich registrieren</text>
                             <description>
@@ -111,6 +145,14 @@
                                 Eingeloggte Benutzer haben sich schon registriert und benötigen keine Registrierung.
                             </description>
                         </input>
+
+                        <input conf="registration.autoLoginOnActivasion" type="checkbox">
+                            <text>Benutzer bei Aktivierung automatisch einloggen</text>
+                            <description>
+                                Wenn diese Option aktiv ist, werden Benutzer automatisch bei Klick auf den Aktivierungslink eingeloggt.
+                            </description>
+                        </input>
+
                     </settings>
                 </category>
 

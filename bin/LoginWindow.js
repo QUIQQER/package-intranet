@@ -6,7 +6,7 @@
  * @module package/quiqqer/intranet/bin/LoginWindow
  */
 
-define([
+define('package/quiqqer/intranet/bin/LoginWindow', [
 
     'qui/QUI',
     'qui/controls/windows/Popup',
@@ -48,7 +48,13 @@ define([
         $onOpen : function()
         {
             var Content = this.getContent();
-                Content.set( 'html', '' );
+
+            Content.set({
+                html   : '',
+                styles : {
+                    padding : 0
+                }
+            });
 
             new Login({
                 events :
@@ -61,18 +67,23 @@ define([
                         {
                             loc = loc.replace( '?logout=1', '' )
                                      .replace( '&logout=1', '' )
-                                     .replace( '?logout', '' )
+                                     .replace( '?logout', '' );
 
                             window.location = loc;
 
                         } else
                         {
-                            window.location.reload();
+                            try
+                            {
+                                window.location.reload();
+                            } catch ( e )
+                            {
+                                window.location = window.location;
+                            }
                         }
                     }
                 }
             }).inject( Content );
         }
     });
-
 });

@@ -2,7 +2,10 @@
 /**
  * Profil control
  *
+ * @module package/quiqqer/intranet/bin/Profile
  * @author www.pcsg.de (Henning Leutz)
+ *
+ * @event onProfileDelete
  */
 
 define([
@@ -12,6 +15,7 @@ define([
     'qui/controls/loader/Loader',
     'qui/controls/buttons/Button',
     'qui/controls/utils/Background',
+    'qui/controls/windows/Alert',
     'qui/utils/Form',
     'Ajax',
     'Locale',
@@ -22,14 +26,17 @@ define([
 {
     "use strict";
 
+    var lg = 'quiqqer/intranet';
+
     var QUI           = arguments[ 0 ],
         QUIControl    = arguments[ 1 ],
         QUILoader     = arguments[ 2 ],
         QUIButton     = arguments[ 3 ],
         QUIBackground = arguments[ 4 ],
-        QUIFormUtils  = arguments[ 5 ],
-        Ajax          = arguments[ 6 ],
-        Locale        = arguments[ 7 ];
+        QUIAlert      = arguments[ 5 ],
+        QUIFormUtils  = arguments[ 6 ],
+        Ajax          = arguments[ 7 ],
+        Locale        = arguments[ 8 ];
 
 
     return new Class({
@@ -44,7 +51,8 @@ define([
         ],
 
         options : {
-            header : true // show the header
+            header       : true, // show the header
+            activeButton : false
         },
 
         initialize : function(options)
@@ -119,7 +127,7 @@ define([
 
             this.$buttons.myData = new QUIButton({
                 name   : 'myData',
-                text   : Locale.get( 'quiqqer/intranet', 'profile.btn.mydata' ),
+                text   : Locale.get( lg, 'profile.btn.mydata' ),
                 icon   : 'icon-file-text fa fa-file-text',
                 events :
                 {
@@ -131,7 +139,7 @@ define([
 
             this.$buttons.changePassword = new QUIButton({
                 name   : 'changePassword',
-                text   : Locale.get( 'quiqqer/intranet', 'profile.btn.changepw' ),
+                text   : Locale.get( lg, 'profile.btn.changepw' ),
                 icon   : 'icon-key fa fa-key',
                 events :
                 {
@@ -143,7 +151,7 @@ define([
 
             this.$buttons.MyAddress = new QUIButton({
                 name   : 'address',
-                text   : Locale.get( 'quiqqer/intranet', 'profile.btn.my.address' ),
+                text   : Locale.get( lg, 'profile.btn.my.address' ),
                 icon   : 'icon-home fa fa-home',
                 events :
                 {
@@ -156,7 +164,7 @@ define([
 
             this.$buttons.Address = new QUIButton({
                 name   : 'address',
-                text   : Locale.get( 'quiqqer/intranet', 'profile.btn.address' ),
+                text   : Locale.get( lg, 'profile.btn.address' ),
                 icon   : 'icon-home fa fa-home',
                 events :
                 {
@@ -166,11 +174,24 @@ define([
                 }
             }).inject( this.$Buttons );
 
+            this.$buttons.DeleteAccount = new QUIButton({
+                name   : 'address',
+                text   : Locale.get( lg, 'profile.btn.deleteAccount' ),
+                icon   : 'icon-trash fa fa-trash',
+                events :
+                {
+                    onClick : function()  {
+                        self.showDeleteAccount();
+                    }
+                }
+            }).inject( this.$Buttons );
+
             // hide all
             this.$buttons.myData.hide();
             this.$buttons.changePassword.hide();
             this.$buttons.MyAddress.hide();
             this.$buttons.Address.hide();
+            this.$buttons.DeleteAccount.hide();
 
 
             this.$Menu.addEvents({
@@ -192,13 +213,13 @@ define([
 
             } else
             {
-                this.$Header.getElement( '.title' ).set( 'html', Locale.get(
-                    'quiqqer/intranet',
-                    'profile.control.title',
-                    {
+                this.$Header.getElement( '.title' ).set(
+                    'html',
+
+                    Locale.get( lg, 'profile.control.title', {
                         username : QUIQQER_USER.name
-                    }
-                ));
+                    })
+                );
             }
 
             if ( this.getAttribute( 'header' ) === false ) {
@@ -231,13 +252,13 @@ define([
             {
                 self.$data = result;
 
-                self.$Header.getElement( '.title' ).set( 'html', Locale.get(
-                    'quiqqer/intranet',
-                    'profile.control.title',
-                    {
+                self.$Header.getElement( '.title' ).set(
+                    'html',
+
+                    Locale.get( lg, 'profile.control.title', {
                         username : QUIQQER_USER.name
-                    }
-                ));
+                    })
+                );
 
                 if ( typeof callback !== 'undefined' ) {
                     callback();
@@ -254,19 +275,29 @@ define([
         resize : function()
         {
             var elmSize    = this.$Elm.getSize(),
-                headerSize = this.$Header.getSize();
+                headerSize = this.$Header.getSize(),
 
-            this.$Buttons.setStyles({
-                height : elmSize.y - headerSize.y
-            });
+                height = elmSize.y - headerSize.y;
 
-            this.$Content.setStyles({
-                height : elmSize.y - headerSize.y
-            });
+            this.$Buttons.setStyle( 'height', height );
+            this.$Content.setStyle( 'height', height );
 
             if ( this.$ContentControl ) {
                 this.$ContentControl.resize();
             }
+
+
+            if ( !this.$Elm.getElement( '.address-content-header' ) ) {
+                return;
+            }
+
+            var Header  = this.$Elm.getElement( '.address-content-header' ),
+                Body    = this.$Elm.getElement( '.address-content-body' ),
+                Buttons = this.$Elm.getElement( '.address-content-buttons' );
+
+            Body.setStyles({
+                height : height - Header.getSize().y - Buttons.getSize().y - 40
+            });
         },
 
         /**
@@ -302,6 +333,16 @@ define([
                     self.$buttons[ Btn.getId() ] = Btn;
                 }
 
+                // config, with default config
+                config.userProfile = Object.merge({
+                    showMyData         : 0,
+                    showPasswordChange : 0,
+                    showAddress        : 0,
+                    showAddressManager : 0,
+                    showDeleteAccount  : 0
+                }, (config.userProfile || {} ));
+
+
                 // show available buttons
                 if ( ( config.userProfile.showMyData ).toInt() ) {
                     self.$buttons.myData.show();
@@ -319,11 +360,17 @@ define([
                     self.$buttons.Address.show();
                 }
 
+                if ( ( config.userProfile.showDeleteAccount ).toInt() ) {
+                    self.$buttons.DeleteAccount.show();
+                }
+
 
                 self.resize();
 
                 self.refresh(function()
                 {
+                    var activeButton = self.getAttribute('activeButton' );
+
                     // fist available button
                     for ( var i in self.$buttons )
                     {
@@ -331,9 +378,20 @@ define([
                             continue;
                         }
 
-                        self.$buttons[ i ].click()
-                        break;
+                        if ( !activeButton )
+                        {
+                            self.$buttons[ i ].click()
+                            return;
+                        }
+
+                        if ( activeButton == self.$buttons[ i ].getAttribute( 'name' ) )
+                        {
+                            self.$buttons[ i ].click();
+                            return;
+                        }
                     }
+
+                    self.$buttons[ i ].click();
                 });
             }, {
                 'package' : 'quiqqer/intranet'
@@ -458,7 +516,7 @@ define([
 
                 new QUIButton({
                     text      : Locale.get( 'quiqqer/system', 'save' ),
-                    textimage : 'icon-save',
+                    textimage : 'icon-save fa fa-save',
                     styles    : {
                         margin : '0 0 20px'
                     },
@@ -543,7 +601,7 @@ define([
 
                 new QUIButton({
                     text      : Locale.get( 'quiqqer/system', 'save' ),
-                    textimage : 'icon-save',
+                    textimage : 'icon-save fa fa-save',
                     styles    : {
                         margin : '0 0 20px'
                     },
@@ -618,28 +676,88 @@ define([
                 'package_quiqqer_intranet_ajax_address_template'
             ], function(address, template)
             {
-                self.$Content.set( 'html', template );
+                self.$Content.set(
+                    'html',
 
-                var Form = self.$Content.getElement( 'form' );
+                    '<div class="address-content-header">'+
+                        '<h2>'+
+                            Locale.get( lg, 'profile.myaddress.header') +
+                        '</h2>'+
+                        '<p>'+
+                            Locale.get( lg, 'profile.myaddress.header.description') +
+                        '</p>'+
+                    '</div>'+
+                    '<div class="address-content-body">'+ template +'</div>'+
+                    '<div class="address-content-buttons"></div>'
+                );
+
+                var Form    = self.$Content.getElement( 'form' ),
+                    Header  = self.$Content.getElement( '.address-content-header' ),
+                    Body    = self.$Content.getElement( '.address-content-body' ),
+                    Buttons = self.$Content.getElement( '.address-content-buttons' );
 
                 Form.addClass( 'package-intranet-profile-myaddress' );
 
-                var Header = new Element('h2', {
-                    html : Locale.get('quiqqer/intranet', 'profile.myaddress.header')
-                }).inject( Form, 'top' );
-
-                new Element('p', {
-                    'html' : Locale.get('quiqqer/intranet', 'profile.myaddress.header.description')
-                }).inject( Header, 'after' );
+                Body.setStyles({
+                    overflow : 'auto'
+                });
 
                 QUIFormUtils.setDataToForm( address, Form );
 
+                // anrede firma
+                var InputCompany     = self.$Content.getElement( '[name="company"]' ),
+                    SelectSalutation = self.$Content.getElement( '[name="salutation"]' );
+
+                SelectSalutation.addEvents({
+                    change : function()
+                    {
+                        var Table = InputCompany.getParent('table'),
+                            TR    = InputCompany.getParent('tr');
+
+                        if ( this.value == 'company' )
+                        {
+                            TR.setStyle( 'display', null );
+                        } else
+                        {
+                            TR.setStyle( 'display', 'none' );
+                        }
+
+                        // table even / odd
+                        var i, len, Row;
+
+                        var list  = Table.getElements( 'tbody tr' ),
+                            count = 0;
+
+                        list.removeClass( 'even' ).removeClass( 'odd' );
+
+                        for ( i = 0, len = list.length; i < len; i++ )
+                        {
+                            Row = list[ i ];
+
+                            if ( Row.getStyle( 'display' ) == 'none' ) {
+                                continue;
+                            }
+
+                            count++;
+
+                            if ( count % 2 )
+                            {
+                                Row.addClass( 'odd' );
+                                continue;
+                            }
+
+                            Row.addClass( 'even' );
+                        }
+                    }
+                });
+
+                if ( address.company ) {
+                    SelectSalutation.fireEvent( 'change' );
+                }
+
 
                 new QUIButton({
-                    text : Locale.get(
-                        'quiqqer/intranet',
-                        'address.manager.create.sheet.button.edit'
-                    ),
+                    text      : Locale.get( lg, 'address.manager.create.sheet.button.edit' ),
                     textimage : 'icon-save fa fa-save',
                     'class'   : 'btn-green',
                     events    :
@@ -660,8 +778,9 @@ define([
                             });
                         }
                     }
-                }).inject( self.$Content );
+                }).inject( Buttons );
 
+                self.resize();
                 self.Loader.hide();
 
             }, {
@@ -694,6 +813,113 @@ define([
                     }
                 }).inject( self.$Content );
             });
+        },
+
+        /**
+         * show account deletion
+         */
+        showDeleteAccount : function()
+        {
+            var self = this;
+
+            this.$normalizeButtons();
+            this.$buttons.DeleteAccount.setActive();
+
+            this.$Content.set( 'html', '' );
+
+            this.$Content.set(
+                'html',
+
+                '<div class="address-content-header">'+
+                    '<h2>'+
+                        Locale.get( lg, 'profile.deleteAccount.header') +
+                    '</h2>'+
+                    '<p>'+
+                        Locale.get( lg, 'profile.deleteAccount.header.description') +
+                    '</p>'+
+                '</div>'
+            );
+
+            new QUIButton({
+                textimage : 'icon-trash fa fa-trash',
+                text : Locale.get( lg, 'profile.deleteAccount.button'),
+                styles : {
+                    margin : '20px 0'
+                },
+                events :
+                {
+                    onClick : function()
+                    {
+                        self.openSheet(function(Content, Sheet)
+                        {
+                            Sheet.setStyles({
+                                padding : 20
+                            });
+
+                            Sheet.getElements( '.qui-sheet-buttons' ).destroy();
+
+                            var Container = new Element('div', {
+                                'class' : 'package-intranet-profile-delete',
+                                html    : '<h1>'+ Locale.get( lg, 'profile.delete.account.header' ) +'</h1>'+
+                                          Locale.get( lg, 'profile.delete.account.text' )
+                            }).inject( Content );
+
+
+                            new QUIButton({
+                                text   : Locale.get( lg, 'profile.delete.account.button' ),
+                                styles : {
+                                    'float' : 'none',
+                                    margin  : 10
+                                },
+                                events :
+                                {
+                                    onClick : function()
+                                    {
+                                        Sheet.fireEvent( 'close' );
+
+                                        self.Loader.show();
+
+                                        Ajax.post('package_quiqqer_intranet_ajax_user_profile_disable', function(result)
+                                        {
+                                            if ( !result )
+                                            {
+                                                self.Loader.hide();
+                                                return;
+                                            }
+
+                                            new QUIAlert({
+                                                title   : '',
+                                                icon    : 'fa fa-trash icon-trash',
+                                                content : Locale.get( lg, 'message.profile.delete.account.start.success' )
+                                            }).open();
+
+                                            self.Loader.hide();
+                                            self.fireEvent( 'onProfileDelete' );
+                                        }, {
+                                            'package' : 'quiqqer/intranet'
+                                        });
+                                    }
+                                }
+                            }).inject( Container );
+
+                            new QUIButton({
+                                text    : Locale.get( lg, 'profile.delete.account.button.cancel' ),
+                                'class' : 'btn-red',
+                                styles  : {
+                                    'float' : 'none',
+                                    margin  : 10
+                                },
+                                events :
+                                {
+                                    onClick : function() {
+                                        Sheet.fireEvent( 'close' );
+                                    }
+                                }
+                            }).inject( Container );
+                        });
+                    }
+                }
+            }).inject( this.$Content );
         },
 
         /**

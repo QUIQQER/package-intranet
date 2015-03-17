@@ -1,99 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <locales>
 
-    <groups name="quiqqer/intranet" datatype="js">
-        <!-- logout window -->
-        <locale name="window.logout.title">
-            <de><![CDATA[Abmelden]]></de>
-            <en><![CDATA[Logout]]></en>
-        </locale>
-        <locale name="window.logout.text">
-            <de><![CDATA[Abmelden]]></de>
-            <en><![CDATA[Logout]]></en>
-        </locale>
-        <locale name="window.logout.information">
-            <de><![CDATA[Möchten Sie sich wirklich abmelden?]]></de>
-            <en><![CDATA[Do you really want to log out?]]></en>
-        </locale>
-
-        <!-- my address -->
-        <locale name="profile.myaddress.header">
-            <de><![CDATA[Meine Adresse]]></de>
-            <en><![CDATA[My Address]]></en>
-        </locale>
-        <locale name="profile.myaddress.header.description">
-            <de><![CDATA[Bitte füllen Sie alle Felder aus.]]></de>
-            <en><![CDATA[Please fill out all fields.]]></en>
-        </locale>
-
-
-        <!-- address-manager -->
-        <locale name="address.manager.header.title" html="true">
-            <de><![CDATA[Adressverwaltung]]></de>
-            <en><![CDATA[Address management]]></en>
-        </locale>
-        <locale name="address.manager.header.short" html="true">
-            <de><![CDATA[&nbsp;]]></de>
-            <en><![CDATA[&nbsp;]]></en>
-        </locale>
-        <locale name="address.manager.buttons.add">
-            <de><![CDATA[Adresse hinzufügen]]></de>
-            <en><![CDATA[Add address]]></en>
-        </locale>
-        <locale name="address.manager.buttons.edit">
-            <de><![CDATA[Markierte Adresse bearbeiten]]></de>
-            <en><![CDATA[Edit selected address]]></en>
-        </locale>
-        <locale name="address.manager.buttons.delete">
-            <de><![CDATA[Markierte Adresse löschen]]></de>
-            <en><![CDATA[Delete selected address]]></en>
-        </locale>
-
-
-        <locale name="address.manager.create.sheet.edit.header">
-            <de><![CDATA[Adresse ändern]]></de>
-            <en><![CDATA[Edit Address]]></en>
-        </locale>
-        <locale name="address.manager.create.sheet.edit.desc">
-            <de><![CDATA[Bitte füllen Sie alle Felder aus.]]></de>
-            <en><![CDATA[Please fill out all fields.]]></en>
-        </locale>
-
-        <locale name="address.manager.create.sheet.create.header">
-            <de><![CDATA[Neue Adresse anlegen]]></de>
-            <en><![CDATA[Create new address]]></en>
-        </locale>
-        <locale name="address.manager.create.sheet.create.desc">
-            <de><![CDATA[Bitte füllen Sie alle Felder aus.]]></de>
-            <en><![CDATA[Please fill out all fields.]]></en>
-        </locale>
-
-
-        <locale name="address.manager.create.sheet.button.cancel">
-            <de><![CDATA[Abbrechen]]></de>
-            <en><![CDATA[Cancel]]></en>
-        </locale>
-        <locale name="address.manager.create.sheet.button.create">
-            <de><![CDATA[Neue Adresse anlegen]]></de>
-            <en><![CDATA[Create new address]]></en>
-        </locale>
-        <locale name="address.manager.create.sheet.button.edit">
-            <de><![CDATA[Addresse speichern]]></de>
-            <en><![CDATA[Save address]]></en>
-        </locale>
-
-
-        <locale name="address.manager.delete.window.title">
-            <de><![CDATA[Addresse wirklich löschen?]]></de>
-            <en><![CDATA[Really delete the address?]]></en>
-        </locale>
-        <locale name="address.manager.delete.window.text" html="true">
-            <de><![CDATA[<h1>Möchten Sie folgende Adresse wirkliche löschen?</h1>[address]]]></de>
-            <en><![CDATA[<h1>Do you really want to delete the address?</h1>[address]]]></en>
-        </locale>
-    </groups>
-
     <groups name="quiqqer/intranet" datatype="php,js">
+        <locale name="package.title">
+            <de><![CDATA[QUIQQER - Frontend-User]]></de>
+            <en><![CDATA[QUIQQER - Frontend-User]]></en>
+        </locale>
+        <locale name="package.description" html="true">
+            <de><![CDATA[
+            <p>Mit der Frontend-User / Quick Registraton erlauben Sie Ihren Nutzern sich auf Ihrer Homepage mit Email-Adresse und Passwort zu registrieren.</p>
+            <p>Sollte der Nutzer bereits auf einer Social Media Plattform wie Facebook, Google+ oder Twitter angemeldet sein,
+            reicht auch der Klick auf einen der entsprechenden Buttons um sich in Ihrem Projekt zu registrieren.</p>
+            ]]></de>
+            <en><![CDATA[
+
+            ]]></en>
+        </locale>
+
+        <locale name="registration.btn.submit">
+            <de><![CDATA[Jetzt registrieren]]></de>
+            <en><![CDATA[Register now]]></en>
+        </locale>
+
         <locale name="loged.in.as">
             <de><![CDATA[Eingeloggt als: [username]]]></de>
             <en><![CDATA[Loged in as: [username]]]></en>
@@ -228,6 +156,27 @@
             <en><![CDATA[Repeat password]]></en>
         </locale>
 
+        <!-- messages -->
+        <locale name="message.profile.delete.account.start.success" html="true">
+            <de><![CDATA[
+                <p>Ihre Account-Löschung wurde erfolgreich gestartet. Sie erhalten nun eine E-Mail an die hinterlegte Adresse um Ihre Kündigung zu bestätigen.</p>
+                <p>Mit einem Klick auf den Abmeldelink in dieser E-Mail löschen Sie Ihren Account endgültig.</p>
+                <br />
+                <p>Falls Sie die E-Mail nicht erhalten haben, werfen Sie bitte einen Blick in Ihren Spam-Ordner.</p>
+            ]]></de>
+            <en><![CDATA[
+                <p>Your account deletion has started successfully. You will receive an e-mail to the address you registered with.</p>
+                <p>To finish, click the link provided in the e-mail to permanently delete your account.</p>
+                <br />
+                <p>If you do not receive an e-mail, please take a look at your spam folder.</p>
+            ]]></en>
+        </locale>
+
+        <locale name="message.profile.disable.successfully" html="true">
+            <de><![CDATA[Ihr Account wurde erfolgreich gelöscht.]]></de>
+            <en><![CDATA[Your account has been deleted successfully.]]></en>
+        </locale>
+
         <!-- exceptions -->
         <locale name="exception.old.pw.empty">
             <de><![CDATA[Bitte geben Sie Ihr altes Passwort an.]]></de>
@@ -241,8 +190,173 @@
             <de><![CDATA[Ihre Passwörter stimmen nicht überein.]]></de>
             <en><![CDATA[Your passwords do not match.]]></en>
         </locale>
+
+        <locale name="exception.mail.not.available" html="true">
+            <de><![CDATA[
+                Diese E-Mail Adresse ist als Benutzername nicht vefügbar.<br />
+                Bitte benutzen sie eine andere E-Mail Adresse.
+            ]]></de>
+            <en><![CDATA[
+                This e-mail address is unavailable as an username. <br />
+                Please use a different email address.
+            ]]></en>
+        </locale>
+
+        <locale name="exception.error.email.empty" html="true">
+            <de><![CDATA[Bitte benutzen sie eine E-Mail Adresse.]]></de>
+            <en><![CDATA[Please use a email address.]]></en>
+        </locale>
+        <locale name="exception.error.password.empty" html="true">
+            <de><![CDATA[Bitte benutzen sie ein Passwort.]]></de>
+            <en><![CDATA[Please use a password.]]></en>
+        </locale>
+        <locale name="exception.error.emails.unequal" html="true">
+            <de><![CDATA[Ihre angegebenen E-Mail-Adressen stimmen leider nicht überein.]]></de>
+            <en><![CDATA[Unfortunately your specified e-mail addresses do not match.]]></en>
+        </locale>
+        <locale name="exception.error.passwords.unequal" html="true">
+            <de><![CDATA[Ihre angegebenen Passwörter stimmen leider nicht überein.]]></de>
+            <en><![CDATA[Unfortunately your specified passwords do not match.]]></en>
+        </locale>
     </groups>
 
+
+    <groups name="quiqqer/intranet" datatype="js">
+        <!-- logout window -->
+        <locale name="window.logout.title">
+            <de><![CDATA[Abmelden]]></de>
+            <en><![CDATA[Logout]]></en>
+        </locale>
+        <locale name="window.logout.text">
+            <de><![CDATA[Abmelden]]></de>
+            <en><![CDATA[Logout]]></en>
+        </locale>
+        <locale name="window.logout.information">
+            <de><![CDATA[Möchten Sie sich wirklich abmelden?]]></de>
+            <en><![CDATA[Do you really want to log out?]]></en>
+        </locale>
+
+        <!-- my address -->
+        <locale name="profile.myaddress.header">
+            <de><![CDATA[Meine Adresse]]></de>
+            <en><![CDATA[My Address]]></en>
+        </locale>
+        <locale name="profile.myaddress.header.description">
+            <de><![CDATA[Bitte füllen Sie alle Felder aus.]]></de>
+            <en><![CDATA[Please fill out all fields.]]></en>
+        </locale>
+
+
+        <!-- address-manager -->
+        <locale name="address.manager.header.title" html="true">
+            <de><![CDATA[Adressverwaltung]]></de>
+            <en><![CDATA[Address management]]></en>
+        </locale>
+        <locale name="address.manager.header.short" html="true">
+            <de><![CDATA[&nbsp;]]></de>
+            <en><![CDATA[&nbsp;]]></en>
+        </locale>
+        <locale name="address.manager.buttons.add">
+            <de><![CDATA[Adresse hinzufügen]]></de>
+            <en><![CDATA[Add address]]></en>
+        </locale>
+        <locale name="address.manager.buttons.edit">
+            <de><![CDATA[Markierte Adresse bearbeiten]]></de>
+            <en><![CDATA[Edit selected address]]></en>
+        </locale>
+        <locale name="address.manager.buttons.delete">
+            <de><![CDATA[Markierte Adresse löschen]]></de>
+            <en><![CDATA[Delete selected address]]></en>
+        </locale>
+
+
+        <locale name="address.manager.create.sheet.edit.header">
+            <de><![CDATA[Adresse ändern]]></de>
+            <en><![CDATA[Edit Address]]></en>
+        </locale>
+        <locale name="address.manager.create.sheet.edit.desc">
+            <de><![CDATA[Bitte füllen Sie alle Felder aus.]]></de>
+            <en><![CDATA[Please fill out all fields.]]></en>
+        </locale>
+
+        <locale name="address.manager.create.sheet.create.header">
+            <de><![CDATA[Neue Adresse anlegen]]></de>
+            <en><![CDATA[Create new address]]></en>
+        </locale>
+        <locale name="address.manager.create.sheet.create.desc">
+            <de><![CDATA[Bitte füllen Sie alle Felder aus.]]></de>
+            <en><![CDATA[Please fill out all fields.]]></en>
+        </locale>
+
+
+        <locale name="address.manager.create.sheet.button.cancel">
+            <de><![CDATA[Abbrechen]]></de>
+            <en><![CDATA[Cancel]]></en>
+        </locale>
+        <locale name="address.manager.create.sheet.button.create">
+            <de><![CDATA[Neue Adresse anlegen]]></de>
+            <en><![CDATA[Create new address]]></en>
+        </locale>
+        <locale name="address.manager.create.sheet.button.edit">
+            <de><![CDATA[Addresse speichern]]></de>
+            <en><![CDATA[Save address]]></en>
+        </locale>
+
+
+        <locale name="address.manager.delete.window.title">
+            <de><![CDATA[Addresse wirklich löschen?]]></de>
+            <en><![CDATA[Really delete the address?]]></en>
+        </locale>
+        <locale name="address.manager.delete.window.text" html="true">
+            <de><![CDATA[<h1>Möchten Sie folgende Adresse wirkliche löschen?</h1>[address]]]></de>
+            <en><![CDATA[<h1>Do you really want to delete the address?</h1>[address]]]></en>
+        </locale>
+
+
+        <!-- delete account -->
+        <locale name="profile.deleteAccount.header">
+            <de><![CDATA[Account löschen]]></de>
+            <en><![CDATA[Delete your Account]]></en>
+        </locale>
+        <locale name="profile.btn.deleteAccount">
+            <de><![CDATA[Account löschen]]></de>
+            <en><![CDATA[Delete your Account]]></en>
+        </locale>
+        <locale name="profile.deleteAccount.header.description" html="true">
+            <de><![CDATA[Um Ihre Account-Löschung zu starten klicken Sie bitte auf "Account-Löschung starten".]]></de>
+            <en><![CDATA[To start your account deletion, click on "Start Account Deletion".]]></en>
+        </locale>
+        <locale name="profile.deleteAccount.button">
+            <de><![CDATA[Account-Löschung starten]]></de>
+            <en><![CDATA[Start account deletion]]></en>
+        </locale>
+
+        <locale name="profile.delete.account.header">
+            <de><![CDATA[Möchten Sie Ihren Account wirklich löschen?]]></de>
+            <en><![CDATA[Are you sure you want to delete your account?]]></en>
+        </locale>
+
+        <locale name="profile.delete.account.text" html="true">
+            <de><![CDATA[
+                <p>Ihre Daten werden unwiderruflich gelöscht und können nicht wiederhergestellt werden.</p>
+                <p>Wenn Sie sicher sind, klicken Sie bitte auf "Ja, Account wirklich löschen".</p>
+                <p>Danach wird Ihnen eine E-Mail mit einem Bestätigungslink gesendet.</p>
+            ]]></de>
+            <en><![CDATA[
+                <p>All data is deleted and cannot be restored.</p>
+                <p>If you are sure you want to delete your account, click on "Yes, delete my account".</p>
+                <p>Afterwards you will receive a confirmation e-mail with a verification link.</p>
+            ]]></en>
+        </locale>
+        <locale name="profile.delete.account.button">
+            <de><![CDATA[Ja, Account wirklich löschen]]></de>
+            <en><![CDATA[Yes, delete my account]]></en>
+        </locale>
+        <locale name="profile.delete.account.button.cancel">
+            <de><![CDATA[Abbrechen]]></de>
+            <en><![CDATA[Cancel]]></en>
+        </locale>
+    </groups>
 
     <!-- registration template -->
     <groups name="quiqqer/intranet" datatype="php">
@@ -314,8 +428,8 @@
 
         <!-- registration mails -->
         <locale name="mail.registration.MAILFromText">
-            <de><![CDATA[Registrierung]]></de>
-            <en><![CDATA[Register]]></en>
+            <de><![CDATA[[mailFromText]]]></de>
+            <en><![CDATA[[mailFromText]]]></en>
         </locale>
         <locale name="mail.registration.MailSubject">
             <de><![CDATA[Registrierung]]></de>
@@ -354,8 +468,8 @@
 
         <!-- activation mails -->
         <locale name="mail.activation.MAILFromText">
-            <de><![CDATA[Aktivierung]]></de>
-            <en><![CDATA[Activation]]></en>
+            <de><![CDATA[[mailFromText]]]></de>
+            <en><![CDATA[[mailFromText]]]></en>
         </locale>
         <locale name="mail.activation.MailSubject">
             <de><![CDATA[Aktivierung]]></de>
@@ -421,8 +535,8 @@
 
         <!-- mail new password generated -->
         <locale name="mail.new.password.MAILFromText">
-            <de><![CDATA[Passwort vergessen]]></de>
-            <en><![CDATA[Forgotten password]]></en>
+            <de><![CDATA[[mailFromText]]]></de>
+            <en><![CDATA[[mailFromText]]]></en>
         </locale>
         <locale name="mail.new.password.MailSubject">
             <de><![CDATA[Passwort vergessen]]></de>
@@ -430,7 +544,7 @@
         </locale>
         <locale name="mail.new.password.Body" html="true">
             <de><![CDATA[
-                <p>Sie haben ein neues Passwort für Ihr NameRobot-Benutzerkonto angefordert.</p>
+                <p>Sie haben ein neues Passwort für Ihr Benutzerkonto angefordert.</p>
                 <p>Ihr neues Passwort lautet: <strong>[password]</strong></p>
 
                 <br />
@@ -441,7 +555,7 @@
                 </p>
             ]]></de>
             <en><![CDATA[
-                <p>You have requested a new password for your NameRobot user account.</p>
+                <p>You have requested a new password for your user account.</p>
                 <p>Your new password is: <strong>[password]</strong></p>
 
                 <br />
@@ -453,6 +567,133 @@
             ]]></en>
         </locale>
 
+        <!-- mail user disable -->
+        <locale name="mail.disable.MAILFromText">
+            <de><![CDATA[[mailFromText]]]></de>
+            <en><![CDATA[[mailFromText]]]></en>
+        </locale>
+        <locale name="mail.disable.Subject">
+            <de><![CDATA[Account-Löschung]]></de>
+            <en><![CDATA[Deletion of your account]]></en>
+        </locale>
+        <locale name="mail.disable.Body" html="true">
+            <de><![CDATA[
+                <p>
+                    Sie haben in Ihrem Profil die Löschung Ihres Accounts beantragt.
+                </p>
+                <h3>Sind Sie sicher?</h3>
+                <p>
+                    Um die Löschung Ihres Accounts zu verifizieren, klicken Sie bitte <a href="[disable_link]">hier</a>
+                    oder kopieren Sie die folgende URL in die Adresszeile Ihres Browsers.
+                </p>
+                <br />
+                <p>[disable_link]</p>
+                <br />
+                <p>
+                    Bitte beachten Sie, dass Ihre personenbezogenen Daten unwiderruflich gelöscht werden und nicht wiederhergestellt werden können.
+                </p>
+            ]]></de>
+            <en><![CDATA[
+                <p>
+                    Using your profile, you have applied to delete your account.
+                </p>
+                <h3>Are you sure?</h3>
+
+                <p>
+                    You would still like to delete your account? No problem!
+                </p>
+                <p>
+                    In order to authenticate your deletion request, please click <a href="[disable_link]">here</a>
+                    or copy the following URL into your browser's address bar.
+                </p>
+                <br />
+                <p>[disable_link]</p>
+                <br />
+
+                <p>
+                    Please be aware that all your personal details will be permanently deleted and will not be recoverable.
+                </p>
+            ]]></en>
+        </locale>
+
+        <!-- admin registration info mail -->
+        <locale name="mail.registration.admin.info.MAILFromText">
+            <de><![CDATA[[mailFromText]]]></de>
+            <en><![CDATA[[mailFromText]]]></en>
+        </locale>
+        <locale name="mail.registration.admin.info.subject">
+            <de><![CDATA[Neue Registrierung]]></de>
+            <en><![CDATA[New registration]]></en>
+        </locale>
+        <locale name="mail.registration.admin.info.subject.social">
+            <de><![CDATA[Neue Registrierung - [social]]]></de>
+            <en><![CDATA[New registration - [social]]]></en>
+        </locale>
+        <locale name="mail.registration.admin.info.body" html="true">
+            <de><![CDATA[
+
+                <h1>Es hat sich ein neuer Benutzer angemeldet</h1>
+                <p>Benutzername: [user_name]</p>
+                <p>Benutzer-ID: [user_id]</p>
+                <p>User Agent: [user_agent]</p>
+                <p>IP: [user_ip]</p>
+
+                <h2>Herkunft</h2>
+                <pre>[geo_ip_data]</pre>
+
+                <h2>Daten</h2>
+                <pre>[data]</pre>
+
+            ]]></de>
+            <en><![CDATA[
+
+                <h1>A new user has registered</h1>
+                <p>Username: [user_name]</p>
+                <p>User-ID: [user_id]</p>
+                <p>User Agent: [user_agent]</p>
+                <p>IP: [user_ip]</p>
+
+                <h2>Origin</h2>
+                <pre>[geo_ip_data]</pre>
+
+                <h2>Data</h2>
+                <pre>[data]</pre>
+
+            ]]></en>
+        </locale>
+
+        <!-- new mail activasion -->
+        <locale name="intranet.new.email.MAILFromText">
+            <de><![CDATA[[mailFromText]]]></de>
+            <en><![CDATA[[mailFromText]]]></en>
+        </locale>
+        <locale name="intranet.new.email.MailSubject">
+            <de><![CDATA[E-Mail bestätigen]]></de>
+            <en><![CDATA[E-mail confirmation]]></en>
+        </locale>
+        <locale name="intranet.new.email.Body" html="true">
+            <de><![CDATA[
+                <p>
+                    Sie haben die Änderung Ihrer E-Mail-Adresse angefordert.
+                    Klicken Sie bitte <a href="[activasion_link]">hier</a> oder kopieren Sie folgenden Link
+                    <br /><br />
+                    [activasion_link]
+                    <br /><br />
+                    um Ihre geänderte E-Mail-Adresse zu aktivieren.
+                </p>
+            ]]></de>
+            <en><![CDATA[
+                <p>
+                    You requested the change of your e-mail address.
+                    Please click <a href="[activasion_link]">here</a> or copy the following link to your browser to verify your changed e-mail address:
+                    <br /><br />
+                    [activasion_link]
+                    <br /><br />
+                </p>
+            ]]></en>
+        </locale>
+
+
         <!-- address daten -->
         <locale name="template.address.header.data">
             <de><![CDATA[Daten]]></de>
@@ -462,9 +703,6 @@
             <de><![CDATA[Anschrift]]></de>
             <en><![CDATA[Address]]></en>
         </locale>
-
-
-
 
         <!-- messages -->
         <locale name="message.registration.finish">
@@ -476,8 +714,16 @@
             <en><![CDATA[An e-mail with further instructions has been sent to you.]]></en>
         </locale>
         <locale name="message.send.new.password.successfully">
-            <de><![CDATA[Ihnen wurde eine E-Mail mit einem neuen Password gesendet.]]></de>
+            <de><![CDATA[Ihnen wurde eine E-Mail mit einem neuen Passwort gesendet.]]></de>
             <en><![CDATA[An e-mail with a new password has been sent to you.]]></en>
+        </locale>
+        <locale name="message.send.new.email.successfully">
+            <de><![CDATA[Sie haben Ihre E-Mail Adresse geändert. Ihnen wurde eine E-Mail mit weiteren Anweisungen gesendet.]]></de>
+            <en><![CDATA[You have changed your e-mail address. An e-mail with further instructions has been sent to you.]]></en>
+        </locale>
+        <locale name="message.new.email.successfully">
+            <de><![CDATA[Ihre E-Mail Adresse wurde erfolgreich geändert.]]></de>
+            <en><![CDATA[You have changed your e-mail address successful.]]></en>
         </locale>
 
         <!-- exceptions -->
@@ -513,6 +759,14 @@
         <locale name="exception.send.activation.successful.mail.fail">
             <de><![CDATA[Es konnte keine E-Mail versendet werden. Bitte wenden Sie sich an einen Administrator.]]></de>
             <en><![CDATA[An email could not be sent. Please contact an administrator.]]></en>
+        </locale>
+        <locale name="exception.disable.user.already.deleted">
+            <de><![CDATA[Der Benutzer ist bereits gelöscht.]]></de>
+            <en><![CDATA[The user is already deleted.]]></en>
+        </locale>
+        <locale name="exception.send.new.email.fail">
+            <de><![CDATA[Fehler beim Versenden der Mail. Ihre neue E-Mail Adresse konnte nicht bestätigt werden.]]></de>
+            <en><![CDATA[Error while sending mail. Your new e-mail address could not be confirmed.]]></en>
         </locale>
 
     </groups>

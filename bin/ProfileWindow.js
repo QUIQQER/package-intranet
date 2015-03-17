@@ -6,7 +6,7 @@
  * @module package/quiqqer/intranet/bin/ProfileWindow
  */
 
-define([
+define('package/quiqqer/intranet/bin/ProfileWindow', [
 
     'qui/QUI',
     'qui/controls/windows/Popup',
@@ -31,7 +31,9 @@ define([
             title     : 'Profil',
             maxWidth  : 1200,
             maxHeight : 650,
-            buttons   : false
+            buttons   : false,
+            activeButton : false,
+            backgroundClosable : false
         },
 
         initialize : function(options)
@@ -63,7 +65,8 @@ define([
          */
         $onOpen : function()
         {
-            var Content = this.getContent();
+            var self    = this,
+                Content = this.getContent();
 
             Content.set({
                 html   : '',
@@ -73,7 +76,14 @@ define([
             });
 
             this.$Profile = new Profile({
-                header : false
+                header       : false,
+                activeButton : this.getAttribute( 'activeButton' ),
+                events :
+                {
+                    onProfileDelete : function() {
+                        self.close();
+                    }
+                }
             }).inject( Content );
         },
 

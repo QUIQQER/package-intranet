@@ -7,6 +7,7 @@
 /**
  * Return true | false if the user exist
  *
+ * @param String $email - username | email
  * @return Bool
  */
 
@@ -16,11 +17,11 @@ function package_quiqqer_intranet_ajax_user_isRegistered($email)
         return false;
     }
 
-    if ( \QUI::getUsers()->existsUsername( $email ) ) {
+    if ( \QUI::getUsers()->usernameExists( $email ) ) {
         return true;
     }
 
-    return \QUI::getUsers()->existEmail( $email );
+    return \QUI::getUsers()->emailExists( $email );
 }
 
 \QUI::$Ajax->register(

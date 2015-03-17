@@ -6,6 +6,8 @@
 
 namespace QUI\Intranet\Interfaces;
 
+use \QUI\Users\User;
+
 /**
  * Interface for social media registration / login
  * @author www.pcsg.de (Henning Leutz)
@@ -32,7 +34,7 @@ interface Social
     /**
      * Return the user data from the social network
      *
-     * @param unknown $token
+     * @param string $token
      * @return Array
      */
     public function getUserDataByToken($token);
@@ -43,7 +45,7 @@ interface Social
      * @param \QUI\Users\User $User
      * @return Bool
      */
-    public function hasAccess(\QUI\Users\User $User);
+    public function hasAccess(User $User);
 
     /**
      * Check if the user is
@@ -68,5 +70,5 @@ interface Social
      * @param \QUI\Users\User $User
      * @param String $token
      */
-    public function onRegistration(\QUI\Users\User $User, $token);
+    public function onRegistration(User $User, $token);
 }

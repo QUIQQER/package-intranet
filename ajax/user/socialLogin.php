@@ -5,25 +5,42 @@
  */
 
 /**
- * Register an user over social networks
+ * Register an user with a social network
  *
- * @param String $email
- * @param String $password
- * @param String $data
+ * @param String $socialType - type of the social network
+ * @param String $token
+ * @param String $project - decoded project data | JSON Array
+ * @return array - user attributes
  */
 
-function package_quiqqer_intranet_ajax_user_socialLogin($socialType, $token)
+function package_quiqqer_intranet_ajax_user_socialLogin($socialType, $token, $project)
 {
-    // create user
-    $Reg    = new \QUI\Intranet\Registration();
-    $Social = $Reg->getSocial( $socialType );
+    $Project = false;
 
-    $User = $Social->login( $token );
+    try
+    {
+        $Project = \QUI::getProjectManager()->decode( $project );
+
+    } catch ( \QUI\Exception $Exception )
+    {
+
+    }
+
+    $Reg = new \QUI\Intranet\Registration(array(
+        'Project' => $Project
+    ));
+
+    $Social = $Reg->getSocial( $socialType );
+    $User   = $Social->login( $token );
+
+    if ( $User->getId() ) {
+        $Reg->setLoginData( $User );
+    }
 
     return $User->getAttributes();
 }
 
 \QUI::$Ajax->register(
     'package_quiqqer_intranet_ajax_user_socialLogin',
-    array( 'socialType', 'token' )
+    array( 'socialType', 'token', 'project' )
 );

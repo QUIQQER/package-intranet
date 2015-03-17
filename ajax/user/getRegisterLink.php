@@ -5,16 +5,14 @@
  */
 
 /**
- * Register an user
+ * Return the registration link
  *
- * @param String $email
- * @param String $password
- * @param String $data
+ * @param String $project - project data, JSON Array
+ * @return string
  */
-
-function package_quiqqer_intranet_ajax_user_getRegisterLink($project, $lang)
+function package_quiqqer_intranet_ajax_user_getRegisterLink($project)
 {
-    $Project = \QUI::getProject( $project, $lang );
+    $Project = \QUI::getProjectManager()->decode( $project );
     $sites   = $Project->getSites(array(
         'where' => array(
             'type' => 'quiqqer/intranet:intranet/registration'
@@ -27,5 +25,5 @@ function package_quiqqer_intranet_ajax_user_getRegisterLink($project, $lang)
 
 \QUI::$Ajax->register(
     'package_quiqqer_intranet_ajax_user_getRegisterLink',
-    array( 'project', 'lang' )
+    array( 'project' )
 );
