@@ -1,6 +1,6 @@
 {
     "name" : "quiqqer/intranet",
-    "type" : "quiqqer-library",
+    "type" : "quiqqer-module",
     "description" : "Provided registration, registration with social networks, profil functionality.",
     "version" : "dev-dev",
     "license" : "GPL-2.0+",
