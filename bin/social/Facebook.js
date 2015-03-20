@@ -95,7 +95,7 @@ define('package/quiqqer/intranet/bin/social/Facebook', [
                         QUILocale.get( 'quiqqer/intranet', 'facebook.registration.error' )
                     );
 
-                    self.fireEvent( 'signInError', [ self, response ] );
+                    self.fireEvent( 'signInError', [ self, false ] );
                 });
             }).delay( 4000 );
 
