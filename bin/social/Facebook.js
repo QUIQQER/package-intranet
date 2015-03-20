@@ -87,8 +87,24 @@ define('package/quiqqer/intranet/bin/social/Facebook', [
 
             this.fireEvent( 'loginBegin', [ this ] );
 
+            this.$__PopupCheck = (function()
+            {
+                QUI.getMessageHandler(function(MH)
+                {
+                    MH.addError(
+                        QUILocale.get( 'quiqqer/intranet', 'facebook.registration.error' )
+                    );
+
+                    self.fireEvent( 'signInError', [ self, response ] );
+                });
+            }).delay( 4000 );
+
             this.facebookSignIn(function()
             {
+                if ( typeof self.$__PopupCheck !== 'undefined' ) {
+                    clearTimeout( self.$__PopupCheck );
+                }
+
                 FB.getLoginStatus(function(response)
                 {
                     if ( response.status === 'connected' )
@@ -116,10 +132,10 @@ define('package/quiqqer/intranet/bin/social/Facebook', [
                         return;
                     }
 
-                    require(['MessageHandler'], function(MH)
+                    QUI.getMessageHandler(function(MH)
                     {
                         MH.addError(
-                            QUILocale.get( 'plugins/intranet', 'facebook.registration.error' )
+                            QUILocale.get( 'quiqqer/intranet', 'facebook.registration.error' )
                         );
 
                         self.fireEvent( 'signInError', [ self, response ] );
@@ -156,6 +172,17 @@ define('package/quiqqer/intranet/bin/social/Facebook', [
 
             FB.login(function(response)
             {
+                if ( response.session !== null )
+                {
+                    self.fireEvent( 'signInError', [ self, response ] );
+
+                    if ( typeof callback !== 'undefined' ) {
+                        callback( false );
+                    }
+
+                    return;
+                }
+
                 self.fireEvent( 'signInEnd', [ self ] );
 
                 callback();

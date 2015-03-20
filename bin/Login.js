@@ -188,7 +188,10 @@ define('package/quiqqer/intranet/bin/Login', [
                             self.Loader.show();
                             self.fireEvent( 'loginBegin', [ self ] );
                         },
-                        onAuth : self.$onAuth
+                        onAuth : self.$onAuth,
+                        onSignInEnd : function() {
+                            self.Loader.hide();
+                        }
                     }
                 }).inject( Social );
 
@@ -204,7 +207,10 @@ define('package/quiqqer/intranet/bin/Login', [
                             self.Loader.show();
                             self.fireEvent( 'loginBegin', [ self ] );
                         },
-                        onAuth : self.$onAuth
+                        onAuth : self.$onAuth,
+                        onSignInEnd : function() {
+                            self.Loader.hide();
+                        }
                     }
                 }).inject( Social );
 
