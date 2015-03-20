@@ -191,7 +191,7 @@ define('package/quiqqer/intranet/bin/Login', [
                         onAuth : self.$onAuth,
                         onSignInError : function()
                         {
-                            QUI.addMessageHandler(function(MH)
+                            QUI.getMessageHandler(function(MH)
                             {
                                 MH.addError(
                                     Locale.get(
@@ -224,7 +224,7 @@ define('package/quiqqer/intranet/bin/Login', [
                         onAuth : self.$onAuth,
                         onSignInError : function()
                         {
-                            QUI.addMessageHandler(function(MH)
+                            QUI.getMessageHandler(function(MH)
                             {
                                 MH.addError(
                                     Locale.get(
