@@ -89,14 +89,8 @@ define('package/quiqqer/intranet/bin/social/Facebook', [
 
             this.$__PopupCheck = (function()
             {
-                QUI.getMessageHandler(function(MH)
-                {
-                    MH.addError(
-                        QUILocale.get( 'quiqqer/intranet', 'facebook.registration.error' )
-                    );
+                self.fireEvent( 'signInError', [ self, false ] );
 
-                    self.fireEvent( 'signInError', [ self, false ] );
-                });
             }).delay( 4000 );
 
             this.facebookSignIn(function()
@@ -132,14 +126,7 @@ define('package/quiqqer/intranet/bin/social/Facebook', [
                         return;
                     }
 
-                    QUI.getMessageHandler(function(MH)
-                    {
-                        MH.addError(
-                            QUILocale.get( 'quiqqer/intranet', 'facebook.registration.error' )
-                        );
-
-                        self.fireEvent( 'signInError', [ self, response ] );
-                    });
+                    self.fireEvent( 'signInError', [ self, response ] );
 
                 }, true);
             });

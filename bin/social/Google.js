@@ -87,14 +87,8 @@ define('package/quiqqer/intranet/bin/social/Google', [
 
             this.$__PopupCheck = (function()
             {
-                QUI.getMessageHandler(function(MH)
-                {
-                    MH.addError(
-                        QUILocale.get( 'quiqqer/intranet', 'facebook.registration.error' )
-                    );
+                self.fireEvent( 'signInError', [ self, false ] );
 
-                    self.fireEvent( 'signInError', [ self, false ] );
-                });
             }).delay( 4000 );
 
             this.googleSignIn(function(authResult)
@@ -113,13 +107,6 @@ define('package/quiqqer/intranet/bin/social/Google', [
                     {
                         if ( obj.code == 404 )
                         {
-                            QUI.getMessageHandler(function(MH)
-                            {
-                                MH.addError(
-                                    QUILocale.get( 'quiqqer/intranet', 'google.registration.error' )
-                                );
-                            });
-
                             self.fireEvent( 'signInError', [ self, obj ] );
                             return;
                         }
