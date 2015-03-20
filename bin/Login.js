@@ -195,7 +195,7 @@ define('package/quiqqer/intranet/bin/Login', [
                             {
                                 MH.addError(
                                     Locale.get(
-                                        'quiqqer/system',
+                                        'quiqqer/intranet',
                                         'exception.registration.error'
                                     )
                                 );
@@ -228,7 +228,7 @@ define('package/quiqqer/intranet/bin/Login', [
                             {
                                 MH.addError(
                                     Locale.get(
-                                        'quiqqer/system',
+                                        'quiqqer/intranet',
                                         'exception.registration.error'
                                     )
                                 );
