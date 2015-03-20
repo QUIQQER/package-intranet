@@ -189,7 +189,18 @@ define('package/quiqqer/intranet/bin/Login', [
                             self.fireEvent( 'loginBegin', [ self ] );
                         },
                         onAuth : self.$onAuth,
-                        onSignInError : function() {
+                        onSignInError : function()
+                        {
+                            QUI.addMessageHandler(function(MH)
+                            {
+                                MH.addError(
+                                    Locale.get(
+                                        'quiqqer/system',
+                                        'exception.registration.error'
+                                    )
+                                );
+                            });
+
                             self.Loader.hide();
                         },
                         onSignInEnd : function() {
@@ -211,7 +222,18 @@ define('package/quiqqer/intranet/bin/Login', [
                             self.fireEvent( 'loginBegin', [ self ] );
                         },
                         onAuth : self.$onAuth,
-                        onSignInError : function() {
+                        onSignInError : function()
+                        {
+                            QUI.addMessageHandler(function(MH)
+                            {
+                                MH.addError(
+                                    Locale.get(
+                                        'quiqqer/system',
+                                        'exception.registration.error'
+                                    )
+                                );
+                            });
+
                             self.Loader.hide();
                         },
                         onSignInEnd : function() {
