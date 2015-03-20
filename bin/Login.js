@@ -189,6 +189,9 @@ define('package/quiqqer/intranet/bin/Login', [
                             self.fireEvent( 'loginBegin', [ self ] );
                         },
                         onAuth : self.$onAuth,
+                        onSignInError : function() {
+                            self.Loader.hide();
+                        },
                         onSignInEnd : function() {
                             self.Loader.hide();
                         }
@@ -208,6 +211,9 @@ define('package/quiqqer/intranet/bin/Login', [
                             self.fireEvent( 'loginBegin', [ self ] );
                         },
                         onAuth : self.$onAuth,
+                        onSignInError : function() {
+                            self.Loader.hide();
+                        },
                         onSignInEnd : function() {
                             self.Loader.hide();
                         }
