@@ -46,12 +46,6 @@ define('package/quiqqer/intranet/bin/social/Facebook', [
         {
             this.parent( options );
 
-            this.addEvents({
-                onInject: this.$onInject,
-                onInsert: this.$onImport,
-                onImport: this.$onImport
-            });
-
             if ( this.getAttribute( 'showErrors' ) )
             {
                 var self = this;
