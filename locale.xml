@@ -358,26 +358,15 @@
         </locale>
 
 
-        <locale name="google.registration.error" html="true">
+        <locale name="exception.registration.error" html="true">
             <de><![CDATA[
-                Es ist ein Fehler bei der Registrierung via Google aufgetreten.<br />
-                Bitte prüfen Sie Ihren Popup-Blocker.
+                Es ist ein Fehler bei der Anmeldung aufgetreten.<br />
+                Bitte prüfen Sie Ihren Popup-Blocker und versuchen Sie es erneut.
             ]]></de>
             <en><![CDATA[
 
             ]]></en>
         </locale>
-
-        <locale name="facebook.registration.error" html="true">
-            <de><![CDATA[
-                Es ist ein Fehler bei der Registrierung via Facebook aufgetreten.<br />
-                Bitte prüfen Sie Ihren Popup-Blocker.
-            ]]></de>
-            <en><![CDATA[
-
-            ]]></en>
-        </locale>
-
 
     </groups>
 
