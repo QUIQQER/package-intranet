@@ -17,7 +17,7 @@
  * @event onAuth [ {self}, {Object} data ]
  */
 
-define([
+define('package/quiqqer/intranet/bin/social/Facebook', [
 
     'qui/QUI',
     'qui/controls/Control',
@@ -49,7 +49,7 @@ define([
         /**
          * Creates the DOMNode Element
          *
-         * @return {DOMNode}
+         * @return {HTMLElement}
          */
         create : function()
         {

@@ -164,17 +164,32 @@ define('package/quiqqer/intranet/bin/social/Google', [
                             scope     : 'https://www.googleapis.com/auth/plus.login '+
                                         'https://www.googleapis.com/auth/userinfo.email '+
                                         'https://www.googleapis.com/auth/userinfo.profile',
-                            immediate : false
+                            immediate : true
                         }, function (authResult)
                         {
-                            if ( authResult.status.signed_in )
+                            if ( authResult && !authResult.error )
                             {
                                 callback( authResult );
                                 return;
                             }
 
-                            QUI.getMessageHandler(function(MH) {
-                                MH.addError( authResult.error );
+                            gapi.auth.authorize({
+                                client_id : self.getAttribute( 'clientid' ),
+                                scope     : 'https://www.googleapis.com/auth/plus.login '+
+                                            'https://www.googleapis.com/auth/userinfo.email '+
+                                            'https://www.googleapis.com/auth/userinfo.profile',
+                                immediate : false
+                            }, function (authResult)
+                            {
+                                if ( authResult && !authResult.error )
+                                {
+                                    callback( authResult );
+                                    return;
+                                }
+
+                                QUI.getMessageHandler(function(MH) {
+                                    MH.addError( authResult.error );
+                                });
                             });
                         });
 
