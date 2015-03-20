@@ -356,6 +356,29 @@
             <de><![CDATA[Abbrechen]]></de>
             <en><![CDATA[Cancel]]></en>
         </locale>
+
+
+        <locale name="google.registration.error" html="true">
+            <de><![CDATA[
+                Es ist ein Fehler bei der Registrierung via Google aufgetreten.<br />
+                Bitte prüfen Sie Ihren Popup-Blocker.
+            ]]></de>
+            <en><![CDATA[
+
+            ]]></en>
+        </locale>
+
+        <locale name="facebook.registration.error" html="true">
+            <de><![CDATA[
+                Es ist ein Fehler bei der Registrierung via Facebook aufgetreten.<br />
+                Bitte prüfen Sie Ihren Popup-Blocker.
+            ]]></de>
+            <en><![CDATA[
+
+            ]]></en>
+        </locale>
+
+
     </groups>
 
     <!-- registration template -->

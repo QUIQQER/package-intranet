@@ -85,8 +85,24 @@ define('package/quiqqer/intranet/bin/social/Google', [
 
             this.fireEvent( 'loginBegin', [ this ] );
 
+            this.$__PopupCheck = (function()
+            {
+                QUI.getMessageHandler(function(MH)
+                {
+                    MH.addError(
+                        QUILocale.get( 'quiqqer/intranet', 'facebook.registration.error' )
+                    );
+
+                    self.fireEvent( 'signInError', [ self, response ] );
+                });
+            }).delay( 4000 );
+
             this.googleSignIn(function(authResult)
             {
+                if ( typeof self.$__PopupCheck !== 'undefined' ) {
+                    clearTimeout( self.$__PopupCheck );
+                }
+
                 gapi.auth.setToken( authResult );
 
                 gapi.client.load('oauth2', 'v2', function()
@@ -97,10 +113,10 @@ define('package/quiqqer/intranet/bin/social/Google', [
                     {
                         if ( obj.code == 404 )
                         {
-                            require(['MessageHandler'], function(MH)
+                            QUI.getMessageHandler(function(MH)
                             {
                                 MH.addError(
-                                    QUILocale.get( 'plugins/intranet', 'google.registration.error' )
+                                    QUILocale.get( 'quiqqer/intranet', 'google.registration.error' )
                                 );
                             });
 
@@ -157,7 +173,7 @@ define('package/quiqqer/intranet/bin/social/Google', [
                 {
                     self.fireEvent( 'signInEnd', [ self ] );
 
-                    if ( authResult.error == 'immediate_failed' )
+                    if ( authResult && !authResult.error )
                     {
                         gapi.auth.authorize({
                             client_id : self.getAttribute( 'clientid' ),
