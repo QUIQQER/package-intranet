@@ -146,19 +146,34 @@ define('package/quiqqer/intranet/bin/Registration', [
             // qui parsing
             QUI.parse(Elm, function()
             {
+                var Control;
                 var socialList = Elm.getElements( '.register-social-login [data-quiid]' ),
                     controls   = socialList.map(function(Elm) {
                         return QUI.Controls.getById( Elm.get('data-quiid') );
                     });
 
+                var onLoginBegin = function() {
+                    self.Loader.show();
+                };
+
+                var onAuth = function(Social, params) {
+                    self.socialRegister( Social.getAttribute('name'), params );
+                };
+
+                var onError = function() {
+                    self.Loader.hide();
+                };
+
                 // social auth events - social register
                 for ( var i = 0, len = controls.length; i < len; i++ )
                 {
-                    controls[ i ].addEvent( 'onAuth', function(Social, params) {
-                        self.socialRegister( Social.getAttribute('name'), params );
-                    });
+                    Control = controls[ i ];
 
-                    controls[ i ].getElm().setStyles({
+                    Control.addEvent( 'onAuth', onAuth );
+                    Control.addEvent( 'onLoginBegin', onLoginBegin );
+                    Control.addEvent( 'onSignInError', onError );
+
+                    Control.getElm().setStyles({
                         display : 'inline-block',
                         'float' : 'none'
                     });

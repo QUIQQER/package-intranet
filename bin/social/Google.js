@@ -35,6 +35,10 @@ define('package/quiqqer/intranet/bin/social/Google', [
         Extends : QUIControl,
         Type    : 'package/quiqqer/intranet/bin/social/Google',
 
+        Binds : [
+            '$signInCallBack'
+        ],
+
         options : {
             name       : 'google',
             styles     : false,
@@ -48,17 +52,34 @@ define('package/quiqqer/intranet/bin/social/Google', [
 
             if ( this.getAttribute( 'showErrors' ) )
             {
+                var self = this;
+
                 this.addEvents({
                     onSignInError: function ()
                     {
-                        QUI.getMessageHandler(function (MH) {
-                            MH.addError(
-                                QUILocale.get(
-                                    'quiqqer/intranet',
-                                    'exception.registration.error'
-                                )
-                            );
-                        });
+                        if ( typeof self.$__signInCallBack !== 'undefined' ) {
+                            clearTimeout( self.$__signInCallBack );
+                        }
+
+                        if ( typeof self.$__PopupCheck !== 'undefined' ) {
+                            clearTimeout( self.$__PopupCheck );
+                        }
+
+                        if ( typeof self.__errorMsg !== 'undefined' ) {
+                            clearTimeout( self.__errorMsg );
+                        }
+
+                        self.__errorMsg = (function()
+                        {
+                            QUI.getMessageHandler(function (MH) {
+                                MH.addError(
+                                    QUILocale.get(
+                                        'quiqqer/intranet',
+                                        'exception.registration.error'
+                                    )
+                                );
+                            });
+                        }).delay( 200 );
                     }
                 });
             }
@@ -103,10 +124,8 @@ define('package/quiqqer/intranet/bin/social/Google', [
 
             this.fireEvent( 'loginBegin', [ this ] );
 
-            this.$__PopupCheck = (function()
-            {
+            this.$__PopupCheck = (function() {
                 self.fireEvent( 'signInError', [ self, false ] );
-
             }).delay( 4000 );
 
             this.googleSignIn(function(authResult)
@@ -176,61 +195,13 @@ define('package/quiqqer/intranet/bin/social/Google', [
             gapi.auth.signIn({
                 callback : function(authResult)
                 {
-                    self.fireEvent( 'signInEnd', [ self ] );
-
-                    if ( authResult && !authResult.error )
-                    {
-                        gapi.auth.authorize({
-                            client_id : self.getAttribute( 'clientid' ),
-                            scope     : 'https://www.googleapis.com/auth/plus.login '+
-                                        'https://www.googleapis.com/auth/userinfo.email '+
-                                        'https://www.googleapis.com/auth/userinfo.profile',
-                            immediate : true
-                        }, function (authResult)
-                        {
-                            if ( authResult && !authResult.error )
-                            {
-                                callback( authResult );
-                                return;
-                            }
-
-                            gapi.auth.authorize({
-                                client_id : self.getAttribute( 'clientid' ),
-                                scope     : 'https://www.googleapis.com/auth/plus.login '+
-                                            'https://www.googleapis.com/auth/userinfo.email '+
-                                            'https://www.googleapis.com/auth/userinfo.profile',
-                                immediate : false
-                            }, function (authResult)
-                            {
-                                if ( authResult && !authResult.error )
-                                {
-                                    callback( authResult );
-                                    return;
-                                }
-
-                                QUI.getMessageHandler(function(MH) {
-                                    MH.addError( authResult.error );
-                                });
-                            });
-                        });
-
-                        return;
+                    if ( typeof self.$__signInCallBack !== 'undefined' ) {
+                        clearTimeout( self.$__signInCallBack );
                     }
 
-                    if ( !authResult.access_token )
-                    {
-                        /*
-                        QUI.getMessageHandler(function(MH) {
-                            MH.addError( authResult.error );
-                        });
-                        */
-                        self.fireEvent( 'signInError', [ self, authResult ] );
-                        return;
-                    }
-
-                    if ( typeof callback !== 'undefined' ) {
-                        callback( authResult );
-                    }
+                    self.$__signInCallBack = (function() {
+                        self.$signInCallBack( authResult, callback );
+                    }).delay( 100 );
                 },
 
                 clientid     : this.getAttribute( 'clientid' ),
@@ -244,6 +215,66 @@ define('package/quiqqer/intranet/bin/social/Google', [
                         'https://www.googleapis.com/auth/userinfo.email '+
                         'https://www.googleapis.com/auth/userinfo.profile'
             });
+        },
+
+        /**
+         * Sign in callback
+         *
+         * @param {Object} authResult
+         * @param {Function} callback
+         */
+        $signInCallBack : function(authResult, callback)
+        {
+            var self = this;
+
+            this.fireEvent( 'signInEnd', [ this ] );
+
+            if ( authResult && !authResult.error )
+            {
+                gapi.auth.authorize({
+                    client_id : this.getAttribute( 'clientid' ),
+                    scope     : 'https://www.googleapis.com/auth/plus.login '+
+                                'https://www.googleapis.com/auth/userinfo.email '+
+                                'https://www.googleapis.com/auth/userinfo.profile',
+                    immediate : true
+                }, function (authResult)
+                {
+                    if ( authResult && !authResult.error )
+                    {
+                        callback( authResult );
+                        return;
+                    }
+
+                    gapi.auth.authorize({
+                        client_id : self.getAttribute( 'clientid' ),
+                        scope     : 'https://www.googleapis.com/auth/plus.login '+
+                                    'https://www.googleapis.com/auth/userinfo.email '+
+                                    'https://www.googleapis.com/auth/userinfo.profile',
+                        immediate : false
+                    }, function (authResult)
+                    {
+                        if ( authResult && !authResult.error )
+                        {
+                            callback( authResult );
+                            return;
+                        }
+
+                        self.fireEvent( 'signInError', [ self, authResult ] );
+                    });
+                });
+
+                return;
+            }
+
+            if ( !authResult.access_token )
+            {
+                this.fireEvent( 'signInError', [ self, authResult ] );
+                return;
+            }
+
+            if ( typeof callback !== 'undefined' ) {
+                callback( authResult );
+            }
         },
 
         /**

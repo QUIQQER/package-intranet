@@ -45,6 +45,42 @@ define('package/quiqqer/intranet/bin/social/Facebook', [
         initialize : function(options)
         {
             this.parent( options );
+
+            this.addEvents({
+                onInject: this.$onInject,
+                onInsert: this.$onImport,
+                onImport: this.$onImport
+            });
+
+            if ( this.getAttribute( 'showErrors' ) )
+            {
+                var self = this;
+
+                this.addEvents({
+                    onSignInError: function ()
+                    {
+                        if ( typeof self.__errorMsg !== 'undefined' ) {
+                            clearTimeout( self.__errorMsg );
+                        }
+
+                        if ( typeof self.$__PopupCheck !== 'undefined' ) {
+                            clearTimeout( self.$__PopupCheck );
+                        }
+
+                        self.__errorMsg = (function()
+                        {
+                            QUI.getMessageHandler(function(MH) {
+                                MH.addError(
+                                    QUILocale.get(
+                                        'quiqqer/intranet',
+                                        'exception.registration.error'
+                                    )
+                                );
+                            });
+                        }).delay( 200 );
+                    }
+                });
+            }
         },
 
         /**
