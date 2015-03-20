@@ -181,6 +181,7 @@ define('package/quiqqer/intranet/bin/Login', [
                         display : 'inline-block',
                         'float' : 'none'
                     },
+                    shwoErrors : false,
                     events :
                     {
                         onLoginBegin : function()
@@ -214,6 +215,7 @@ define('package/quiqqer/intranet/bin/Login', [
                         display : 'inline-block',
                         'float' : 'none'
                     },
+                    showErrors : false,
                     events :
                     {
                         onLoginBegin : function()
@@ -221,7 +223,7 @@ define('package/quiqqer/intranet/bin/Login', [
                             self.Loader.show();
                             self.fireEvent( 'loginBegin', [ self ] );
                         },
-                        onAuth : self.$onAuth,
+                        onAuth        : self.$onAuth,
                         onSignInError : function()
                         {
                             QUI.getMessageHandler(function(MH)
