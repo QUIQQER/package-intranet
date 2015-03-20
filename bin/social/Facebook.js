@@ -36,9 +36,10 @@ define('package/quiqqer/intranet/bin/social/Facebook', [
         Type    : 'package/quiqqer/intranet/bin/social/Facebook',
 
         options : {
-            name   : 'facebook',
-            appId  : '',
-            styles : false
+            name       : 'facebook',
+            appId      : '',
+            styles     : false,
+            showErrors : true
         },
 
         initialize : function(options)

@@ -36,14 +36,32 @@ define('package/quiqqer/intranet/bin/social/Google', [
         Type    : 'package/quiqqer/intranet/bin/social/Google',
 
         options : {
-            name     : 'google',
-            styles   : false,
-            clientid : ''
+            name       : 'google',
+            styles     : false,
+            clientid   : '',
+            showErrors : true
         },
 
         initialize : function(options)
         {
             this.parent( options );
+
+            if ( this.getAttribute( 'showErrors' ) )
+            {
+                this.addEvents({
+                    onSignInError: function ()
+                    {
+                        QUI.getMessageHandler(function (MH) {
+                            MH.addError(
+                                QUILocale.get(
+                                    'quiqqer/intranet',
+                                    'exception.registration.error'
+                                )
+                            );
+                        });
+                    }
+                });
+            }
         },
 
         /**
@@ -201,10 +219,11 @@ define('package/quiqqer/intranet/bin/social/Google', [
 
                     if ( !authResult.access_token )
                     {
+                        /*
                         QUI.getMessageHandler(function(MH) {
                             MH.addError( authResult.error );
                         });
-
+                        */
                         self.fireEvent( 'signInError', [ self, authResult ] );
                         return;
                     }
