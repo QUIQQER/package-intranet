@@ -74,12 +74,19 @@ define('package/quiqqer/intranet/bin/Login', [
                 return;
             }
 
-            var self = this;
+            var self   = this,
+                action = '';
+
+            if ( 'httpshost' in QUIQQER_PROJECT && QUIQQER_PROJECT.httpshost )
+            {
+                action = QUIQQER_PROJECT.httpshost;
+                action = action + window.location.pathname;
+            }
 
             this.$Elm.set(
                 'html',
 
-                '<form method="POST" action="'+ URL_DIR +'" class="quiqqer-intranet-login-form">' +
+                '<form method="POST" action="'+ action +'" class="quiqqer-intranet-login-form">' +
                     '<h1>'+ Locale.get( 'quiqqer/intranet', 'login.in.title' ) +'</h1>' +
                     '<input type="text" value="" name="username" id="login-popup-email" />' +
                     '<input type="password" value="" name="password" id="login-popup-password" />' +
