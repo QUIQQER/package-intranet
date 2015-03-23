@@ -1,6 +1,23 @@
 <?php
 
 /**
+ * HTTPs
+ */
+
+$httpsHost = $Project->getVHost( true, true );
+
+if ( strpos( $httpsHost , 'https:' ) !== false &&
+     QUI\Utils\System::isProtocolSecure() === false )
+{
+    QUI::getRewrite()->showErrorHeader(
+        301,
+        $httpsHost . URL_DIR . $Site->getUrlRewrited()
+    );
+
+    exit;
+}
+
+/**
  * registration template
  *
  * @author www.pcsg.de (Henning Leutz)
