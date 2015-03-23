@@ -6,7 +6,6 @@
 
 $httpsHost = $Project->getVHost( true, true );
 
-
 if ( strpos( $httpsHost , 'https:' ) !== false &&
      QUI\Utils\System::isProtocolSecure() === false )
 {
