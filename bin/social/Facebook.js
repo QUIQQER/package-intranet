@@ -118,10 +118,8 @@ define('package/quiqqer/intranet/bin/social/Facebook', [
 
             this.fireEvent( 'loginBegin', [ this ] );
 
-            this.$__PopupCheck = (function()
-            {
+            this.$__PopupCheck = (function() {
                 self.fireEvent( 'signInError', [ self, false ] );
-
             }).delay( 4000 );
 
             this.facebookSignIn(function()
