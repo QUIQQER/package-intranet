@@ -13,7 +13,7 @@ function package_quiqqer_intranet_ajax_address_template()
         'countries' => \QUI\Countries\Manager::getList()
     ));
 
-    return $Engine->fetch( dirname( __FILE__ ) .'/Address.html' );
+    return $Engine->fetch(dirname(__FILE__).'/Address.html');
 }
 
 \QUI::$Ajax->register(

@@ -9,20 +9,22 @@
  *
  * @param String $socialType - type of the social network
  * @param String $token
- * @param String $project - decoded project data | JSON Array
+ * @param String $project    - decoded project data | JSON Array
+ *
  * @return array - user attributes
  */
 
-function package_quiqqer_intranet_ajax_user_socialLogin($socialType, $token, $project)
-{
+function package_quiqqer_intranet_ajax_user_socialLogin(
+    $socialType,
+    $token,
+    $project
+) {
     $Project = false;
 
-    try
-    {
-        $Project = \QUI::getProjectManager()->decode( $project );
+    try {
+        $Project = \QUI::getProjectManager()->decode($project);
 
-    } catch ( \QUI\Exception $Exception )
-    {
+    } catch (\QUI\Exception $Exception) {
 
     }
 
@@ -30,11 +32,11 @@ function package_quiqqer_intranet_ajax_user_socialLogin($socialType, $token, $pr
         'Project' => $Project
     ));
 
-    $Social = $Reg->getSocial( $socialType );
-    $User   = $Social->login( $token );
+    $Social = $Reg->getSocial($socialType);
+    $User = $Social->login($token);
 
-    if ( $User->getId() ) {
-        $Reg->setLoginData( $User );
+    if ($User->getId()) {
+        $Reg->setLoginData($User);
     }
 
     return $User->getAttributes();
@@ -42,5 +44,5 @@ function package_quiqqer_intranet_ajax_user_socialLogin($socialType, $token, $pr
 
 \QUI::$Ajax->register(
     'package_quiqqer_intranet_ajax_user_socialLogin',
-    array( 'socialType', 'token', 'project' )
+    array('socialType', 'token', 'project')
 );

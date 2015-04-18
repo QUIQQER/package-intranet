@@ -8,11 +8,11 @@
 
 function package_quiqqer_intranet_ajax_address_create($data)
 {
-    \QUI::getUserBySession()->addAddress( json_decode( $data, true ) );
+    \QUI::getUserBySession()->addAddress(json_decode($data, true));
 }
 
 \QUI::$Ajax->register(
     'package_quiqqer_intranet_ajax_address_create',
-    array( 'data' ),
+    array('data'),
     'Permission::checkUser'
 );

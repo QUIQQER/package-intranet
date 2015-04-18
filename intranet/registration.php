@@ -4,14 +4,14 @@
  * HTTPs
  */
 
-$httpsHost = $Project->getVHost( true, true );
+$httpsHost = $Project->getVHost(true, true);
 
-if ( strpos( $httpsHost , 'https:' ) !== false &&
-     QUI\Utils\System::isProtocolSecure() === false )
-{
+if (strpos($httpsHost, 'https:') !== false
+    && QUI\Utils\System::isProtocolSecure() === false
+) {
     QUI::getRewrite()->showErrorHeader(
         301,
-        $httpsHost . URL_DIR . $Site->getUrlRewrited()
+        $httpsHost.URL_DIR.$Site->getUrlRewrited()
     );
 
     exit;
@@ -27,18 +27,16 @@ $Registration = new \QUI\Intranet\Registration(array(
     'Project' => $Project
 ));
 
-$Engine->assign( 'INTRANET_TYPE', '' );
+$Engine->assign('INTRANET_TYPE', '');
 
 /**
  * activation
  */
-if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['uid'] ) )
-{
-    try
-    {
-        $Engine->assign( 'INTRANET_TYPE', 'ACTIVATION' );
+if (isset($_REQUEST['code']) && isset($_REQUEST['uid'])) {
+    try {
+        $Engine->assign('INTRANET_TYPE', 'ACTIVATION');
 
-        $Registration->activate( $_REQUEST['uid'], $_REQUEST['code'] );
+        $Registration->activate($_REQUEST['uid'], $_REQUEST['code']);
 
         $Engine->assign(
             'INTRANET_SUCCESS_MESSAGE',
@@ -48,8 +46,7 @@ if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['uid'] ) )
             )
         );
 
-    } catch ( \QUI\Exception $Exception )
-    {
+    } catch (\QUI\Exception $Exception) {
         $Engine->assign(
             'INTRANET_ERROR_MESSAGE',
             $Exception->getMessage()
@@ -61,16 +58,15 @@ if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['uid'] ) )
  * Send new password
  */
 
-if ( isset( $_REQUEST['uid'] ) &&
-     isset( $_REQUEST['pass'] ) &&
-     isset( $_REQUEST['hash'] ) &&
-     $_REQUEST['pass'] == 'new' )
-{
-    try
-    {
-        $Engine->assign( 'INTRANET_TYPE', 'NEW_PASS' );
+if (isset($_REQUEST['uid'])
+    && isset($_REQUEST['pass'])
+    && isset($_REQUEST['hash'])
+    && $_REQUEST['pass'] == 'new'
+) {
+    try {
+        $Engine->assign('INTRANET_TYPE', 'NEW_PASS');
 
-        $Registration->sendNewPasswordMail( $_REQUEST['uid'], $_REQUEST['hash'] );
+        $Registration->sendNewPasswordMail($_REQUEST['uid'], $_REQUEST['hash']);
 
         $Engine->assign(
             'INTRANET_SUCCESS_MESSAGE',
@@ -80,8 +76,7 @@ if ( isset( $_REQUEST['uid'] ) &&
             )
         );
 
-    } catch ( \QUI\Exception $Exception )
-    {
+    } catch (\QUI\Exception $Exception) {
         $Engine->assign(
             'INTRANET_ERROR_MESSAGE',
             $Exception->getMessage()
@@ -93,16 +88,15 @@ if ( isset( $_REQUEST['uid'] ) &&
  * Activate new E-Mail
  */
 
-if ( isset( $_REQUEST['uid'] ) &&
-     isset( $_REQUEST['hash'] ) &&
-     isset( $_REQUEST['type'] ) &&
-     $_REQUEST['type'] == 'newMail' )
-{
-    try
-    {
-        $Engine->assign( 'INTRANET_TYPE', 'ACTIVATE_NEW_EMAIL' );
+if (isset($_REQUEST['uid'])
+    && isset($_REQUEST['hash'])
+    && isset($_REQUEST['type'])
+    && $_REQUEST['type'] == 'newMail'
+) {
+    try {
+        $Engine->assign('INTRANET_TYPE', 'ACTIVATE_NEW_EMAIL');
 
-        $Registration->setNewEmail( $_REQUEST['uid'], $_REQUEST['hash'] );
+        $Registration->setNewEmail($_REQUEST['uid'], $_REQUEST['hash']);
 
         $Engine->assign(
             'INTRANET_SUCCESS_MESSAGE',
@@ -112,8 +106,7 @@ if ( isset( $_REQUEST['uid'] ) &&
             )
         );
 
-    } catch ( \QUI\Exception $Exception )
-    {
+    } catch (\QUI\Exception $Exception) {
         $Engine->assign(
             'INTRANET_ERROR_MESSAGE',
             $Exception->getMessage()
@@ -126,16 +119,15 @@ if ( isset( $_REQUEST['uid'] ) &&
  * Disable account
  */
 
-if ( isset( $_REQUEST['uid'] ) &&
-     isset( $_REQUEST['hash'] ) &&
-     isset( $_REQUEST['type'] ) &&
-     $_REQUEST['type'] == 'disable' )
-{
-    try
-    {
-        $Engine->assign( 'INTRANET_TYPE', 'DISABLE_ACCOUNT' );
+if (isset($_REQUEST['uid'])
+    && isset($_REQUEST['hash'])
+    && isset($_REQUEST['type'])
+    && $_REQUEST['type'] == 'disable'
+) {
+    try {
+        $Engine->assign('INTRANET_TYPE', 'DISABLE_ACCOUNT');
 
-        $Registration->disable( $_REQUEST['uid'], $_REQUEST['hash'] );
+        $Registration->disable($_REQUEST['uid'], $_REQUEST['hash']);
 
         $Engine->assign(
             'INTRANET_DISABLE_MESSAGE',
@@ -145,8 +137,7 @@ if ( isset( $_REQUEST['uid'] ) &&
             )
         );
 
-    } catch ( \QUI\Exception $Exception )
-    {
+    } catch (\QUI\Exception $Exception) {
         $Engine->assign(
             'INTRANET_ERROR_MESSAGE',
             $Exception->getMessage()

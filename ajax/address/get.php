@@ -7,8 +7,8 @@
  */
 function package_quiqqer_intranet_ajax_address_get($aid)
 {
-    $User    = \QUI::getUserBySession();
-    $Address = $User->getAddress( $aid );
+    $User = \QUI::getUserBySession();
+    $Address = $User->getAddress($aid);
 
     return $Address->getAttributes();
 }
