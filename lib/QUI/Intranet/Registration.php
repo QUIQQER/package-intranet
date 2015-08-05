@@ -819,11 +819,11 @@ class Registration extends QUI\QDOM
             'User'    => $User
         ));
 
-        $disable_link = $Project->getVHost(true).$Site->getUrl(array(
+        $disable_link = $Project->getVHost(true).$Site->getUrlRewrited(array(
                 'uid'  => $User->getId(),
                 'hash' => $hash,
                 'type' => 'disable'
-            ), true);
+            ));
 
 
         // Mail vars
@@ -916,11 +916,11 @@ class Registration extends QUI\QDOM
         $RegSite = $this->_getRegSite();
         $hash = Orthos::getPassword();
 
-        $url = $Project->getVHost(true).$RegSite->getUrl(array(
+        $url = $Project->getVHost(true).$RegSite->getUrlRewrited(array(
                 'uid'  => $User->getId(),
                 'pass' => 'new',
                 'hash' => $hash
-            ), true);
+            ));
 
         $User->setAttribute('quiqqer.intranet.passwordForgotten.hash', $hash);
         $User->save($Users->getSystemUser());
@@ -1283,11 +1283,11 @@ class Registration extends QUI\QDOM
         }
 
 
-        $activasion_link = $Project->getVHost(true).$RegSite->getUrl(array(
+        $activasion_link = $Project->getVHost(true).$RegSite->getUrlRewrited(array(
                 'uid'  => $User->getId(),
                 'hash' => $emailHash,
                 'type' => 'newMail'
-            ), true);
+            ));
 
 
         $MailBody = QUI::getLocale()->get(
