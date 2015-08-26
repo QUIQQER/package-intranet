@@ -1,89 +1,90 @@
-
 /**
  * Login popup / window
  *
  * @author www.pcsg.de (Henning Leutz)
  * @module package/quiqqer/intranet/bin/LoginWindow
+ *
+ * @require qui/QUI
+ * @require qui/controls/windows/Popup
+ * @require package/quiqqer/intranet/bin/Login
  */
-
 define('package/quiqqer/intranet/bin/LoginWindow', [
 
     'qui/QUI',
     'qui/controls/windows/Popup',
     'package/quiqqer/intranet/bin/Login'
 
-], function(QUI, QUIPopup, Login)
-{
+], function (QUI, QUIPopup, Login) {
     "use strict";
 
     return new Class({
 
-        Extends : QUIPopup,
-        Type    : 'package/quiqqer/intranet/bin/LoginWindow',
+        Extends: QUIPopup,
+        Type   : 'package/quiqqer/intranet/bin/LoginWindow',
 
-        Binds : [
+        Binds: [
             '$onOpen'
         ],
 
-        options : {
-            icon      : 'icon-signin',
-            title     : 'Login',
-            maxWidth  : 500,
-            maxHeight : 650,
-            buttons   : false
+        options: {
+            icon         : 'icon-signin',
+            title        : 'Login',
+            maxWidth     : 500,
+            maxHeight    : 650,
+            buttons      : false,
+            registration : true,
+            social       : true,
+            passwordReset: true
         },
 
-        initialize : function(options)
-        {
-            this.parent( options );
+        initialize: function (options) {
+            this.parent(options);
 
             this.addEvents({
-                onOpen : this.$onOpen
+                onOpen: this.$onOpen
             });
         },
 
         /**
          * event : onOpen
          */
-        $onOpen : function()
-        {
+        $onOpen: function () {
             var Content = this.getContent();
 
             Content.set({
-                html   : '',
-                styles : {
-                    padding : 0
+                html  : '',
+                styles: {
+                    padding: 0
                 }
             });
 
             new Login({
-                events :
-                {
-                    onLogedIn : function()
-                    {
+                registration : this.getAttribute('registration'),
+                social       : this.getAttribute('social'),
+                passwordReset: this.getAttribute('passwordReset'),
+                events       : {
+
+                    onLogedIn: function () {
+
                         var loc = window.location.toString();
 
-                        if ( loc.match( /\?logout/g ) || loc.match( /logout\=1/g ) )
-                        {
-                            loc = loc.replace( '?logout=1', '' )
-                                     .replace( '&logout=1', '' )
-                                     .replace( '?logout', '' );
+                        if (loc.match(/\?logout/g) || loc.match(/logout\=1/g)) {
+                            loc = loc.replace('?logout=1', '')
+                                .replace('&logout=1', '')
+                                .replace('?logout', '');
 
                             window.location = loc;
 
-                        } else
-                        {
-                            try
-                            {
+                        } else {
+                            try {
                                 window.location.reload();
-                            } catch ( e )
-                            {
+                            } catch (e) {
                                 window.location = window.location;
                             }
                         }
                     }
                 }
-            }).inject( Content );
+            }).inject(Content);
         }
     });
 });
