@@ -17,27 +17,30 @@ class Registration extends QUI\Control
 {
     /**
      * constructor
+     *
      * @param Array $attributes
      */
-    public function __construct($attributes=array())
+    public function __construct($attributes = array())
     {
-        parent::setAttributes( $attributes );
+        parent::setAttributes($attributes);
 
         $this->addCSSFile(
-            dirname( __FILE__ ) .'/Registration.css'
+            dirname(__FILE__).'/Registration.css'
         );
 
-        $this->setAttribute( 'qui-class', 'package/quiqqer/intranet/bin/Registration' );
-        $this->setAttribute( 'class', 'package-intranet-registration' );
+        $this->setAttribute('qui-class',
+            'package/quiqqer/intranet/bin/Registration');
+        $this->setAttribute('class', 'package-intranet-registration');
     }
 
     /**
      * (non-PHPdoc)
+     *
      * @see \QUI\Control::create()
      */
     public function getBody()
     {
-        $Engine  = QUI::getTemplateManager()->getEngine();
+        $Engine = QUI::getTemplateManager()->getEngine();
         $Project = $this->_getProject();
 
         $Engine->assign(array(
@@ -48,11 +51,13 @@ class Registration extends QUI\Control
 
 
         // user loged in check
-        $Plugin   = QUI::getPluginManager()->get( 'quiqqer/intranet' );
-        $loggedIn = $Plugin->getSettings('registration', 'loggedInDuringRegistrationn');
+        $Plugin = QUI::getPluginManager()->get('quiqqer/intranet');
+        $loggedIn = $Plugin->getSettings('registration',
+            'loggedInDuringRegistrationn');
 
-        if ( !$loggedIn && QUI::getUserBySession()->getId() ) {
-            return $Engine->fetch( dirname( __FILE__ ) .'/RegistrationLogedIn.html' );
+        if (!$loggedIn && QUI::getUserBySession()->getId()) {
+            return $Engine->fetch(dirname(__FILE__)
+                .'/RegistrationLogedIn.html');
         }
 
 
@@ -64,8 +69,8 @@ class Registration extends QUI\Control
             'limit' => 1
         ));
 
-        if ( isset( $result[ 0 ] ) ) {
-            $Engine->assign( 'Site_TermsAndConditions', $result[ 0 ] );
+        if (isset($result[0])) {
+            $Engine->assign('Site_TermsAndConditions', $result[0]);
         }
 
 
@@ -77,22 +82,23 @@ class Registration extends QUI\Control
             'limit' => 1
         ));
 
-        if ( isset( $result[ 0 ] ) ) {
-            $Engine->assign( 'Site_Privacy', $result[ 0 ] );
+        if (isset($result[0])) {
+            $Engine->assign('Site_Privacy', $result[0]);
         }
 
 
-        return $Engine->fetch( dirname( __FILE__ ) .'/Registration.html' );
+        return $Engine->fetch(dirname(__FILE__).'/Registration.html');
     }
 
     /**
      * Return the Project
+     *
      * @return \QUI\Projects\Project
      * @throw QUI\Exception
      */
     protected function _getProject()
     {
-        if ( $this->getAttribute('Project') ) {
+        if ($this->getAttribute('Project')) {
             return $this->getAttribute('Project');
         }
 

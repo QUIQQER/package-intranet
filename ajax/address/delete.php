@@ -8,14 +8,14 @@
 
 function package_quiqqer_intranet_ajax_address_delete($aid)
 {
-    $User    = \QUI::getUserBySession();
-    $Address = $User->getAddress( $aid );
+    $User = \QUI::getUserBySession();
+    $Address = $User->getAddress($aid);
 
     $Address->delete();
 }
 
 \QUI::$Ajax->register(
     'package_quiqqer_intranet_ajax_address_delete',
-    array( 'aid' ),
+    array('aid'),
     'Permission::checkUser'
 );

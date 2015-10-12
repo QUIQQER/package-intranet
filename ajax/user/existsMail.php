@@ -8,10 +8,10 @@
 
 function package_quiqqer_intranet_ajax_user_existsMail($email)
 {
-    return \QUI::getUsers()->emailExists( $email );
+    return \QUI::getUsers()->emailExists($email);
 }
 
 \QUI::$Ajax->register(
     'package_quiqqer_intranet_ajax_user_existsMail',
-    array( 'email' )
+    array('email')
 );

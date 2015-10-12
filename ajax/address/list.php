@@ -10,11 +10,10 @@ function package_quiqqer_intranet_ajax_address_list()
     $User = \QUI::getUserBySession();
 
     $addresses = $User->getAddressList();
-    $result   = array();
+    $result = array();
 
-    foreach ( $addresses as $Address )
-    {
-        $entry       = $Address->getAllAttributes();
+    foreach ($addresses as $Address) {
+        $entry = $Address->getAllAttributes();
         $entry['id'] = $Address->getId();
 
         $result[] = $entry;

@@ -16,10 +16,11 @@ class Intranet
 {
     /**
      * on event : onTemplateGetHeader
+     *
      * @param \QUI\Template $TemplateManager
      */
     static function onTemplateGetHeader(\QUI\Template $TemplateManager)
     {
-        $TemplateManager->addOnloadJavaScriptModule( 'package/quiqqer/intranet/bin/page/Load' );
+        $TemplateManager->addOnloadJavaScriptModule('package/quiqqer/intranet/bin/page/Load');
     }
 }

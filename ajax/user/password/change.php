@@ -10,12 +10,14 @@
  * @return Array
  */
 
-function package_quiqqer_intranet_ajax_user_password_change($password1, $password2, $oldpassword)
-{
+function package_quiqqer_intranet_ajax_user_password_change(
+    $password1,
+    $password2,
+    $oldpassword
+) {
     $User = \QUI::getUserBySession();
 
-    if ( empty( $oldpassword ) )
-    {
+    if (empty($oldpassword)) {
         throw new \QUI\Exception(
             \QUI::getLocale()->get(
                 'quiqqer/intranet',
@@ -24,8 +26,7 @@ function package_quiqqer_intranet_ajax_user_password_change($password1, $passwor
         );
     }
 
-    if ( !$User->checkPassword( $oldpassword ) )
-    {
+    if (!$User->checkPassword($oldpassword)) {
         throw new \QUI\Exception(
             \QUI::getLocale(
                 'quiqqer/intranet',
@@ -34,8 +35,7 @@ function package_quiqqer_intranet_ajax_user_password_change($password1, $passwor
         );
     }
 
-    if ( $password1 != $password2 )
-    {
+    if ($password1 != $password2) {
         throw new \QUI\Exception(
             \QUI::getLocale(
                 'quiqqer/intranet',
@@ -44,10 +44,10 @@ function package_quiqqer_intranet_ajax_user_password_change($password1, $passwor
         );
     }
 
-    $User->setPassword( $password1 );
+    $User->setPassword($password1);
 }
 
 \QUI::$Ajax->register(
     'package_quiqqer_intranet_ajax_user_password_change',
-    array( 'password1', 'password2', 'oldpassword' )
+    array('password1', 'password2', 'oldpassword')
 );

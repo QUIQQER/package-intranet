@@ -15,7 +15,6 @@ use \QUI\Utils\System\File as QUIFile;
  *
  * @author www.pcsg.de (Henning Leutz)
  */
-
 class Utils
 {
     /**
@@ -26,43 +25,40 @@ class Utils
      */
     static function getProfileExtendCategories()
     {
-        $packages = QUIFile::readDir( OPT_DIR );
-        $result   = array();
+        $packages = QUIFile::readDir(OPT_DIR);
+        $result = array();
 
-        foreach ( $packages as $package )
-        {
-            if ( $package == 'composer' ) {
+        foreach ($packages as $package) {
+            if ($package == 'composer') {
                 continue;
             }
 
-            $package_dir = OPT_DIR .'/'. $package;
-            $list        = QUIFile::readDir( $package_dir );
+            $package_dir = OPT_DIR.'/'.$package;
+            $list = QUIFile::readDir($package_dir);
 
 
-            foreach ( $list as $sub )
-            {
-                if ( !is_dir( $package_dir .'/'. $sub ) ) {
+            foreach ($list as $sub) {
+                if (!is_dir($package_dir.'/'.$sub)) {
                     continue;
                 }
 
-                $xmlFile = $package_dir .'/'. $sub .'/intranet.xml';
+                $xmlFile = $package_dir.'/'.$sub.'/intranet.xml';
 
-                if ( !file_exists( $xmlFile ) ) {
+                if (!file_exists($xmlFile)) {
                     continue;
                 }
 
                 // read intranet xml
-                $items = XML::getMenuItemsXml( $xmlFile );
+                $items = XML::getMenuItemsXml($xmlFile);
 
-                foreach ( $items as $Item )
-                {
+                foreach ($items as $Item) {
                     /* @var $Item \DOMElement */
                     $result[] = array(
-                        'text'    => DOM::getTextFromNode( $Item ),
-                        'name'    => $Item->getAttribute( 'name' ),
-                        'icon'    => DOM::parseVar( $Item->getAttribute( 'icon' ) ),
-                        'require' => $Item->getAttribute( 'require' ),
-                        'exec'    => $Item->getAttribute( 'exec' ),
+                        'text'    => DOM::getTextFromNode($Item),
+                        'name'    => $Item->getAttribute('name'),
+                        'icon'    => DOM::parseVar($Item->getAttribute('icon')),
+                        'require' => $Item->getAttribute('require'),
+                        'exec'    => $Item->getAttribute('exec'),
                     );
                 }
             }

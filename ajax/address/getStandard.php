@@ -8,22 +8,22 @@
  */
 function package_quiqqer_intranet_ajax_address_getStandard()
 {
-    $User    = \QUI::getUserBySession();
+    $User = \QUI::getUserBySession();
     $Address = false;
 
-    try
-    {
+    try {
         $Address = $User->getStandardAddress();
 
-    } catch ( \QUI\Exception $Exception ) {
+    } catch (\QUI\Exception $Exception) {
 
     }
 
-    if ( !$Address ) {
+    if (!$Address) {
         $Address = $User->addAddress();
     }
 
-    return array_merge( array( 'id' => $Address->getId() ), $Address->getAttributes());
+    return array_merge(array('id' => $Address->getId()),
+        $Address->getAttributes());
 }
 
 \QUI::$Ajax->register(

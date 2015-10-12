@@ -37,6 +37,12 @@ define('package/quiqqer/intranet/bin/Login', [
             '$onAuth'
         ],
 
+        options : {
+            registration : true,
+            social       : true,
+            passwordReset: true
+        },
+
         initialize : function(options)
         {
             this.parent( options );
@@ -74,12 +80,19 @@ define('package/quiqqer/intranet/bin/Login', [
                 return;
             }
 
-            var self = this;
+            var self   = this,
+                action = '';
+
+            if ( 'httpshost' in QUIQQER_PROJECT && QUIQQER_PROJECT.httpshost )
+            {
+                action = QUIQQER_PROJECT.httpshost;
+                action = action + window.location.pathname;
+            }
 
             this.$Elm.set(
                 'html',
 
-                '<form method="POST" action="'+ URL_DIR +'" class="quiqqer-intranet-login-form">' +
+                '<form method="POST" action="'+ action +'" class="quiqqer-intranet-login-form">' +
                     '<h1>'+ Locale.get( 'quiqqer/intranet', 'login.in.title' ) +'</h1>' +
                     '<input type="text" value="" name="username" id="login-popup-email" />' +
                     '<input type="password" value="" name="password" id="login-popup-password" />' +
@@ -92,28 +105,32 @@ define('package/quiqqer/intranet/bin/Login', [
                     '<input type="hidden" value="1" name="login">' +
                 '</form>' +
 
-                '<div class="quiqqer-intranet-login-req-content-or">' +
-                    '<span class="quiqqer-intranet-login-req-content-or-text">'+
-                        Locale.get( 'quiqqer/intranet', 'login.in.or.text' ) +
-                    '</span>' +
-                '</div>' +
-
-                '<div class="quiqqer-intranet-login-reg-content">' +
-                    '<h2>'+ Locale.get( 'quiqqer/intranet', 'login.in.sign.in.title' ) +'</h2>' +
-                    '<div class="quiqqer-intranet-login-social"></div>' +
-                '</div>' +
-
-                '<div class="quiqqer-intranet-login-req-content-or">' +
-                    '<span class="quiqqer-intranet-login-req-content-or-text">'+
-                        Locale.get( 'quiqqer/intranet', 'login.in.or.text' ) +
-                    '</span>' +
-                '</div>' +
-
-                '<div class="quiqqer-intranet-login-reg-content">' +
-                    Locale.get( 'quiqqer/intranet', 'login.in.register.text' ) +
-                    '<div class="quiqqer-intranet-login-reg-content-registration-link">' +
-                        '<span>'+ Locale.get( 'quiqqer/intranet', 'login.in.register.link' ) +'</span>' +
+                '<div class="quiqqer-intranet-login-social">'+
+                    '<div class="quiqqer-intranet-login-req-content-or">' +
+                        '<span class="quiqqer-intranet-login-req-content-or-text">'+
+                            Locale.get( 'quiqqer/intranet', 'login.in.or.text' ) +
+                        '</span>' +
                     '</div>' +
+
+                    '<div class="quiqqer-intranet-login-reg-content">' +
+                        '<h2>'+ Locale.get( 'quiqqer/intranet', 'login.in.sign.in.title' ) +'</h2>' +
+                        '<div class="quiqqer-intranet-login-social"></div>' +
+                    '</div>' +
+                '</div>'+
+
+                '<div class="quiqqer-intranet-login-registration">'+
+                    '<div class="quiqqer-intranet-login-req-content-or">' +
+                        '<span class="quiqqer-intranet-login-req-content-or-text">'+
+                            Locale.get( 'quiqqer/intranet', 'login.in.or.text' ) +
+                        '</span>' +
+                    '</div>' +
+
+                    '<div class="quiqqer-intranet-login-reg-content">' +
+                        Locale.get( 'quiqqer/intranet', 'login.in.register.text' ) +
+                        '<div class="quiqqer-intranet-login-reg-content-registration-link">' +
+                            '<span>'+ Locale.get( 'quiqqer/intranet', 'login.in.register.link' ) +'</span>' +
+                        '</div>' +
+                    '</div>'+
                 '</div>'
             );
 
@@ -133,6 +150,26 @@ define('package/quiqqer/intranet/bin/Login', [
 
             this.$Username.placeholder = Locale.get( 'quiqqer/intranet', 'login.in.username.placeholder' );
             this.$Password.placeholder = Locale.get( 'quiqqer/intranet', 'login.in.password.placeholder' );
+
+
+
+            if (this.getAttribute('registration') === false) {
+                this.$Elm.getElement(
+                    '.quiqqer-intranet-login-registration'
+                ).setStyle('display', 'none');
+            }
+
+            if (this.getAttribute('social') === false) {
+                this.$Elm.getElement(
+                    '.quiqqer-intranet-login-social'
+                ).setStyle('display', 'none');
+            }
+
+            if (this.getAttribute('passwordReset') === false) {
+                this.$Elm.getElement(
+                    '.quiqqer-intranet-login-forget-link'
+                ).setStyle('display', 'none');
+            }
 
         },
 
