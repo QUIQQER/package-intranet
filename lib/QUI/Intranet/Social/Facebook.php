@@ -55,7 +55,7 @@ class Facebook implements QUI\Intranet\Interfaces\Social
         $data = $this->getUserDataByToken($token);
 
         $Users = QUI::getUsers();
-        $User = $Users->getUserByMail($data['email']);
+        $User  = $Users->getUserByMail($data['email']);
 
         if (!isset($data['id'])
             || $data['id'] != $User->getAttribute('quiqqer.intranet.facebookid')
@@ -86,17 +86,16 @@ class Facebook implements QUI\Intranet\Interfaces\Social
     {
         $this->checkToken($token);
 
-        $Plugin = QUI::getPluginManager()->get('quiqqer/intranet');
-        $facebookAppId = $Plugin->getSettings('social', 'facebookAppId');
+        $Plugin         = QUI::getPluginManager()->get('quiqqer/intranet');
+        $facebookAppId  = $Plugin->getSettings('social', 'facebookAppId');
         $facebookSecret = $Plugin->getSettings('social', 'facebookSecret');
 
         if (empty($facebookSecret) || empty($facebookAppId)) {
-            QUI\System\Log::write(
+            QUI\System\Log::addError(
                 QUI::getLocale()->get(
                     'quiqqer/intranet',
                     'exception.intranet.social.facebook.missing.config'
-                ),
-                QUI\System\Log::LEVEL_ERROR
+                )
             );
 
             throw new QUI\Exception(
@@ -123,7 +122,7 @@ class Facebook implements QUI\Intranet\Interfaces\Social
 
         if (!$user) {
             throw new QUI\Exception(
-                QUI::getLocale(
+                QUI::getLocale()->get(
                     'quiqqer/intranet',
                     'exception.social.facebook.user.not.found'
                 )
@@ -136,7 +135,7 @@ class Facebook implements QUI\Intranet\Interfaces\Social
 
         } catch (\FacebookApiException $Exception) {
             throw new QUI\Exception(
-                QUI::getLocale(
+                QUI::getLocale()->get(
                     'quiqqer/intranet',
                     'exception.social.facebook.user.not.found'
                 )
@@ -207,7 +206,7 @@ class Facebook implements QUI\Intranet\Interfaces\Social
      *
      * @see \QUI\Intranet\Interfaces\Social::onRegistration()
      *
-     * @param User   $User
+     * @param User $User
      * @param string $token
      */
     public function onRegistration(User $User, $token)
@@ -224,8 +223,8 @@ class Facebook implements QUI\Intranet\Interfaces\Social
 
         if (isset($data['locale'])) {
             $locale = explode('_', $data['locale']);
-            $lang = $locale[0];
-            $langs = QUI::availableLanguages();
+            $lang   = $locale[0];
+            $langs  = QUI::availableLanguages();
 
             $userLang = QUI::getLocale()->getCurrent();
 

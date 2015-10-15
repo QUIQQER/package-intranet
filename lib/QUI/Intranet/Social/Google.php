@@ -28,7 +28,7 @@ class Google implements QUI\Intranet\Interfaces\Social
      *
      * @see \QUI\Intranet\Interfaces\Social::onRegistration()
      *
-     * @param User   $User
+     * @param User $User
      * @param string $token
      */
     public function onRegistration(User $User, $token)
@@ -88,7 +88,7 @@ class Google implements QUI\Intranet\Interfaces\Social
      */
     public function getUserByToken($token)
     {
-        $Users = QUI::getUsers();
+        $Users  = QUI::getUsers();
         $Ticket = $this->checkToken($token);
 
         $attributes = $Ticket->getAttributes();
@@ -100,7 +100,7 @@ class Google implements QUI\Intranet\Interfaces\Social
             != $User->getAttribute('quiqqer.intranet.googleid')
         ) {
             throw new QUI\Exception(
-                QUI::getLocale(
+                QUI::getLocale()->get(
                     'quiqqer/intranet',
                     'exception.social.google.user.not.found'
                 ),
@@ -137,7 +137,7 @@ class Google implements QUI\Intranet\Interfaces\Social
     public function getPersonByToken($token)
     {
         $Ticket = $this->checkToken($token);
-        $Plus = new \Google_Service_Plus($this->_getClient());
+        $Plus   = new \Google_Service_Plus($this->_getClient());
 
         return $Plus->people->get($Ticket->getUserId());
     }
@@ -202,19 +202,16 @@ class Google implements QUI\Intranet\Interfaces\Social
 
         $Plugin = QUI::getPluginManager()->get('quiqqer/intranet');
 
-        $ApplicationName = $Plugin->getSettings('social',
-            'googleApplicationName');
-        $ClientId = $Plugin->getSettings('social', 'googleClientId');
-        $ClientSecret = $Plugin->getSettings('social', 'googleClientSecret');
-
+        $ApplicationName = $Plugin->getSettings('social', 'googleApplicationName');
+        $ClientId        = $Plugin->getSettings('social', 'googleClientId');
+        $ClientSecret    = $Plugin->getSettings('social', 'googleClientSecret');
 
         if (empty($ClientId) || empty($ClientSecret)) {
-            QUI\System\Log::write(
+            QUI\System\Log::addError(
                 QUI::getLocale()->get(
                     'quiqqer/intranet',
                     'exception.intranet.social.google.missing.config'
-                ),
-                QUI\System\Log::LEVEL_ERROR
+                )
             );
 
             throw new QUI\Exception(
