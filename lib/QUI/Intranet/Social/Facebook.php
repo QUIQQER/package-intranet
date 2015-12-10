@@ -107,10 +107,10 @@ class Facebook implements QUI\Intranet\Interfaces\Social
         }
 
         $Facebook = new \Facebook(array(
-            'appId'         => $facebookAppId,
-            'secret'        => $facebookSecret,
+            'appId' => $facebookAppId,
+            'secret' => $facebookSecret,
             'sharedSession' => true,
-            'cookie'        => true
+            'cookie' => true
         ));
 
         $Token = json_decode($token);
