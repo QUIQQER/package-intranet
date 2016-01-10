@@ -18,18 +18,21 @@ class Registration extends QUI\Control
     /**
      * constructor
      *
-     * @param Array $attributes
+     * @param array $attributes
      */
     public function __construct($attributes = array())
     {
-        parent::setAttributes($attributes);
+        parent::__construct($attributes);
 
         $this->addCSSFile(
-            dirname(__FILE__).'/Registration.css'
+            dirname(__FILE__) . '/Registration.css'
         );
 
-        $this->setAttribute('qui-class',
-            'package/quiqqer/intranet/bin/Registration');
+        $this->setAttribute(
+            'qui-class',
+            'package/quiqqer/intranet/bin/Registration'
+        );
+
         $this->setAttribute('class', 'package-intranet-registration');
     }
 
@@ -40,24 +43,28 @@ class Registration extends QUI\Control
      */
     public function getBody()
     {
-        $Engine = QUI::getTemplateManager()->getEngine();
-        $Project = $this->_getProject();
+        $Engine  = QUI::getTemplateManager()->getEngine();
+        $Project = $this->getProject();
 
         $Engine->assign(array(
             'Project' => $this->getAttribute('Project'),
-            'Site'    => $this->getAttribute('Site'),
-            'Locale'  => QUI::getLocale()
+            'Site' => $this->getAttribute('Site'),
+            'Locale' => QUI::getLocale()
         ));
 
 
         // user loged in check
         $Plugin = QUI::getPluginManager()->get('quiqqer/intranet');
-        $loggedIn = $Plugin->getSettings('registration',
-            'loggedInDuringRegistrationn');
+
+        $loggedIn = $Plugin->getSettings(
+            'registration',
+            'loggedInDuringRegistrationn'
+        );
 
         if (!$loggedIn && QUI::getUserBySession()->getId()) {
-            return $Engine->fetch(dirname(__FILE__)
-                .'/RegistrationLogedIn.html');
+            return $Engine->fetch(
+                dirname(__FILE__) . '/RegistrationLogedIn.html'
+            );
         }
 
 
@@ -86,23 +93,6 @@ class Registration extends QUI\Control
             $Engine->assign('Site_Privacy', $result[0]);
         }
 
-
-        return $Engine->fetch(dirname(__FILE__).'/Registration.html');
+        return $Engine->fetch(dirname(__FILE__) . '/Registration.html');
     }
-
-    /**
-     * Return the Project
-     *
-     * @return \QUI\Projects\Project
-     * @throw QUI\Exception
-     */
-    protected function _getProject()
-    {
-        if ($this->getAttribute('Project')) {
-            return $this->getAttribute('Project');
-        }
-
-        return QUI::getProjectManager()->get();
-    }
-
 }

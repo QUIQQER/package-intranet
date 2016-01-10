@@ -6,6 +6,8 @@
 
 namespace QUI;
 
+use QUI;
+
 /**
  * Intranet
  *
@@ -19,7 +21,7 @@ class Intranet
      *
      * @param \QUI\Template $TemplateManager
      */
-    static function onTemplateGetHeader(\QUI\Template $TemplateManager)
+    public static function onTemplateGetHeader(QUI\Template $TemplateManager)
     {
         $TemplateManager->addOnloadJavaScriptModule('package/quiqqer/intranet/bin/page/Load');
     }

@@ -21,14 +21,14 @@ class Google implements QUI\Intranet\Interfaces\Social
      *
      * @var Null|\Google_Client
      */
-    protected $_Client = null;
+    protected $Client = null;
 
     /**
      * (non-PHPdoc)
      *
      * @see \QUI\Intranet\Interfaces\Social::onRegistration()
      *
-     * @param User   $User
+     * @param User $User
      * @param string $token
      */
     public function onRegistration(User $User, $token)
@@ -88,7 +88,7 @@ class Google implements QUI\Intranet\Interfaces\Social
      */
     public function getUserByToken($token)
     {
-        $Users = QUI::getUsers();
+        $Users  = QUI::getUsers();
         $Ticket = $this->checkToken($token);
 
         $attributes = $Ticket->getAttributes();
@@ -100,7 +100,7 @@ class Google implements QUI\Intranet\Interfaces\Social
             != $User->getAttribute('quiqqer.intranet.googleid')
         ) {
             throw new QUI\Exception(
-                QUI::getLocale(
+                QUI::getLocale()->get(
                     'quiqqer/intranet',
                     'exception.social.google.user.not.found'
                 ),
@@ -137,7 +137,7 @@ class Google implements QUI\Intranet\Interfaces\Social
     public function getPersonByToken($token)
     {
         $Ticket = $this->checkToken($token);
-        $Plus = new \Google_Service_Plus($this->_getClient());
+        $Plus   = new \Google_Service_Plus($this->getClient());
 
         return $Plus->people->get($Ticket->getUserId());
     }
@@ -171,7 +171,7 @@ class Google implements QUI\Intranet\Interfaces\Social
      */
     public function checkToken($token)
     {
-        $Client = $this->_getClient();
+        $Client = $this->getClient();
         $Client->setAccessToken($token);
 
         $Ticket = $Client->verifyIdToken();
@@ -194,27 +194,24 @@ class Google implements QUI\Intranet\Interfaces\Social
      * @return \Google_Client
      * @throws QUI\Exception
      */
-    protected function _getClient()
+    protected function getClient()
     {
-        if ($this->_Client) {
-            return $this->_Client;
+        if ($this->Client) {
+            return $this->Client;
         }
 
         $Plugin = QUI::getPluginManager()->get('quiqqer/intranet');
 
-        $ApplicationName = $Plugin->getSettings('social',
-            'googleApplicationName');
-        $ClientId = $Plugin->getSettings('social', 'googleClientId');
-        $ClientSecret = $Plugin->getSettings('social', 'googleClientSecret');
-
+        $ApplicationName = $Plugin->getSettings('social', 'googleApplicationName');
+        $ClientId        = $Plugin->getSettings('social', 'googleClientId');
+        $ClientSecret    = $Plugin->getSettings('social', 'googleClientSecret');
 
         if (empty($ClientId) || empty($ClientSecret)) {
-            QUI\System\Log::write(
+            QUI\System\Log::addError(
                 QUI::getLocale()->get(
                     'quiqqer/intranet',
                     'exception.intranet.social.google.missing.config'
-                ),
-                QUI\System\Log::LEVEL_ERROR
+                )
             );
 
             throw new QUI\Exception(
@@ -226,12 +223,12 @@ class Google implements QUI\Intranet\Interfaces\Social
         }
 
 
-        $this->_Client = new \Google_Client();
+        $this->Client = new \Google_Client();
 
-        $this->_Client->setApplicationName($ApplicationName);
-        $this->_Client->setClientId($ClientId);
-        $this->_Client->setClientSecret($ClientSecret);
+        $this->Client->setApplicationName($ApplicationName);
+        $this->Client->setClientId($ClientId);
+        $this->Client->setClientSecret($ClientSecret);
 
-        return $this->_Client;
+        return $this->Client;
     }
 }

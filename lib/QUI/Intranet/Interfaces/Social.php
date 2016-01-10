@@ -18,14 +18,14 @@ interface Social
     /**
      * Checks if the token is correct
      *
-     * @param String $token
+     * @param string $token
      */
     public function checkToken($token);
 
     /**
      * Return the user by a google token
      *
-     * @param String $token
+     * @param string $token
      *
      * @throws \QUI\Exception
      * @return \QUI\Users\User
@@ -37,7 +37,7 @@ interface Social
      *
      * @param string $token
      *
-     * @return Array
+     * @return array
      */
     public function getUserDataByToken($token);
 
@@ -46,14 +46,14 @@ interface Social
      *
      * @param \QUI\Users\User $User
      *
-     * @return Bool
+     * @return boolean
      */
     public function hasAccess(User $User);
 
     /**
      * Check if the user is
      *
-     * @param String $token
+     * @param string $token
      *
      * @return false|\QUI\Users\User
      */
@@ -62,7 +62,7 @@ interface Social
     /**
      * Login the user
      *
-     * @param String $token - token hash
+     * @param string $token - token hash
      *
      * @return \QUI\Users\User
      */
@@ -73,7 +73,7 @@ interface Social
      * So, the social media can set some extra fields to the user
      *
      * @param \QUI\Users\User $User
-     * @param String          $token
+     * @param string $token
      */
     public function onRegistration(User $User, $token);
 }

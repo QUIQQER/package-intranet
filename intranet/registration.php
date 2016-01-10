@@ -11,7 +11,10 @@ if (strpos($httpsHost, 'https:') !== false
 ) {
     QUI::getRewrite()->showErrorHeader(
         301,
-        $httpsHost.URL_DIR.$Site->getUrlRewrited()
+        $httpsHost.URL_DIR.$Site->getUrlRewritten(
+            QUI::getRewrite()->getUrlParamsList(),
+            $_GET
+        )
     );
 
     exit;
@@ -23,7 +26,7 @@ if (strpos($httpsHost, 'https:') !== false
  * @author www.pcsg.de (Henning Leutz)
  */
 
-$Registration = new \QUI\Intranet\Registration(array(
+$Registration = new QUI\Intranet\Registration(array(
     'Project' => $Project
 ));
 
@@ -40,13 +43,16 @@ if (isset($_REQUEST['code']) && isset($_REQUEST['uid'])) {
 
         $Engine->assign(
             'INTRANET_SUCCESS_MESSAGE',
-            \QUI::getLocale()->get(
+            QUI::getLocale()->get(
                 'quiqqer/intranet',
                 'message.registration.finish'
             )
         );
 
-    } catch (\QUI\Exception $Exception) {
+    } catch (QUI\Exception $Exception) {
+
+        QUI\System\Log::addInfo($Exception->getMessage());
+
         $Engine->assign(
             'INTRANET_ERROR_MESSAGE',
             $Exception->getMessage()
@@ -70,13 +76,13 @@ if (isset($_REQUEST['uid'])
 
         $Engine->assign(
             'INTRANET_SUCCESS_MESSAGE',
-            \QUI::getLocale()->get(
+            QUI::getLocale()->get(
                 'quiqqer/intranet',
                 'message.send.new.password.successfully'
             )
         );
 
-    } catch (\QUI\Exception $Exception) {
+    } catch (QUI\Exception $Exception) {
         $Engine->assign(
             'INTRANET_ERROR_MESSAGE',
             $Exception->getMessage()
@@ -100,13 +106,13 @@ if (isset($_REQUEST['uid'])
 
         $Engine->assign(
             'INTRANET_SUCCESS_MESSAGE',
-            \QUI::getLocale()->get(
+            QUI::getLocale()->get(
                 'quiqqer/intranet',
                 'message.new.email.successfully'
             )
         );
 
-    } catch (\QUI\Exception $Exception) {
+    } catch (QUI\Exception $Exception) {
         $Engine->assign(
             'INTRANET_ERROR_MESSAGE',
             $Exception->getMessage()
@@ -131,7 +137,7 @@ if (isset($_REQUEST['uid'])
 
         $Engine->assign(
             'INTRANET_DISABLE_MESSAGE',
-            \QUI::getLocale()->get(
+            QUI::getLocale()->get(
                 'quiqqer/intranet',
                 'message.disable.successfully'
             )
