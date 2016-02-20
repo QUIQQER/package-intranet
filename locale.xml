@@ -235,6 +235,15 @@
             <de><![CDATA[Möchten Sie sich wirklich abmelden?]]></de>
             <en><![CDATA[Do you really want to log out?]]></en>
         </locale>
+        <locale name="window.logout.button.ok">
+            <de><![CDATA[Abmelden]]></de>
+            <en><![CDATA[Logout]]></en>
+        </locale>
+        <locale name="window.logout.button.cancel">
+            <de><![CDATA[Abbrechen]]></de>
+            <en><![CDATA[Cancel]]></en>
+        </locale>
+
 
         <!-- my address -->
         <locale name="profile.myaddress.header">
@@ -730,8 +739,10 @@
             <en><![CDATA[An e-mail with a new password has been sent to you.]]></en>
         </locale>
         <locale name="message.send.new.email.successfully">
-            <de><![CDATA[Sie haben Ihre E-Mail Adresse geändert. Ihnen wurde eine E-Mail mit weiteren Anweisungen gesendet.]]></de>
-            <en><![CDATA[You have changed your e-mail address. An e-mail with further instructions has been sent to you.]]></en>
+            <de>
+                <![CDATA[Sie haben Ihre E-Mail Adresse geändert. Ihnen wurde eine E-Mail mit weiteren Anweisungen gesendet.]]></de>
+            <en>
+                <![CDATA[You have changed your e-mail address. An e-mail with further instructions has been sent to you.]]></en>
         </locale>
         <locale name="message.new.email.successfully">
             <de><![CDATA[Ihre E-Mail Adresse wurde erfolgreich geändert.]]></de>

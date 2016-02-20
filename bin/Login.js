@@ -1,4 +1,3 @@
-
 /**
  * Login control
  *
@@ -7,8 +6,17 @@
  *
  * @event onLoginBegin [ {self} ]
  * @event onLogedIn [ {self}, {object} user data ]
+ *
+ * @require qui/QUI
+ * @require qui/controls/Control
+ * @require qui/controls/loader/Loader
+ * @require qui/controls/buttons/Button
+ * @require qui/controls/desktop/panels/Sheet
+ * @require Ajax
+ * @require Locale
+ * @require package/quiqqer/intranet/bin/Registration
+ * @require css!package/quiqqer/intranet/bin/Login.css
  */
-
 define('package/quiqqer/intranet/bin/Login', [
 
     'qui/QUI',
@@ -17,35 +25,34 @@ define('package/quiqqer/intranet/bin/Login', [
     'qui/controls/buttons/Button',
     'qui/controls/desktop/panels/Sheet',
     'Ajax',
-    'qui/Locale',
+    'Locale',
     'package/quiqqer/intranet/bin/Registration',
 
     'css!package/quiqqer/intranet/bin/Login.css'
 
-], function(QUI, QUIControl, QUILoader, QUIButton, QUISheet, Ajax, Locale, Registration)
-{
+], function (QUI, QUIControl, QUILoader, QUIButton, QUISheet, Ajax, QUILocale, Registration) {
     "use strict";
 
+    var lg = 'quiqqer/intranet';
 
     return new Class({
 
-        Extends : QUIControl,
-        Type    : 'package/quiqqer/intranet/bin/Login',
+        Extends: QUIControl,
+        Type   : 'package/quiqqer/intranet/bin/Login',
 
-        Binds : [
+        Binds: [
             '$onInject',
             '$onAuth'
         ],
 
-        options : {
+        options: {
             registration : true,
             social       : true,
             passwordReset: true
         },
 
-        initialize : function(options)
-        {
-            this.parent( options );
+        initialize: function (options) {
+            this.parent(options);
 
             this.Loader       = null;
             this.Registration = new Registration();
@@ -54,26 +61,24 @@ define('package/quiqqer/intranet/bin/Login', [
             this.$Password = null;
 
             this.addEvents({
-                onInject : this.$onInject
+                onInject: this.$onInject
             });
         },
 
         /**
          * refresh control
          */
-        refresh : function()
-        {
+        refresh: function () {
             // user ist angemeldet
-            if ( this.Registration.isLogedIn() )
-            {
+            if (this.Registration.isLogedIn()) {
                 this.$Elm.set(
                     'html',
 
                     '<p>' +
-                        Locale.get( 'quiqqer/intranet', 'loged.in.as', {
-                            username : QUIQQER_USER.name
-                        }) +
-                        ' <a href="?logout" class="icon-signout"></a>' +
+                    QUILocale.get(lg, 'loged.in.as', {
+                        username: QUIQQER_USER.name
+                    }) +
+                    ' <a href="?logout" class="icon-signout"></a>' +
                     '</p>'
                 );
 
@@ -83,8 +88,7 @@ define('package/quiqqer/intranet/bin/Login', [
             var self   = this,
                 action = '';
 
-            if ( 'httpshost' in QUIQQER_PROJECT && QUIQQER_PROJECT.httpshost )
-            {
+            if ('httpshost' in QUIQQER_PROJECT && QUIQQER_PROJECT.httpshost) {
                 action = QUIQQER_PROJECT.httpshost;
                 action = action + window.location.pathname;
             }
@@ -92,65 +96,64 @@ define('package/quiqqer/intranet/bin/Login', [
             this.$Elm.set(
                 'html',
 
-                '<form method="POST" action="'+ action +'" class="quiqqer-intranet-login-form">' +
-                    '<h1>'+ Locale.get( 'quiqqer/intranet', 'login.in.title' ) +'</h1>' +
-                    '<input type="text" value="" name="username" id="login-popup-email" />' +
-                    '<input type="password" value="" name="password" id="login-popup-password" />' +
-                    '<input type="submit" value="Login!" class="login qui-button btn-green">' +
+                '<form method="POST" action="' + action + '" class="quiqqer-intranet-login-form">' +
+                '<h1>' + QUILocale.get(lg, 'login.in.title') + '</h1>' +
+                '<input type="text" value="" name="username" id="login-popup-email" />' +
+                '<input type="password" value="" name="password" id="login-popup-password" />' +
+                '<input type="submit" value="Login!" class="login qui-button btn-green">' +
 
-                    '<div class="quiqqer-intranet-login-forget-link">' +
-                        '<span>'+ Locale.get( 'quiqqer/intranet', 'login.in.forgotten.password.link' ) +'</span>' +
-                    '</div>' +
+                '<div class="quiqqer-intranet-login-forget-link">' +
+                '<span>' + QUILocale.get(lg, 'login.in.forgotten.password.link') + '</span>' +
+                '</div>' +
 
-                    '<input type="hidden" value="1" name="login">' +
+                '<input type="hidden" value="1" name="login">' +
                 '</form>' +
 
-                '<div class="quiqqer-intranet-login-social">'+
-                    '<div class="quiqqer-intranet-login-req-content-or">' +
-                        '<span class="quiqqer-intranet-login-req-content-or-text">'+
-                            Locale.get( 'quiqqer/intranet', 'login.in.or.text' ) +
-                        '</span>' +
-                    '</div>' +
+                '<div class="quiqqer-intranet-login-social">' +
+                '<div class="quiqqer-intranet-login-req-content-or">' +
+                '<span class="quiqqer-intranet-login-req-content-or-text">' +
+                QUILocale.get(lg, 'login.in.or.text') +
+                '</span>' +
+                '</div>' +
 
-                    '<div class="quiqqer-intranet-login-reg-content">' +
-                        '<h2>'+ Locale.get( 'quiqqer/intranet', 'login.in.sign.in.title' ) +'</h2>' +
-                        '<div class="quiqqer-intranet-login-social"></div>' +
-                    '</div>' +
-                '</div>'+
+                '<div class="quiqqer-intranet-login-reg-content">' +
+                '<h2>' + QUILocale.get(lg, 'login.in.sign.in.title') + '</h2>' +
+                '<div class="quiqqer-intranet-login-social"></div>' +
+                '</div>' +
+                '</div>' +
 
-                '<div class="quiqqer-intranet-login-registration">'+
-                    '<div class="quiqqer-intranet-login-req-content-or">' +
-                        '<span class="quiqqer-intranet-login-req-content-or-text">'+
-                            Locale.get( 'quiqqer/intranet', 'login.in.or.text' ) +
-                        '</span>' +
-                    '</div>' +
+                '<div class="quiqqer-intranet-login-registration">' +
+                '<div class="quiqqer-intranet-login-req-content-or">' +
+                '<span class="quiqqer-intranet-login-req-content-or-text">' +
+                QUILocale.get(lg, 'login.in.or.text') +
+                '</span>' +
+                '</div>' +
 
-                    '<div class="quiqqer-intranet-login-reg-content">' +
-                        Locale.get( 'quiqqer/intranet', 'login.in.register.text' ) +
-                        '<div class="quiqqer-intranet-login-reg-content-registration-link">' +
-                            '<span>'+ Locale.get( 'quiqqer/intranet', 'login.in.register.link' ) +'</span>' +
-                        '</div>' +
-                    '</div>'+
+                '<div class="quiqqer-intranet-login-reg-content">' +
+                QUILocale.get(lg, 'login.in.register.text') +
+                '<div class="quiqqer-intranet-login-reg-content-registration-link">' +
+                '<span>' + QUILocale.get(lg, 'login.in.register.link') + '</span>' +
+                '</div>' +
+                '</div>' +
                 '</div>'
             );
 
-            this.$Username = this.$Elm.getElement( '[name="username"]' );
-            this.$Password = this.$Elm.getElement( '[name="password"]' );
+            this.$Username = this.$Elm.getElement('[name="username"]');
+            this.$Password = this.$Elm.getElement('[name="password"]');
 
             this.$Elm.getElement('.quiqqer-intranet-login-forget-link')
-                     .addEvent('click', function() {
-                         self.showForgetPassword();
-                     });
+                .addEvent('click', function () {
+                    self.showForgetPassword();
+                });
 
 
-            this.$Elm.getElement( '.quiqqer-intranet-login-reg-content-registration-link' )
-                     .addEvent('click', function() {
-                         self.openRegistration();
-                     });
+            this.$Elm.getElement('.quiqqer-intranet-login-reg-content-registration-link')
+                .addEvent('click', function () {
+                    self.openRegistration();
+                });
 
-            this.$Username.placeholder = Locale.get( 'quiqqer/intranet', 'login.in.username.placeholder' );
-            this.$Password.placeholder = Locale.get( 'quiqqer/intranet', 'login.in.password.placeholder' );
-
+            this.$Username.placeholder = QUILocale.get(lg, 'login.in.username.placeholder');
+            this.$Password.placeholder = QUILocale.get(lg, 'login.in.password.placeholder');
 
 
             if (this.getAttribute('registration') === false) {
@@ -178,15 +181,14 @@ define('package/quiqqer/intranet/bin/Login', [
          *
          * @return {HTMLElement}
          */
-        create : function()
-        {
+        create: function () {
             this.$Elm = this.parent();
-            this.$Elm.addClass( 'quiqqer-intranet-login' );
+            this.$Elm.addClass('quiqqer-intranet-login');
 
             this.refresh();
 
             this.Loader = new QUILoader();
-            this.Loader.inject( this.$Elm );
+            this.Loader.inject(this.$Elm);
 
             return this.$Elm;
         },
@@ -194,16 +196,14 @@ define('package/quiqqer/intranet/bin/Login', [
         /**
          * load social media buttons
          */
-        $onInject : function()
-        {
+        $onInject: function () {
             this.Loader.show();
 
             // social login
             var self   = this,
-                Social = this.$Elm.getElement( '.quiqqer-intranet-login-social' );
+                Social = this.$Elm.getElement('.quiqqer-intranet-login-social');
 
-            if ( !Social )
-            {
+            if (!Social) {
                 this.Loader.hide();
                 return;
             }
@@ -211,29 +211,24 @@ define('package/quiqqer/intranet/bin/Login', [
             require([
                 'package/quiqqer/intranet/bin/social/Google',
                 'package/quiqqer/intranet/bin/social/Facebook'
-            ], function(Google, Facebook)
-            {
+            ], function (Google, Facebook) {
                 new Google({
-                    styles : {
-                        display : 'inline-block',
-                        'float' : 'none'
+                    styles    : {
+                        display: 'inline-block',
+                        'float': 'none'
                     },
-                    shwoErrors : false,
-                    events :
-                    {
-                        onLoginBegin : function()
-                        {
+                    shwoErrors: false,
+                    events    : {
+                        onLoginBegin : function () {
                             self.Loader.show();
-                            self.fireEvent( 'loginBegin', [ self ] );
+                            self.fireEvent('loginBegin', [self]);
                         },
-                        onAuth : self.$onAuth,
-                        onSignInError : function()
-                        {
-                            QUI.getMessageHandler(function(MH)
-                            {
+                        onAuth       : self.$onAuth,
+                        onSignInError: function () {
+                            QUI.getMessageHandler(function (MH) {
                                 MH.addError(
-                                    Locale.get(
-                                        'quiqqer/intranet',
+                                    QUILocale.get(
+                                        lg,
                                         'exception.registration.error'
                                     )
                                 );
@@ -241,33 +236,29 @@ define('package/quiqqer/intranet/bin/Login', [
 
                             self.Loader.hide();
                         },
-                        onSignInEnd : function() {
+                        onSignInEnd  : function () {
                             self.Loader.hide();
                         }
                     }
-                }).inject( Social );
+                }).inject(Social);
 
                 new Facebook({
-                    styles : {
-                        display : 'inline-block',
-                        'float' : 'none'
+                    styles    : {
+                        display: 'inline-block',
+                        'float': 'none'
                     },
-                    showErrors : false,
-                    events :
-                    {
-                        onLoginBegin : function()
-                        {
+                    showErrors: false,
+                    events    : {
+                        onLoginBegin : function () {
                             self.Loader.show();
-                            self.fireEvent( 'loginBegin', [ self ] );
+                            self.fireEvent('loginBegin', [self]);
                         },
-                        onAuth        : self.$onAuth,
-                        onSignInError : function()
-                        {
-                            QUI.getMessageHandler(function(MH)
-                            {
+                        onAuth       : self.$onAuth,
+                        onSignInError: function () {
+                            QUI.getMessageHandler(function (MH) {
                                 MH.addError(
-                                    Locale.get(
-                                        'quiqqer/intranet',
+                                    QUILocale.get(
+                                        lg,
                                         'exception.registration.error'
                                     )
                                 );
@@ -275,11 +266,11 @@ define('package/quiqqer/intranet/bin/Login', [
 
                             self.Loader.hide();
                         },
-                        onSignInEnd : function() {
+                        onSignInEnd  : function () {
                             self.Loader.hide();
                         }
                     }
-                }).inject( Social );
+                }).inject(Social);
 
                 self.Loader.hide();
             });
@@ -291,48 +282,43 @@ define('package/quiqqer/intranet/bin/Login', [
          * @param {Object} Social - package/quiqqer/intranet/social/Google | package/quiqqer/intranet/social/Facebook
          * @param {Object} params - Social params
          */
-        $onAuth : function(Social, params)
-        {
+        $onAuth: function (Social, params) {
             var self = this;
 
-            Ajax.post('package_quiqqer_intranet_ajax_user_socialLogin', function(result)
-            {
-                if ( !result )
-                {
+            Ajax.post('package_quiqqer_intranet_ajax_user_socialLogin', function (result) {
+                if (!result) {
                     self.Loader.hide();
                     return;
                 }
 
                 window.QUIQQER_USER = {
-                    id   : result.id,
-                    name : result.username,
-                    lang : result.lang
+                    id  : result.id,
+                    name: result.username,
+                    lang: result.lang
                 };
 
                 self.refresh();
-                self.fireEvent( 'logedIn', [ self, result ] );
+                self.fireEvent('logedIn', [self, result]);
 
             }, {
-                token      : JSON.encode( params.token ),
-                socialType : Social.getAttribute( 'name' ),
-                project    : JSON.encode({
-                    name : QUIQQER_PROJECT.name,
-                    lang : QUIQQER_PROJECT.lang
+                token     : JSON.encode(params.token),
+                socialType: Social.getAttribute('name'),
+                project   : JSON.encode({
+                    name: QUIQQER_PROJECT.name,
+                    lang: QUIQQER_PROJECT.lang
                 }),
-                'package'  : 'quiqqer/intranet',
-                showError  : false,
-                onError    : function(Exception)
-                {
-                    if ( Exception.getCode() == 404 )
-                    {
+                'package' : lg,
+                showError : false,
+                onError   : function (Exception) {
+                    if (Exception.getCode() == 404) {
                         self.openRegistration();
                         return;
                     }
 
                     self.Loader.hide();
 
-                    QUI.getMessageHandler(function(MH) {
-                        MH.addError( Exception.getMessage() );
+                    QUI.getMessageHandler(function (MH) {
+                        MH.addError(Exception.getMessage());
                     });
                 }
             });
@@ -341,26 +327,24 @@ define('package/quiqqer/intranet/bin/Login', [
         /**
          * open the registration -> makes a redirect to the registration
          */
-        openRegistration : function()
-        {
+        openRegistration: function () {
             var self = this;
 
             this.Loader.show();
 
-            Ajax.get('package_quiqqer_intranet_ajax_user_getRegisterLink', function(result)
-            {
+            Ajax.get('package_quiqqer_intranet_ajax_user_getRegisterLink', function (result) {
                 self.Loader.show();
 
-                if ( window.location.toString() != result ) {
+                if (window.location.toString() != result) {
                     window.location = result;
                 }
 
             }, {
-                project : JSON.encode({
-                    name : QUIQQER_PROJECT.name,
-                    lang : QUIQQER_PROJECT.lang
+                project  : JSON.encode({
+                    name: QUIQQER_PROJECT.name,
+                    lang: QUIQQER_PROJECT.lang
                 }),
-                'package' : 'quiqqer/intranet'
+                'package': lg
             });
         },
 
@@ -371,71 +355,67 @@ define('package/quiqqer/intranet/bin/Login', [
         /**
          * Show the forget password sheet
          */
-        showForgetPassword : function()
-        {
+        showForgetPassword: function () {
             var self = this;
 
             new QUISheet({
-                header  : false,
-                buttons : false,
-                styles  : {
-                    background : '#FFFFFF'
+                header : false,
+                buttons: false,
+                styles : {
+                    background: '#FFFFFF'
                 },
-                events  :
-                {
-                    onOpen : function(Sheet)
-                    {
+                events : {
+                    onOpen: function (Sheet) {
                         var Content = Sheet.getContent();
 
                         Content.set(
                             'html',
 
                             '<form class="quiqqer-intranet-login-forget" action="">' +
-                                '<h1>'+ Locale.get('quiqqer/intranet', 'pass.forget.h1.text') +'</h1>' +
+                            '<h1>' + QUILocale.get(lg, 'pass.forget.h1.text') + '</h1>' +
 
-                                '<label for="quiqqer-intranet-login-forget-email">'+
-                                    Locale.get('quiqqer/intranet', 'pass.forget.email.label') +
-                                '</label>' +
-                                '<input id="quiqqer-intranet-login-forget-email" type="text" value="" required="required" />' +
+                            '<label for="quiqqer-intranet-login-forget-email">' +
+                            QUILocale.get(lg, 'pass.forget.email.label') +
+                            '</label>' +
+                            '<input id="quiqqer-intranet-login-forget-email" type="text" value="" required="required" />' +
 
-                                '<div class="quiqqer-intranet-login-forget-buttons">'+
-                                    '<div class="cancel qui-button btn-white">' +
-                                        '<span>'+ Locale.get('quiqqer/intranet', 'pass.forget.btn.cancel') +'</span>' +
-                                    '</div>' +
-                                    '<div class="quiqqer-intranet-login-forget-sendPW qui-button btn-green">' +
-                                        '<span>'+ Locale.get('quiqqer/intranet', 'btn.forget.pw.send.email') +'</span>' +
-                                    '</div>' +
-                                '</div>' +
+                            '<div class="quiqqer-intranet-login-forget-buttons">' +
+                            '<div class="cancel qui-button btn-white">' +
+                            '<span>' + QUILocale.get(lg, 'pass.forget.btn.cancel') + '</span>' +
+                            '</div>' +
+                            '<div class="quiqqer-intranet-login-forget-sendPW qui-button btn-green">' +
+                            '<span>' + QUILocale.get(lg, 'btn.forget.pw.send.email') + '</span>' +
+                            '</div>' +
+                            '</div>' +
                             '</form>'
                         );
 
-                        Content.getElement( '.cancel' ).addEvent(
+                        Content.getElement('.cancel').addEvent(
                             'click',
-                            function() {
+                            function () {
                                 Sheet.hide();
                             }
                         );
 
-                        Content.getElement( '.quiqqer-intranet-login-forget-sendPW' ).addEvent(
+                        Content.getElement('.quiqqer-intranet-login-forget-sendPW').addEvent(
                             'click',
-                            function() {
-                                Content.getElement( 'form' ).fireEvent( 'submit' );
+                            function () {
+                                Content.getElement('form').fireEvent('submit');
                             }
                         );
 
-                        Content.getElement( 'form' ).addEvent(
+                        Content.getElement('form').addEvent(
                             'submit',
-                            function(event)
-                            {
-                                if ( typeof event !== 'undefined' ) {
+                            function (event) {
+                                if (typeof event !== 'undefined') {
                                     event.stop();
                                 }
 
                                 self.Loader.show();
 
                                 self.sendForgetPassword(
-                                    Content.getElement( 'input' ).value,
-                                    function() {
+                                    Content.getElement('input').value,
+                                    function () {
                                         self.Loader.hide();
                                         Sheet.hide();
                                     }
@@ -443,14 +423,14 @@ define('package/quiqqer/intranet/bin/Login', [
                             }
                         );
 
-                        document.id( 'quiqqer-intranet-login-forget-email' ).focus();
+                        document.id('quiqqer-intranet-login-forget-email').focus();
                     },
 
-                    onClose : function(Sheet) {
+                    onClose: function (Sheet) {
                         Sheet.destroy();
                     }
                 }
-            }).inject( this.$Elm ).show();
+            }).inject(this.$Elm).show();
         },
 
         /**
@@ -459,27 +439,24 @@ define('package/quiqqer/intranet/bin/Login', [
          * @param {String} user - E-Mail, Username, User-Id
          * @param {Function} callback - callback function
          */
-        sendForgetPassword : function(user, callback)
-        {
-            if ( user === '' )
-            {
+        sendForgetPassword: function (user, callback) {
+            if (user === '') {
                 callback();
                 return;
             }
 
-            Ajax.post('package_quiqqer_intranet_ajax_user_password_forgotten', function()
-            {
-                if ( typeof callback !== 'undefined' ) {
+            Ajax.post('package_quiqqer_intranet_ajax_user_password_forgotten', function () {
+                if (typeof callback !== 'undefined') {
                     callback();
                 }
             }, {
-                user      : user,
-                project   : JSON.encode({
-                    name : QUIQQER_PROJECT.name,
-                    lang : QUIQQER_PROJECT.lang
+                user     : user,
+                project  : JSON.encode({
+                    name: QUIQQER_PROJECT.name,
+                    lang: QUIQQER_PROJECT.lang
                 }),
-                'package' : 'quiqqer/intranet'
+                'package': lg
             });
         }
     });
- });
+});
