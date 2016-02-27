@@ -82,14 +82,14 @@
         <window>
             <title>Intranet Plugin Einstellungen</title>
             <params>
-                <icon>icon-cogs</icon>
+                <icon>fa fa-cogs</icon>
             </params>
 
             <categories>
 
                 <category name="userProfile">
                     <text>Profil Einstellungen</text>
-                    <icon>icon-user</icon>
+                    <icon>fa fa-user</icon>
 
                     <settings title="userProfile_section" name="userProfile_section">
                         <title>Profil Einstellungen</title>
@@ -114,7 +114,7 @@
 
                 <category name="registration">
                     <text>Registrierung</text>
-                    <icon>icon-cogs</icon>
+                    <icon>fa fa-cogs</icon>
 
                     <settings title="registration_section" name="registration_section">
                         <title>Standard Einstellungen</title>
@@ -158,7 +158,7 @@
 
                 <category name="registration_social">
                     <text>Social-Media Authentifizierung</text>
-                    <icon>icon-globe</icon>
+                    <icon>fa fa-globe</icon>
 
                     <settings title="registration_social_settings" name="registration_social_settings">
                         <title>Google Authentifizierung</title>

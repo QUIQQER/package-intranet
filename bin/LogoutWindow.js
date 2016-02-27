@@ -3,8 +3,12 @@
  *
  * @author www.pcsg.de (Henning Leutz)
  * @module package/quiqqer/intranet/bin/LogoutWindow
+ *
+ * @require qui/QUI
+ * @require qui/controls/windows/Confirm
+ * @require package/quiqqer/intranet/bin/Login
+ * @require Locale
  */
-
 define('package/quiqqer/intranet/bin/LogoutWindow', [
 
     'qui/QUI',
@@ -12,8 +16,10 @@ define('package/quiqqer/intranet/bin/LogoutWindow', [
     'package/quiqqer/intranet/bin/Login',
     'Locale'
 
-], function (QUI, QUIConfirm, Login, Locale) {
+], function (QUI, QUIConfirm, Login, QUILocale) {
     "use strict";
+
+    var lg = 'quiqqer/intranet';
 
     return new Class({
 
@@ -25,13 +31,21 @@ define('package/quiqqer/intranet/bin/LogoutWindow', [
         ],
 
         options: {
-            icon       : 'icon-sign-out fa fa-sign-out',
-            title      : Locale.get('quiqqer/intranet', 'window.logout.title'),
-            text       : Locale.get('quiqqer/intranet', 'window.logout.text'),
-            texticon   : 'icon-sign-out fa fa-sign-out',
-            information: Locale.get('quiqqer/intranet', 'window.logout.information'),
-            maxWidth   : 500,
-            maxHeight  : 300
+            icon         : 'icon-sign-out fa fa-sign-out',
+            title        : QUILocale.get(lg, 'window.logout.title'),
+            text         : QUILocale.get(lg, 'window.logout.text'),
+            texticon     : 'icon-sign-out fa fa-sign-out',
+            information  : QUILocale.get(lg, 'window.logout.information'),
+            maxWidth     : 500,
+            maxHeight    : 300,
+            cancel_button: {
+                text     : QUILocale.get(lg, 'window.logout.button.cancel'),
+                textimage: 'icon-remove fa fa-remove'
+            },
+            ok_button    : {
+                text     : QUILocale.get(lg, 'window.logout.button.ok'),
+                textimage: 'fa fa-sign-out'
+            }
         },
 
         initialize: function (options) {
@@ -49,5 +63,4 @@ define('package/quiqqer/intranet/bin/LogoutWindow', [
             window.location = URL_DIR + '?logout=1';
         }
     });
-
 });
