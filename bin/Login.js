@@ -91,6 +91,7 @@ define('package/quiqqer/intranet/bin/Login', [
             if ('httpshost' in QUIQQER_PROJECT && QUIQQER_PROJECT.httpshost) {
                 action = QUIQQER_PROJECT.httpshost;
                 action = action + window.location.pathname;
+                action = action + '?' + window.location.search;
             }
 
             this.$Elm.set(
