@@ -27,7 +27,7 @@ define('package/quiqqer/intranet/bin/Login', [
     'Ajax',
     'Locale',
     'package/quiqqer/intranet/bin/Registration',
-    URL_OPT_DIR + 'bin/mustache/mustache.min',
+    URL_OPT_DIR + 'bin/mustache/mustache.min.js',
 
     'text!package/quiqqer/intranet/bin/Login.html',
     'css!package/quiqqer/intranet/bin/Login.css'
