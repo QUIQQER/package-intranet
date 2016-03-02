@@ -27,10 +27,13 @@ define('package/quiqqer/intranet/bin/Login', [
     'Ajax',
     'Locale',
     'package/quiqqer/intranet/bin/Registration',
+    URL_OPT_DIR + 'bin/mustache/mustache.min',
 
+    'text!package/quiqqer/intranet/bin/Login.html',
     'css!package/quiqqer/intranet/bin/Login.css'
 
-], function (QUI, QUIControl, QUILoader, QUIButton, QUISheet, Ajax, QUILocale, Registration) {
+], function (QUI, QUIControl, QUILoader, QUIButton, QUISheet, Ajax, QUILocale,
+             Registration, Mustache, template) {
     "use strict";
 
     var lg = 'quiqqer/intranet';
@@ -48,7 +51,8 @@ define('package/quiqqer/intranet/bin/Login', [
         options: {
             registration : true,
             social       : true,
-            passwordReset: true
+            passwordReset: true,
+            logo         : false
         },
 
         initialize: function (options) {
@@ -86,7 +90,8 @@ define('package/quiqqer/intranet/bin/Login', [
             }
 
             var self   = this,
-                action = '';
+                action = '',
+                logo   = '';
 
             if ('httpshost' in QUIQQER_PROJECT && QUIQQER_PROJECT.httpshost) {
                 action = QUIQQER_PROJECT.httpshost;
@@ -94,50 +99,22 @@ define('package/quiqqer/intranet/bin/Login', [
                 action = action + '?' + window.location.search;
             }
 
-            this.$Elm.set(
-                'html',
+            if (this.getAttribute('logo')) {
+                logo = '<img src="' + this.getAttribute('logo') + '" class="quiqqer-intranet-login-logo" />';
+            }
 
-                '<form method="POST" action="' + action + '" class="quiqqer-intranet-login-form">' +
-                '<h1>' + QUILocale.get(lg, 'login.in.title') + '</h1>' +
-                '<input type="text" value="" name="username" id="login-popup-email" />' +
-                '<input type="password" value="" name="password" id="login-popup-password" />' +
-                '<input type="submit" value="Login!" class="login qui-button btn-green">' +
-
-                '<div class="quiqqer-intranet-login-forget-link">' +
-                '<span>' + QUILocale.get(lg, 'login.in.forgotten.password.link') + '</span>' +
-                '</div>' +
-
-                '<input type="hidden" value="1" name="login">' +
-                '</form>' +
-
-                '<div class="quiqqer-intranet-login-social">' +
-                '<div class="quiqqer-intranet-login-req-content-or">' +
-                '<span class="quiqqer-intranet-login-req-content-or-text">' +
-                QUILocale.get(lg, 'login.in.or.text') +
-                '</span>' +
-                '</div>' +
-
-                '<div class="quiqqer-intranet-login-reg-content">' +
-                '<h2>' + QUILocale.get(lg, 'login.in.sign.in.title') + '</h2>' +
-                '<div class="quiqqer-intranet-login-social"></div>' +
-                '</div>' +
-                '</div>' +
-
-                '<div class="quiqqer-intranet-login-registration">' +
-                '<div class="quiqqer-intranet-login-req-content-or">' +
-                '<span class="quiqqer-intranet-login-req-content-or-text">' +
-                QUILocale.get(lg, 'login.in.or.text') +
-                '</span>' +
-                '</div>' +
-
-                '<div class="quiqqer-intranet-login-reg-content">' +
-                QUILocale.get(lg, 'login.in.register.text') +
-                '<div class="quiqqer-intranet-login-reg-content-registration-link">' +
-                '<span>' + QUILocale.get(lg, 'login.in.register.link') + '</span>' +
-                '</div>' +
-                '</div>' +
-                '</div>'
-            );
+            this.$Elm.set({
+                html: Mustache.render(template, {
+                    logo         : logo,
+                    action       : action,
+                    title        : QUILocale.get(lg, 'login.in.title'),
+                    passwordLink : QUILocale.get(lg, 'login.in.forgotten.password.link'),
+                    orText       : QUILocale.get(lg, 'login.in.or.text'),
+                    titleSocial  : QUILocale.get(lg, 'login.in.sign.in.title'),
+                    titleRegister: QUILocale.get(lg, 'login.in.register.text'),
+                    registerLink : QUILocale.get(lg, 'login.in.register.link')
+                })
+            });
 
             this.$Username = this.$Elm.getElement('[name="username"]');
             this.$Password = this.$Elm.getElement('[name="password"]');
@@ -174,7 +151,6 @@ define('package/quiqqer/intranet/bin/Login', [
                     '.quiqqer-intranet-login-forget-link'
                 ).setStyle('display', 'none');
             }
-
         },
 
         /**

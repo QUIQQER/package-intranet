@@ -34,7 +34,8 @@ define('package/quiqqer/intranet/bin/LoginWindow', [
             buttons      : false,
             registration : true,
             social       : true,
-            passwordReset: true
+            passwordReset: true,
+            logo         : false
         },
 
         initialize: function (options) {
@@ -62,6 +63,7 @@ define('package/quiqqer/intranet/bin/LoginWindow', [
                 registration : this.getAttribute('registration'),
                 social       : this.getAttribute('social'),
                 passwordReset: this.getAttribute('passwordReset'),
+                logo         : this.getAttribute('logo'),
                 events       : {
 
                     onLogedIn: function () {

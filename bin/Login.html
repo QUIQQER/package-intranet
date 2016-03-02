@@ -1,0 +1,41 @@
+<form method="POST" action="{{action}}" class="quiqqer-intranet-login-form">
+    {{{logo}}}
+    <h1>{{title}}</h1>
+    <input type="text" value="" name="username" id="login-popup-email"/>
+    <input type="password" value="" name="password" id="login-popup-password"/>
+    <input type="submit" value="Login!" class="login qui-button btn-green"/>
+
+    <div class="quiqqer-intranet-login-forget-link">
+        <span>{{passwordLink}}</span>
+    </div>
+
+    <input type="hidden" value="1" name="login">
+</form>
+
+<div class="quiqqer-intranet-login-social">
+    <div class="quiqqer-intranet-login-req-content-or">
+       <span class="quiqqer-intranet-login-req-content-or-text">
+            {{orText}}
+        </span>
+    </div>
+
+    <div class="quiqqer-intranet-login-reg-content">
+        <h2>{{titleSocial}}</h2>
+        <div class="quiqqer-intranet-login-social"></div>
+    </div>
+</div>
+
+<div class="quiqqer-intranet-login-registration">
+    <div class="quiqqer-intranet-login-req-content-or">
+        <span class="quiqqer-intranet-login-req-content-or-text">
+            {{orText}}
+        </span>
+    </div>
+
+    <div class="quiqqer-intranet-login-reg-content">
+        {{titleRegister}}
+        <div class="quiqqer-intranet-login-reg-content-registration-link">
+            <span>{{registerLink}}</span>
+        </div>
+    </div>
+</div>
