@@ -90,6 +90,14 @@
     text-decoration: none;
 }
 
+.quiqqer-intranet-login-failed-message {
+    left: 0;
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
 /** content style
  ================================================================== */
 

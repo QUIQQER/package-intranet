@@ -49,10 +49,11 @@ define('package/quiqqer/intranet/bin/Login', [
         ],
 
         options: {
-            registration : true,
-            social       : true,
-            passwordReset: true,
-            logo         : false
+            registration       : true,
+            social             : true,
+            passwordReset      : true,
+            logo               : false,
+            'show-login-failed': false
         },
 
         initialize: function (options) {
@@ -103,6 +104,12 @@ define('package/quiqqer/intranet/bin/Login', [
                 logo = '<img src="' + this.getAttribute('logo') + '" class="quiqqer-intranet-login-logo" />';
             }
 
+            var loginFailedMessage = false;
+
+            if (this.getAttribute('show-login-failed') && typeof QUIQQER_LOGIN_FAILED !== 'undefined') {
+                loginFailedMessage = QUIQQER_LOGIN_FAILED;
+            }
+
             this.$Elm.set({
                 html: Mustache.render(template, {
                     logo         : logo,
@@ -112,12 +119,28 @@ define('package/quiqqer/intranet/bin/Login', [
                     orText       : QUILocale.get(lg, 'login.in.or.text'),
                     titleSocial  : QUILocale.get(lg, 'login.in.sign.in.title'),
                     titleRegister: QUILocale.get(lg, 'login.in.register.text'),
-                    registerLink : QUILocale.get(lg, 'login.in.register.link')
+                    registerLink : QUILocale.get(lg, 'login.in.register.link'),
+                    loginFailed  : loginFailedMessage
                 })
             });
 
-            this.$Username = this.$Elm.getElement('[name="username"]');
-            this.$Password = this.$Elm.getElement('[name="password"]');
+            this.$Username  = this.$Elm.getElement('[name="username"]');
+            this.$Password  = this.$Elm.getElement('[name="password"]');
+            var LoginFailed = this.$Elm.getElement(
+                '.quiqqer-intranet-login-failed-message'
+            );
+
+            if (LoginFailed) {
+                (function () {
+                    moofx(LoginFailed).animate({
+                        opacity: 0
+                    }, {
+                        callback: function () {
+                            LoginFailed.destroy();
+                        }
+                    });
+                }).delay(2000);
+            }
 
             this.$Elm.getElement('.quiqqer-intranet-login-forget-link')
                 .addEvent('click', function () {

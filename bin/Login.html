@@ -1,4 +1,10 @@
 <form method="POST" action="{{action}}" class="quiqqer-intranet-login-form">
+    {{#loginFailed}}
+    <div class="quiqqer-intranet-login-failed-message message-error">
+        {{loginFailed}}
+    </div>
+    {{/loginFailed}}
+
     {{{logo}}}
     <h1>{{title}}</h1>
     <input type="text" value="" name="username" id="login-popup-email"/>
