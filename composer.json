@@ -24,7 +24,7 @@
 
     "autoload": {
         "psr-4" : {
-            "QUI\\Intranet\\" : "src/Intranet"
+            "QUI\\Intranet\\" : "src/QUI/Intranet"
         }
     }
 }
