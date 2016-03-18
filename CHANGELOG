@@ -1,6 +1,8 @@
 0.10.0
 
     - PSR-4
+    - Cookie Abfrage - Abfrage ob Cookies erlaubt sind. Falls nicht erscheint eine Nachricht
+    - Anzeige der Nachricht bei einem Login fehlgeschlagenen Login erscheint nun 10 Sekunden
 
 0.9
 
