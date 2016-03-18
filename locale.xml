@@ -218,8 +218,17 @@
             <de><![CDATA[Ihre angegebenen Passwörter stimmen leider nicht überein.]]></de>
             <en><![CDATA[Unfortunately your specified passwords do not match.]]></en>
         </locale>
-    </groups>
 
+        <locale name="message.registration.allow.cookie" html="true">
+            <de><![CDATA[
+            In Ihrem Browser sind Cookies deaktiviert.
+            Um den Login auf dieser Seite nutzen zu können sind Cookies erforderlich.
+            ]]></de>
+            <en><![CDATA[
+            Cookie are deactivated in your Browser. To Login Cookies must be activated.
+            ]]></en>
+        </locale>
+    </groups>
 
     <groups name="quiqqer/intranet" datatype="js">
         <!-- logout window -->

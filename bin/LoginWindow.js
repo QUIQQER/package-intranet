@@ -36,7 +36,7 @@ define('package/quiqqer/intranet/bin/LoginWindow', [
             social             : true,
             passwordReset      : true,
             logo               : false,
-            'show-login-failed': false
+            'show-login-failed': true
         },
 
         initialize: function (options) {

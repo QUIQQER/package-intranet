@@ -53,7 +53,7 @@ define('package/quiqqer/intranet/bin/Login', [
             social             : true,
             passwordReset      : true,
             logo               : false,
-            'show-login-failed': false
+            'show-login-failed': true
         },
 
         initialize: function (options) {
@@ -139,7 +139,7 @@ define('package/quiqqer/intranet/bin/Login', [
                             LoginFailed.destroy();
                         }
                     });
-                }).delay(2000);
+                }).delay(10000);
             }
 
             this.$Elm.getElement('.quiqqer-intranet-login-forget-link')
@@ -174,6 +174,41 @@ define('package/quiqqer/intranet/bin/Login', [
                     '.quiqqer-intranet-login-forget-link'
                 ).setStyle('display', 'none');
             }
+
+            if (this.$cookieTest() === false) {
+                new Element('div', {
+                    html   : QUILocale.get(lg, 'message.registration.allow.cookie'),
+                    styles : {
+                        background: '#fff',
+                        height    : '100%',
+                        left      : 0,
+                        padding   : 20,
+                        position  : 'absolute',
+                        textAlign : 'center',
+                        top       : 0,
+                        width     : '100%'
+                    }
+                }).inject(this.$Elm);
+            }
+        },
+
+        /**
+         * Cookie test
+         * @returns {boolean}
+         */
+        $cookieTest: function () {
+
+            if (navigator.cookieEnabled) {
+                return true;
+            }
+
+            document.cookie = "quiqqercookie=1";
+
+            var ret = document.cookie.indexOf("quiqqercookie=") != -1;
+
+            document.cookie = "quiqqercookie=1; expires=Thu, 01-Jan-1970 00:00:01 GMT";
+
+            return ret;
         },
 
         /**
