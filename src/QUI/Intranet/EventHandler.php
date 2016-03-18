@@ -1,10 +1,10 @@
 <?php
 
 /**
- * This file contains \QUI\Intranet
+ * This file contains \QUI\Intranet\EventHandler
  */
 
-namespace QUI;
+namespace QUI\Intranet;
 
 use QUI;
 
@@ -14,7 +14,7 @@ use QUI;
  * @author www.pcsg.de
  */
 
-class Intranet
+class EventHandler
 {
     /**
      * on event : onTemplateGetHeader

@@ -1,3 +1,6 @@
+0.10.0
+
+    - PSR-4
 
 0.9
 
@@ -5,5 +8,5 @@
     - Mustache Integration
     - Customizing -> Login mit Logo
     - FontAwesom 4.5
-    - PSR2
+    - PSR-0
 
