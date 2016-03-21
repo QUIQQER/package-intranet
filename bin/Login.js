@@ -177,8 +177,8 @@ define('package/quiqqer/intranet/bin/Login', [
 
             if (this.$cookieTest() === false) {
                 new Element('div', {
-                    html   : QUILocale.get(lg, 'message.registration.allow.cookie'),
-                    styles : {
+                    html  : QUILocale.get(lg, 'message.registration.allow.cookie'),
+                    styles: {
                         background: '#fff',
                         height    : '100%',
                         left      : 0,
@@ -235,10 +235,11 @@ define('package/quiqqer/intranet/bin/Login', [
             this.Loader.show();
 
             // social login
-            var self   = this,
-                Social = this.$Elm.getElement('.quiqqer-intranet-login-social');
+            var self           = this,
+                Social         = this.$Elm.getElement('.quiqqer-intranet-login-social'),
+                socialSettings = this.getAttribute('social');
 
-            if (!Social) {
+            if (!Social || socialSettings === false) {
                 this.Loader.hide();
                 return;
             }
