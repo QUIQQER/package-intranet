@@ -62,7 +62,7 @@
     background: #64991e;
     font-size: 12px;
     line-height: 28px;
-    padding: 0px;
+    padding: 0;
 }
 
 .quiqqer-intranet-login input[type="submit"]:hover {
