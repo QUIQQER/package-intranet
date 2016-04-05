@@ -95,9 +95,15 @@ define('package/quiqqer/intranet/bin/Login', [
                 logo   = '';
 
             if ('httpshost' in QUIQQER_PROJECT && QUIQQER_PROJECT.httpshost) {
+                var search = window.location.search;
+
+                if (search !== '') {
+                    search = '?' + search.replace('?', '');
+                }
+
                 action = QUIQQER_PROJECT.httpshost;
                 action = action + window.location.pathname;
-                action = action + '?' + window.location.search;
+                action = action + search;
             }
 
             if (this.getAttribute('logo')) {
