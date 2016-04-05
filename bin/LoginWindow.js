@@ -43,7 +43,7 @@ define('package/quiqqer/intranet/bin/LoginWindow', [
             this.parent(options);
 
             this.addEvents({
-                onOpen: this.$onOpen
+                onOpen : this.$onOpen
             });
         },
 
