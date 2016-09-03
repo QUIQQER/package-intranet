@@ -61,7 +61,7 @@ class Registration extends QUI\QDOM
         }
 
         QUI::getDataBase()->update(
-            QUI::getUsers()->Table(),
+            QUI::getUsers()->table(),
             array(
                 'lastvisit'  => time(),
                 'user_agent' => $useragent
@@ -1257,7 +1257,7 @@ class Registration extends QUI\QDOM
                 'intranet.new.email.MailSubject'
             );
         }
-        
+
         $activasion_link = $Project->getVHost(true) . $RegSite->getUrlRewritten(array(
                 'uid'  => $User->getId(),
                 'hash' => $emailHash,

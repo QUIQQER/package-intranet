@@ -166,7 +166,7 @@ class Facebook implements QUI\Intranet\Interfaces\Social
      *
      * @param string $token
      *
-     * @return false|\QUI\Users\User
+     * @return bool
      */
     public function isAuth($token)
     {

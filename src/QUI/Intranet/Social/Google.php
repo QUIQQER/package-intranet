@@ -146,16 +146,13 @@ class Google implements QUI\Intranet\Interfaces\Social
      * Check if the user is
      *
      * @param String $token
-     *
-     * @return false|\QUI\Users\User
+     * @return bool
      */
     public function isAuth($token)
     {
         try {
             $this->checkToken($token);
-
             return true;
-
         } catch (QUI\Exception $Exception) {
             return false;
         }

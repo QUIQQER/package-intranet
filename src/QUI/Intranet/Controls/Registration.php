@@ -48,8 +48,8 @@ class Registration extends QUI\Control
 
         $Engine->assign(array(
             'Project' => $this->getAttribute('Project'),
-            'Site' => $this->getAttribute('Site'),
-            'Locale' => QUI::getLocale()
+            'Site'    => $this->getAttribute('Site'),
+            'Locale'  => QUI::getLocale()
         ));
 
 
