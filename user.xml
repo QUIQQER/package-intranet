@@ -8,14 +8,5 @@
         <attribute>quiqqer.intranet.disable.time</attribute>
         <attribute>quiqqer.intranet.new.email</attribute>
         <attribute>quiqqer.intranet.new.email.hash</attribute>
-        <attribute>quiqqer.intranet.set.new.password</attribute>
     </attributes>
-
-    <window>
-        <tab name="Intranet">
-            <text>Extras</text>
-            <image>fa fa-globe</image>
-            <template>OPT_DIR/quiqqer/intranet/templates/user.html</template>
-        </tab>
-    </window>
 </user>

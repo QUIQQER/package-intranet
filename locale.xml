@@ -804,10 +804,6 @@
             <de><![CDATA[Erweiterte Benutzer Einstellungen]]></de>
             <en><![CDATA[Extra user settings]]></en>
         </locale>
-        <locale name="message.set.new.password">
-            <de><![CDATA[Du musst dein Passwort ändern. Bitte gebe ein neues Passwort ein.]]></de>
-            <en><![CDATA[You must change your password. Please enter a new password.]]></en>
-        </locale>
     </groups>
 
 </locales>
