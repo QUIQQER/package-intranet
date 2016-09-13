@@ -253,7 +253,6 @@
             <en><![CDATA[Cancel]]></en>
         </locale>
 
-
         <!-- my address -->
         <locale name="profile.myaddress.header">
             <de><![CDATA[Meine Adresse]]></de>
@@ -801,6 +800,14 @@
             <en><![CDATA[Error while sending mail. Your new e-mail address could not be confirmed.]]></en>
         </locale>
 
+        <locale name="user.settings.title">
+            <de><![CDATA[Erweiterte Benutzer Einstellungen]]></de>
+            <en><![CDATA[Extra user settings]]></en>
+        </locale>
+        <locale name="message.set.new.password">
+            <de><![CDATA[Du musst dein Passwort ändern. Bitte gebe ein neues Passwort ein.]]></de>
+            <en><![CDATA[You must change your password. Please enter a new password.]]></en>
+        </locale>
     </groups>
 
 </locales>

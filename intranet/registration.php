@@ -11,7 +11,7 @@ if (strpos($httpsHost, 'https:') !== false
 ) {
     QUI::getRewrite()->showErrorHeader(
         301,
-        $httpsHost.URL_DIR.$Site->getUrlRewritten(
+        $httpsHost . URL_DIR . $Site->getUrlRewritten(
             QUI::getRewrite()->getUrlParamsList(),
             $_GET
         )
@@ -48,9 +48,7 @@ if (isset($_REQUEST['code']) && isset($_REQUEST['uid'])) {
                 'message.registration.finish'
             )
         );
-
     } catch (QUI\Exception $Exception) {
-
         QUI\System\Log::addInfo($Exception->getMessage());
 
         $Engine->assign(
@@ -81,7 +79,6 @@ if (isset($_REQUEST['uid'])
                 'message.send.new.password.successfully'
             )
         );
-
     } catch (QUI\Exception $Exception) {
         $Engine->assign(
             'INTRANET_ERROR_MESSAGE',
@@ -111,7 +108,6 @@ if (isset($_REQUEST['uid'])
                 'message.new.email.successfully'
             )
         );
-
     } catch (QUI\Exception $Exception) {
         $Engine->assign(
             'INTRANET_ERROR_MESSAGE',
@@ -142,7 +138,6 @@ if (isset($_REQUEST['uid'])
                 'message.disable.successfully'
             )
         );
-
     } catch (\QUI\Exception $Exception) {
         $Engine->assign(
             'INTRANET_ERROR_MESSAGE',
@@ -150,4 +145,3 @@ if (isset($_REQUEST['uid'])
         );
     }
 }
-
