@@ -455,6 +455,9 @@
             <en><![CDATA[Password strength]]></en>
         </locale>
 
+
+
+
         <!-- registration mails -->
         <locale name="mail.registration.MAILFromText">
             <de><![CDATA[[mailFromText]]]></de>
@@ -735,8 +738,8 @@
 
         <!-- messages -->
         <locale name="message.registration.finish">
-            <de><![CDATA[]]></de>
-            <en><![CDATA[]]></en>
+            <de><![CDATA[Registration erfolgreich abgeschlossen.]]></de>
+            <en><![CDATA[Registration has been completed successfully.]]></en>
         </locale>
         <locale name="message.send.forgotten.password.successfully">
             <de><![CDATA[Ihnen wurde eine E-Mail mit weiteren Anweisungen gesendet.]]></de>
@@ -805,5 +808,7 @@
             <en><![CDATA[Extra user settings]]></en>
         </locale>
     </groups>
+
+
 
 </locales>
