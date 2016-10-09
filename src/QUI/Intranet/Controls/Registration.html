@@ -1,5 +1,6 @@
-
 <div class="package-intranet-registration-container">
+
+    {if isset($Site_TermsAndConditions) || isset($Site_TermsAndConditions)}
     <div class="register-agb">
         <fieldset class="agbs">
             {strip}
@@ -11,34 +12,34 @@
                 />
 
                 {t}quiqqer/intranet intranet.registration.read1{/t}
-                &nbsp;
                 {if isset( $Site_TermsAndConditions )}
-                <a href="{url site=$Site_TermsAndConditions}"
-                    target="_blank"
 
-                    class="popup-link"
-                    data-id="{$Site_TermsAndConditions->getId()}"
-                    data-project="{$Project->getAttribute('name')}"
-                    data-lang="{$Project->getAttribute('lang')}"
+                <a href="{url site=$Site_TermsAndConditions}"
+                   target="_blank"
+
+                   class="popup-link"
+                   data-id="{$Site_TermsAndConditions->getId()}"
+                   data-project="{$Project->getAttribute('name')}"
+                   data-lang="{$Project->getAttribute('lang')}"
                 >
                     {$Site_TermsAndConditions->getAttribute('title')}
                 </a>
                 {/if}
 
                 {if isset( $Site_TermsAndConditions ) && isset( $Site_Privacy )}
-                    ,
+                ,
                 {/if}
 
                 &nbsp;
 
                 {if isset( $Site_Privacy )}
                 <a href="{url site=$Site_Privacy}"
-                    target="_blank"
+                   target="_blank"
 
-                    class="popup-link"
-                    data-id="{$Site_Privacy->getId()}"
-                    data-project="{$Project->getAttribute('name')}"
-                    data-lang="{$Project->getAttribute('lang')}"
+                   class="popup-link"
+                   data-id="{$Site_Privacy->getId()}"
+                   data-project="{$Project->getAttribute('name')}"
+                   data-lang="{$Project->getAttribute('lang')}"
                 >
                     {$Site_Privacy->getAttribute('title')}
                 </a>&nbsp;
@@ -48,10 +49,12 @@
             {/strip}
         </fieldset>
     </div>
-
+    {/if}
 
     <div class="package-intranet-registration-container">
+        {if isset($Site_TermsAndConditions) || isset($Site_TermsAndConditions)}
         <div class="package-intranet-registration-hide"></div>
+        {/if}
 
         <div class="register-social social-registration">
             <h2>{t}quiqqer/intranet intranet.registration.social.title{/t}</h2>
@@ -85,10 +88,10 @@
                     </label>
 
                     <input name="email" id="reg-email"
-                       type="email"
-                       value=""
-                       class="grid-60 mobile-grid-100"
-                       required="required"
+                           type="email"
+                           value=""
+                           class="grid-60 mobile-grid-100"
+                           required="required"
                     />
                 </fieldset>
 
@@ -98,10 +101,10 @@
                     </label>
 
                     <input name="email2" id="reg-email2"
-                       type="email"
-                       value=""
-                       class="grid-60 mobile-grid-100"
-                       required="required"
+                           type="email"
+                           value=""
+                           class="grid-60 mobile-grid-100"
+                           required="required"
                     />
                 </fieldset>
 
@@ -111,14 +114,15 @@
                     </label>
 
                     <input name="password" id="reg-password"
-                       type="password"
-                       value=""
-                       autocomplete="off"
-                       class="grid-60 mobile-grid-100"
-                       required="required"
+                           type="password"
+                           value=""
+                           autocomplete="off"
+                           class="grid-60 mobile-grid-100"
+                           required="required"
                     />
 
-                    <div id="reg-pwsecurity" class="box grid-60 push-40 mobile-push-0 mobile-grid-100 grid-parent"></div>
+                    <div id="reg-pwsecurity"
+                         class="box grid-60 push-40 mobile-push-0 mobile-grid-100 grid-parent"></div>
 
                 </fieldset>
 
@@ -128,11 +132,11 @@
                     </label>
 
                     <input name="password2" id="reg-password2"
-                       type="password"
-                       value=""
-                       autocomplete="off"
-                       class="grid-60 mobile-grid-100"
-                       required="required"
+                           type="password"
+                           value=""
+                           autocomplete="off"
+                           class="grid-60 mobile-grid-100"
+                           required="required"
                     />
                 </fieldset>
 

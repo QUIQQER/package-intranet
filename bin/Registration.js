@@ -74,9 +74,6 @@ define('package/quiqqer/intranet/bin/Registration', [
                 return;
             }
 
-            var Hide = Elm.getElement( '.package-intranet-registration-hide' );
-                Hide.setStyle( 'display', 'inline' );
-
             // elements
             this.$Mail1 = Elm.getElement( '#reg-email' );
             this.$Mail2 = Elm.getElement( '#reg-email2' );
@@ -85,6 +82,11 @@ define('package/quiqqer/intranet/bin/Registration', [
             this.$AGB   = Elm.getElement( '#reg-agb-privacy' );
 
             this.$PWSecContainer = Elm.getElement( '#reg-pwsecurity' );
+
+            if(this.$AGB != null){
+                var Hide = Elm.getElement( '.package-intranet-registration-hide' );
+                Hide.setStyle( 'display', 'inline' );
+            }
 
 
             // send button
@@ -107,20 +109,23 @@ define('package/quiqqer/intranet/bin/Registration', [
 
 
             // agb
-            this.$AGB.addEvents({
-                change : function()
-                {
-                    if ( this.checked )
+            if(this.$AGB != null){
+                this.$AGB.addEvents({
+                    change : function()
                     {
-                        Hide.setStyle( 'display', 'none' );
-                    } else
-                    {
-                        Hide.setStyle( 'display', 'inline' );
+                        if ( this.checked )
+                        {
+                            Hide.setStyle( 'display', 'none' );
+                        } else
+                        {
+                            Hide.setStyle( 'display', 'inline' );
+                        }
                     }
-                }
-            });
+                });
 
-            this.$AGB.fireEvent( 'change' );
+                this.$AGB.fireEvent( 'change' );
+            }
+
 
 
             // pw security
