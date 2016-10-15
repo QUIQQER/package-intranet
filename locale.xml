@@ -738,8 +738,8 @@
 
         <!-- messages -->
         <locale name="message.registration.finish">
-            <de><![CDATA[Registration erfolgreich abgeschlossen.]]></de>
-            <en><![CDATA[Registration has been completed successfully.]]></en>
+            <de><![CDATA[Registration erfolgreich abgeschlossen. Eine E-Mail mit weiteren Anweisungen zur Aktivierung Ihres Accounts wurden verschickt.]]></de>
+            <en><![CDATA[Registration has been completed successfully. An email with further details about activating your account has been sent.]]></en>
         </locale>
         <locale name="message.send.forgotten.password.successfully">
             <de><![CDATA[Ihnen wurde eine E-Mail mit weiteren Anweisungen gesendet.]]></de>
