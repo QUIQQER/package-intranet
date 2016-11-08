@@ -49,7 +49,8 @@ function package_quiqqer_intranet_ajax_user_register(
         'password' => $password
     ));
 
-    if (\QUI::getPackage('quiqqer/intranet')->getConfig()->get('registration', 'registration')) {
+
+    if (\QUI::getPackage('quiqqer/intranet')->getConfig()->get('registration', 'sendMailOnRegistration')) {
         return \QUI::getLocale()->get('quiqqer/intranet', 'message.registration.finish.withEmail');
     }
 
