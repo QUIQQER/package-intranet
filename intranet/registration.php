@@ -20,6 +20,7 @@ if (strpos($httpsHost, 'https:') !== false
     exit;
 }
 
+
 /**
  * registration template
  *
@@ -30,6 +31,7 @@ $Registration = new QUI\Intranet\Registration(array(
     'Project' => $Project
 ));
 
+$Engine->assign('redirectURL', URL_DIR);
 $Engine->assign('INTRANET_TYPE', '');
 
 /**
@@ -45,7 +47,7 @@ if (isset($_REQUEST['code']) && isset($_REQUEST['uid'])) {
             'INTRANET_SUCCESS_MESSAGE',
             QUI::getLocale()->get(
                 'quiqqer/intranet',
-                'message.registration.finish'
+                'message.activation.finish'
             )
         );
     } catch (QUI\Exception $Exception) {

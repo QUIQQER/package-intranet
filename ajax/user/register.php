@@ -35,9 +35,7 @@ function package_quiqqer_intranet_ajax_user_register(
 
     try {
         $Project = QUI::getProjectManager()->decode($project);
-
     } catch (\QUI\Exception $Exception) {
-
     }
 
     $data = json_decode($data, true);
@@ -47,12 +45,15 @@ function package_quiqqer_intranet_ajax_user_register(
 
     $User = $Reg->register(array(
         'nickname' => $email,
-        'email'    => $email,
+        'email' => $email,
         'password' => $password
     ));
 
-    return \QUI::getLocale()
-               ->get('quiqqer/intranet', 'message.registration.finish');
+    if (\QUI::getPackage('quiqqer/intranet')->getConfig()->get('registration', 'registration')) {
+        return \QUI::getLocale()->get('quiqqer/intranet', 'message.registration.finish.withEmail');
+    }
+
+    return \QUI::getLocale()->get('quiqqer/intranet', 'message.registration.finish');
 }
 
 \QUI::$Ajax->register(
