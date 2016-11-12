@@ -742,10 +742,27 @@
         <!-- messages -->
         <locale name="message.registration.finish">
             <de>
-                <![CDATA[Registration erfolgreich abgeschlossen. Eine E-Mail mit weiteren Anweisungen zur Aktivierung Ihres Accounts wurden verschickt.]]></de>
+                <![CDATA[Registration erfolgreich abgeschlossen. Ein Administrator muss Ihren Account nun aktivieren.]]></de>
+            <en>
+                <![CDATA[Registration has been completed successfully. Please be patient until an administrator activates your account.]]></en>
+        </locale>
+        <locale name="message.registration.finish.withEmail">
+            <de>
+                <![CDATA[Registration erfolgreich abgeschlossen. Eine E-Mail mit weiteren Anweisungen zur Aktivierung Ihres Accounts wurde verschickt.]]></de>
             <en>
                 <![CDATA[Registration has been completed successfully. An email with further details about activating your account has been sent.]]></en>
         </locale>
+
+        <locale name="message.activation.finish">
+            <de><![CDATA[Ihr Account wurde erfolgreich aktiviert.]]></de>
+            <en><![CDATA[Your Account has been activated successfully.]]></en>
+        </locale>
+        <locale name="message.activation.redirect.link">
+            <de><![CDATA[Zurück zur Startseite.]]></de>
+            <en><![CDATA[Back to the startpage.]]></en>
+        </locale>
+
+
         <locale name="message.send.forgotten.password.successfully">
             <de><![CDATA[Ihnen wurde eine E-Mail mit weiteren Anweisungen gesendet.]]></de>
             <en><![CDATA[An e-mail with further instructions has been sent to you.]]></en>
@@ -756,9 +773,11 @@
         </locale>
         <locale name="message.send.new.email.successfully">
             <de>
-                <![CDATA[Sie haben Ihre E-Mail Adresse geändert. Ihnen wurde eine E-Mail mit weiteren Anweisungen gesendet.]]></de>
+                <![CDATA[Sie haben Ihre E-Mail Adresse geändert. Ihnen wurde eine E-Mail mit weiteren Anweisungen gesendet.]]>
+            </de>
             <en>
-                <![CDATA[You have changed your e-mail address. An e-mail with further instructions has been sent to you.]]></en>
+                <![CDATA[You have changed your e-mail address. An e-mail with further instructions has been sent to you.]]>
+            </en>
         </locale>
         <locale name="message.new.email.successfully">
             <de><![CDATA[Ihre E-Mail Adresse wurde erfolgreich geändert.]]></de>
