@@ -17,6 +17,11 @@
             ]]></en>
         </locale>
 
+        <locale name="menu.title">
+            <de><![CDATA[Frontend-User]]></de>
+            <en><![CDATA[Frontend-User]]></en>
+        </locale>
+
         <locale name="registration.btn.submit">
             <de><![CDATA[Jetzt registrieren]]></de>
             <en><![CDATA[Register now]]></en>
@@ -456,8 +461,6 @@
         </locale>
 
 
-
-
         <!-- registration mails -->
         <locale name="mail.registration.MAILFromText">
             <de><![CDATA[[mailFromText]]]></de>
@@ -738,8 +741,10 @@
 
         <!-- messages -->
         <locale name="message.registration.finish">
-            <de><![CDATA[Registration erfolgreich abgeschlossen. Eine E-Mail mit weiteren Anweisungen zur Aktivierung Ihres Accounts wurden verschickt.]]></de>
-            <en><![CDATA[Registration has been completed successfully. An email with further details about activating your account has been sent.]]></en>
+            <de>
+                <![CDATA[Registration erfolgreich abgeschlossen. Eine E-Mail mit weiteren Anweisungen zur Aktivierung Ihres Accounts wurden verschickt.]]></de>
+            <en>
+                <![CDATA[Registration has been completed successfully. An email with further details about activating your account has been sent.]]></en>
         </locale>
         <locale name="message.send.forgotten.password.successfully">
             <de><![CDATA[Ihnen wurde eine E-Mail mit weiteren Anweisungen gesendet.]]></de>
@@ -808,7 +813,6 @@
             <en><![CDATA[Extra user settings]]></en>
         </locale>
     </groups>
-
 
 
 </locales>
