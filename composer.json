@@ -17,9 +17,7 @@
     },
 
     "require": {
-        "quiqqer/quiqqer" : "*@dev",
-        "google/apiclient": "1.0.*@beta",
-        "facebook/graph-sdk": "5.3.*"
+        "quiqqer/quiqqer" : "*@dev"
     },
 
     "autoload": {
