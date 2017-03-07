@@ -28,7 +28,7 @@
         </locale>
 
         <locale name="loged.in.as">
-            <de><![CDATA[Eingeloggt als: [username]]]></de>
+            <de><![CDATA[Angemeldet als: [username]]]></de>
             <en><![CDATA[Loged in as: [username]]]></en>
         </locale>
         <locale name="login.in.title">
