@@ -43,7 +43,7 @@ class Registration extends QUI\Control
      */
     public function getBody()
     {
-        $Engine  = QUI::getTemplateManager()->getEngine();
+        $Engine = QUI::getTemplateManager()->getEngine();
         $Project = $this->getProject();
 
         $Engine->assign(array(
@@ -75,6 +75,7 @@ class Registration extends QUI\Control
             ),
             'limit' => 1
         ));
+
 
         if (isset($result[0])) {
             $Engine->assign('Site_TermsAndConditions', $result[0]);

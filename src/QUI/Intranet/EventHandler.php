@@ -13,7 +13,6 @@ use QUI;
  *
  * @author www.pcsg.de
  */
-
 class EventHandler
 {
     /**

@@ -1,4 +1,3 @@
-
 /**
  * Intranet registration
  * A user can register an account to the system
@@ -20,25 +19,23 @@ define('package/quiqqer/intranet/bin/Registration', [
     'Ajax',
     'Locale'
 
-], function(QUI, QUIControl, QUILoader, QUIButton, QUIBackground, QUIPwSec, Ajax, Locale)
-{
+], function (QUI, QUIControl, QUILoader, QUIButton, QUIBackground, QUIPwSec, Ajax, Locale) {
     "use strict";
 
     var lg = 'quiqqer/intranet';
 
     return new Class({
 
-        Extends : QUIControl,
-        Type    : 'package/quiqqer/intranet/bin/Registration',
+        Extends: QUIControl,
+        Type: 'package/quiqqer/intranet/bin/Registration',
 
-        Binds : [
+        Binds: [
             '$onImport',
             '$onMailInputBlur'
         ],
 
-        initialize : function(options)
-        {
-            this.parent( options );
+        initialize: function (options) {
+            this.parent(options);
 
             this.Loader = new QUILoader();
 
@@ -46,12 +43,12 @@ define('package/quiqqer/intranet/bin/Registration', [
             this.$Mail2 = null;
             this.$Pass1 = null;
             this.$Pass2 = null;
-            this.$AGB   = null;
+            this.$AGB = null;
 
             this.$PWSecContainer = null;
 
             this.addEvents({
-                onImport : this.$onImport
+                onImport: this.$onImport
             });
         },
 
@@ -61,121 +58,116 @@ define('package/quiqqer/intranet/bin/Registration', [
          * @param {Object} self - package/quiqqer/intranet/Registration
          * @param {HTMLElement} Elm
          */
-        $onImport : function(self, Elm)
-        {
+        $onImport: function (self, Elm) {
             //var self = this;
 
-            this.Loader.inject( Elm );
+            this.Loader.inject(Elm);
             this.Loader.show();
 
-            if ( !Elm.getElement( '#reg-email' ) )
-            {
+            if (!Elm.getElement('#reg-email')) {
                 this.Loader.hide();
                 return;
             }
 
-            var Hide = Elm.getElement( '.package-intranet-registration-hide' );
-                Hide.setStyle( 'display', 'inline' );
-
             // elements
-            this.$Mail1 = Elm.getElement( '#reg-email' );
-            this.$Mail2 = Elm.getElement( '#reg-email2' );
-            this.$Pass1 = Elm.getElement( '#reg-password' );
-            this.$Pass2 = Elm.getElement( '#reg-password2' );
-            this.$AGB   = Elm.getElement( '#reg-agb-privacy' );
+            this.$Mail1 = Elm.getElement('#reg-email');
+            this.$Mail2 = Elm.getElement('#reg-email2');
+            this.$Pass1 = Elm.getElement('#reg-password');
+            this.$Pass2 = Elm.getElement('#reg-password2');
+            this.$AGB = Elm.getElement('#reg-agb-privacy');
 
-            this.$PWSecContainer = Elm.getElement( '#reg-pwsecurity' );
+            this.$PWSecContainer = Elm.getElement('#reg-pwsecurity');
+
+            if (this.$AGB != null) {
+                var Hide = Elm.getElement('.package-intranet-registration-hide');
+                Hide.setStyle('display', 'inline');
+            }
 
 
             // send button
             new QUIButton({
-                name   : 'register-button',
-                text   : Locale.get( 'quiqqer/intranet', 'registration.btn.submit' ),
-                styles : {
-                    display : 'block',
-                    'float' : 'none',
-                    margin  : '0 auto',
-                    width   : '50%'
+                name: 'register-button',
+                text: Locale.get('quiqqer/intranet', 'registration.btn.submit'),
+                styles: {
+                    display: 'block',
+                    'float': 'none',
+                    margin: '0 auto',
+                    width: '50%'
                 },
-                events :
-                {
-                    onClick : function() {
+                events: {
+                    onClick: function () {
                         self.submit();
                     }
                 }
-            }).inject( Elm.getElement('.package-intranet-registration-submit') );
+            }).inject(Elm.getElement('.package-intranet-registration-submit'));
 
 
             // agb
-            this.$AGB.addEvents({
-                change : function()
-                {
-                    if ( this.checked )
-                    {
-                        Hide.setStyle( 'display', 'none' );
-                    } else
-                    {
-                        Hide.setStyle( 'display', 'inline' );
+            if (this.$AGB != null) {
+                this.$AGB.addEvents({
+                    change: function () {
+                        if (this.checked) {
+                            Hide.setStyle('display', 'none');
+                        } else {
+                            Hide.setStyle('display', 'inline');
+                        }
                     }
-                }
-            });
+                });
 
-            this.$AGB.fireEvent( 'change' );
+                this.$AGB.fireEvent('change');
+            }
 
 
             // pw security
             var SecField = new QUIPwSec({
-                styles : {
-                    clear : 'both',
-                    width : '100%'
+                styles: {
+                    clear: 'both',
+                    width: '100%'
                 }
             });
 
-            SecField.inject( this.$PWSecContainer );
-            SecField.bindInput( this.$Pass1 );
+            SecField.inject(this.$PWSecContainer);
+            SecField.bindInput(this.$Pass1);
 
             // form submit
-            Elm.getElements( 'form' ).addEvent('submit', function(event)
-            {
+            Elm.getElements('form').addEvent('submit', function (event) {
                 event.stop();
                 self.submit();
             });
 
-            this.$Mail1.addEvent( 'blur', this.$onMailInputBlur );
+            this.$Mail1.addEvent('blur', this.$onMailInputBlur);
 
             // qui parsing
-            QUI.parse(Elm, function()
-            {
+            QUI.parse(Elm, function () {
                 var Control;
-                var socialList = Elm.getElements( '.register-social-login [data-quiid]' ),
-                    controls   = socialList.map(function(Elm) {
-                        return QUI.Controls.getById( Elm.get('data-quiid') );
+                var socialList = Elm.getElements('.register-social-login [data-quiid]'),
+                    controls = socialList.map(function (Elm) {
+                        return QUI.Controls.getById(Elm.get('data-quiid'));
                     });
 
-                var onLoginBegin = function() {
+                var onLoginBegin = function () {
                     self.Loader.show();
                 };
 
-                var onAuth = function(Social, params) {
-                    self.socialRegister( Social.getAttribute('name'), params );
+                var onAuth = function (Social, params) {
+                    self.socialRegister(Social.getAttribute('name'), params);
                 };
 
-                var onError = function() {
+                var onError = function () {
                     self.Loader.hide();
                 };
 
                 // social auth events - social register
-                for ( var i = 0, len = controls.length; i < len; i++ )
-                {
-                    Control = controls[ i ];
+                for (var i = 0, len = controls.length; i < len; i++) {
+                    Control = controls[i];
 
-                    Control.addEvent( 'onAuth', onAuth );
-                    Control.addEvent( 'onLoginBegin', onLoginBegin );
-                    Control.addEvent( 'onSignInError', onError );
+                    Control.addEvent('onAuth', onAuth);
+                    Control.addEvent('onLoginBegin', onLoginBegin);
+                    Control.addEvent('onSignInError', onError);
 
                     Control.getElm().setStyles({
-                        display : 'inline-block',
-                        'float' : 'none'
+                        display: 'inline-block',
+                        'float': 'none'
                     });
                 }
 
@@ -186,16 +178,13 @@ define('package/quiqqer/intranet/bin/Registration', [
         /**
          * submit form and register the mail
          */
-        submit : function()
-        {
+        submit: function () {
             var self = this;
 
-            if ( this.$Mail1.value === '' )
-            {
-                QUI.getMessageHandler(function(MH)
-                {
+            if (this.$Mail1.value === '') {
+                QUI.getMessageHandler(function (MH) {
                     MH.addAttention(
-                        Locale.get( lg, 'exception.error.email.empty' ),
+                        Locale.get(lg, 'exception.error.email.empty'),
                         self.$Mail1
                     );
                 });
@@ -204,12 +193,10 @@ define('package/quiqqer/intranet/bin/Registration', [
                 return;
             }
 
-            if ( this.$Pass1.value === '' )
-            {
-                QUI.getMessageHandler(function(MH)
-                {
+            if (this.$Pass1.value === '') {
+                QUI.getMessageHandler(function (MH) {
                     MH.addAttention(
-                        Locale.get( lg, 'exception.error.password.empty' ),
+                        Locale.get(lg, 'exception.error.password.empty'),
                         self.$Pass1
                     );
                 });
@@ -218,12 +205,10 @@ define('package/quiqqer/intranet/bin/Registration', [
                 return;
             }
 
-            if ( this.$Mail1.value != this.$Mail2.value )
-            {
-                QUI.getMessageHandler(function(MH)
-                {
+            if (this.$Mail1.value != this.$Mail2.value) {
+                QUI.getMessageHandler(function (MH) {
                     MH.addAttention(
-                        Locale.get( lg, 'exception.error.emails.unequal' ),
+                        Locale.get(lg, 'exception.error.emails.unequal'),
                         self.$Mail2
                     );
                 });
@@ -232,12 +217,10 @@ define('package/quiqqer/intranet/bin/Registration', [
                 return;
             }
 
-            if ( this.$Pass1.value != this.$Pass2.value )
-            {
-                QUI.getMessageHandler(function(MH)
-                {
+            if (this.$Pass1.value != this.$Pass2.value) {
+                QUI.getMessageHandler(function (MH) {
                     MH.addAttention(
-                        Locale.get( lg, 'exception.error.passwords.unequal' ),
+                        Locale.get(lg, 'exception.error.passwords.unequal'),
                         self.$Pass2
                     );
                 });
@@ -251,7 +234,7 @@ define('package/quiqqer/intranet/bin/Registration', [
                 this.$Mail1.value,
                 this.$Pass1.value,
                 {},
-                function() {
+                function () {
 
                 }
             );
@@ -260,20 +243,17 @@ define('package/quiqqer/intranet/bin/Registration', [
         /**
          * event : on email input blur
          */
-        $onMailInputBlur : function()
-        {
+        $onMailInputBlur: function () {
             var self = this;
 
-            this.isUsernameAvailable( this.$Mail1.value, function(result)
-            {
-                if ( result ) {
+            this.isUsernameAvailable(this.$Mail1.value, function (result) {
+                if (result) {
                     return;
                 }
 
-                QUI.getMessageHandler(function(MH)
-                {
+                QUI.getMessageHandler(function (MH) {
                     MH.addAttention(
-                        Locale.get( lg, 'exception.mail.not.available' ),
+                        Locale.get(lg, 'exception.mail.not.available'),
                         self.$Mail1
                     );
 
@@ -290,22 +270,18 @@ define('package/quiqqer/intranet/bin/Registration', [
          * @param {Object} data
          * @param {Function} [callback]
          */
-        register : function(email, password, data, callback)
-        {
+        register: function (email, password, data, callback) {
             var self = this;
 
             this.Loader.show();
 
 
-            this.isItRegistered(email, function(result)
-            {
+            this.isItRegistered(email, function (result) {
                 // user is registered
-                if ( result )
-                {
-                    QUI.getMessageHandler(function(MH)
-                    {
+                if (result) {
+                    QUI.getMessageHandler(function (MH) {
                         MH.addAttention(
-                            Locale.get( lg, 'message.error.user.not.allowed' ),
+                            Locale.get(lg, 'message.error.user.not.allowed'),
                             self.$Pass2
                         );
                     });
@@ -315,37 +291,37 @@ define('package/quiqqer/intranet/bin/Registration', [
                 }
 
 
-                Ajax.post('package_quiqqer_intranet_ajax_user_register', function(result)
-                {
+                Ajax.post('package_quiqqer_intranet_ajax_user_register', function (result) {
                     self.getElm().set(
                         'html',
-
-                        '<div class="messages-message message-success">'+
-                            result +
-                        '</div>'
+                        '<a class=\'messages-messagebox-link\' href=\'' + URL_DIR + '\'>' +
+                        '<div class="messages-message message-success">' +
+                        result +
+                        '</div>' +
+                        '</a>'
                     );
 
-                    self.fireEvent( 'registerSuccess' );
+                    self.fireEvent('registerSuccess');
 
-                    document.body.getElements( '.content-short' ).set( 'html', '' );
+                    document.body.getElements('.content-short').set('html', '');
 
 
-                    if ( typeof callback !== 'undefined' ) {
-                        callback( result );
+                    if (typeof callback !== 'undefined') {
+                        callback(result);
                     }
 
                     self.Loader.hide();
 
                 }, {
-                    email     : email,
-                    password  : password,
-                    data      : JSON.decode( data ),
-                    project   : JSON.encode({
-                        name : QUIQQER_PROJECT.name,
-                        lang : QUIQQER_PROJECT.lang
+                    email: email,
+                    password: password,
+                    data: JSON.decode(data),
+                    project: JSON.encode({
+                        name: QUIQQER_PROJECT.name,
+                        lang: QUIQQER_PROJECT.lang
                     }),
-                    'package' : 'quiqqer/intranet',
-                    onError   : function() {
+                    'package': 'quiqqer/intranet',
+                    onError: function () {
                         self.Loader.hide();
                     }
                 });
@@ -358,61 +334,52 @@ define('package/quiqqer/intranet/bin/Registration', [
          * @param {String} socialType - Social media type
          * @param {Object} socialData - Social media user data
          */
-        socialRegister : function(socialType, socialData)
-        {
+        socialRegister: function (socialType, socialData) {
             var self = this;
 
             this.Loader.show();
 
-            this.isItRegistered(socialData.email, function(registered)
-            {
+            this.isItRegistered(socialData.email, function (registered) {
                 // check if social access exists
-                self.hasSocialAccess(socialData.email, socialType, function(socialAccess)
-                {
-                    if ( !registered || !socialAccess )
-                    {
+                self.hasSocialAccess(socialData.email, socialType, function (socialAccess) {
+                    if (!registered || !socialAccess) {
                         // register user with social media
-                        Ajax.post('package_quiqqer_intranet_ajax_user_socialRegister', function(register)
-                        {
-                            if ( register )
-                            {
-                                self.socialRegister( socialType, socialData );
-                            } else
-                            {
+                        Ajax.post('package_quiqqer_intranet_ajax_user_socialRegister', function (register) {
+                            if (register) {
+                                self.socialRegister(socialType, socialData);
+                            } else {
                                 self.Loader.show();
                             }
 
                         }, {
-                            socialType : socialType,
-                            socialData : JSON.encode( socialData ),
-                            project    : JSON.encode({
-                                name : QUIQQER_PROJECT.name,
-                                lang : QUIQQER_PROJECT.lang
+                            socialType: socialType,
+                            socialData: JSON.encode(socialData),
+                            project: JSON.encode({
+                                name: QUIQQER_PROJECT.name,
+                                lang: QUIQQER_PROJECT.lang
                             }),
-                            'package'  : 'quiqqer/intranet'
+                            'package': 'quiqqer/intranet'
                         });
 
                         return;
                     }
 
                     // login
-                    if ( self.isLogedIn() )
-                    {
+                    if (self.isLogedIn()) {
                         window.location.reload();
                         return;
                     }
 
-                    Ajax.post('package_quiqqer_intranet_ajax_user_socialLogin', function()
-                    {
+                    Ajax.post('package_quiqqer_intranet_ajax_user_socialLogin', function () {
                         window.location.reload();
                     }, {
-                        token      : JSON.encode( socialData.token ),
-                        socialType : socialType,
-                        project    : JSON.encode({
-                            name : QUIQQER_PROJECT.name,
-                            lang : QUIQQER_PROJECT.lang
+                        token: JSON.encode(socialData.token),
+                        socialType: socialType,
+                        project: JSON.encode({
+                            name: QUIQQER_PROJECT.name,
+                            lang: QUIQQER_PROJECT.lang
                         }),
-                        'package'  : 'quiqqer/intranet'
+                        'package': 'quiqqer/intranet'
                     });
 
                 });
@@ -425,17 +392,17 @@ define('package/quiqqer/intranet/bin/Registration', [
          * @param {String} email
          * @param {Function} callback
          */
-        isItRegistered : function(email, callback)
-        {
-            callback = callback || function(){};
+        isItRegistered: function (email, callback) {
+            callback = callback || function () {
+                };
 
             Ajax.get('package_quiqqer_intranet_ajax_user_isRegistered', callback, {
-                email     : email,
-                project   : JSON.encode({
-                    name : QUIQQER_PROJECT.name,
-                    lang : QUIQQER_PROJECT.lang
+                email: email,
+                project: JSON.encode({
+                    name: QUIQQER_PROJECT.name,
+                    lang: QUIQQER_PROJECT.lang
                 }),
-                'package' : 'quiqqer/intranet'
+                'package': 'quiqqer/intranet'
             });
         },
 
@@ -446,18 +413,18 @@ define('package/quiqqer/intranet/bin/Registration', [
          * @param {String} socialType
          * @param {Function} callback
          */
-        hasSocialAccess : function(email, socialType, callback)
-        {
-            callback = callback || function(){};
+        hasSocialAccess: function (email, socialType, callback) {
+            callback = callback || function () {
+                };
 
             Ajax.get('package_quiqqer_intranet_ajax_user_hasSocialAccess', callback, {
-                email      : email,
-                socialType : socialType,
-                project    : JSON.encode({
-                    name : QUIQQER_PROJECT.name,
-                    lang : QUIQQER_PROJECT.lang
+                email: email,
+                socialType: socialType,
+                project: JSON.encode({
+                    name: QUIQQER_PROJECT.name,
+                    lang: QUIQQER_PROJECT.lang
                 }),
-                'package'  : 'quiqqer/intranet'
+                'package': 'quiqqer/intranet'
             });
         },
 
@@ -466,13 +433,12 @@ define('package/quiqqer/intranet/bin/Registration', [
          *
          * @return {Boolean}
          */
-        isLogedIn : function()
-        {
-            if ( typeof QUIQQER_USER === 'undefined' ) {
+        isLogedIn: function () {
+            if (typeof QUIQQER_USER === 'undefined') {
                 return false;
             }
 
-            return ( "id" in QUIQQER_USER && parseInt( QUIQQER_USER.id ) );
+            return ( "id" in QUIQQER_USER && parseInt(QUIQQER_USER.id) );
         },
 
         /**
@@ -481,31 +447,27 @@ define('package/quiqqer/intranet/bin/Registration', [
          * @param {String} str - string to test
          * @param {Function} callback - Callback function -> callback( true || false )
          */
-        isUsernameAvailable : function(str, callback)
-        {
-            if ( str === '' )
-            {
-                callback( false );
+        isUsernameAvailable: function (str, callback) {
+            if (str === '') {
+                callback(false);
                 return;
             }
 
             Ajax.get([
                 'package_quiqqer_intranet_ajax_user_existsUsername',
                 'package_quiqqer_intranet_ajax_user_existsMail'
-            ], function(usernameExists, mailExists)
-            {
-                if ( usernameExists || mailExists  )
-                {
-                    callback( false );
+            ], function (usernameExists, mailExists) {
+                if (usernameExists || mailExists) {
+                    callback(false);
                     return;
                 }
 
-                callback( true );
+                callback(true);
 
             }, {
-                username  : str,
-                email     : str,
-                'package' : 'quiqqer/intranet'
+                username: str,
+                email: str,
+                'package': 'quiqqer/intranet'
             });
         }
     });

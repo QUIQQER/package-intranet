@@ -17,13 +17,18 @@
             ]]></en>
         </locale>
 
+        <locale name="menu.title">
+            <de><![CDATA[Frontend-User]]></de>
+            <en><![CDATA[Frontend-User]]></en>
+        </locale>
+
         <locale name="registration.btn.submit">
             <de><![CDATA[Jetzt registrieren]]></de>
             <en><![CDATA[Register now]]></en>
         </locale>
 
         <locale name="loged.in.as">
-            <de><![CDATA[Eingeloggt als: [username]]]></de>
+            <de><![CDATA[Angemeldet als: [username]]]></de>
             <en><![CDATA[Loged in as: [username]]]></en>
         </locale>
         <locale name="login.in.title">
@@ -228,6 +233,94 @@
             Cookie are deactivated in your Browser. To Login Cookies must be activated.
             ]]></en>
         </locale>
+
+        <locale name="quiqqer/intranet:intranet/registration.title">
+            <de><![CDATA[Registrierung / Anmeldung]]></de>
+            <en><![CDATA[Registration]]></en>
+        </locale>
+        <locale name="quiqqer/intranet:intranet/registration.description" html="true">
+            <de><![CDATA[
+                Dieser Seitentyp stellt im Frontend ein Registrierungsformular für die Benutzerregistrierung zur Verfügung.<br />
+                Je nach installierten QUIQQER Auth-Modulen sind unterschiedliche Funktionen verfügbar:<br />
+                <ul>
+                <li>Anmeldung über E-Mail Bestätigung (Double-Opt-In)</li>
+                <li>Anmeldung über Facebook</li>
+                <li>Anmeldung über Google+</li>
+                <li>Anmeldung über Twitter</li>
+                <li>Passwort Vergessen Funktion</li>
+                <li>Account löschen oder deaktivieren</li>
+                </ul>
+            ]]></de>
+            <en><![CDATA[
+                This page type provides a registration form for user registration in the frontend. <br />
+                Depending on the installed QUIQQER Auth modules, different functions are available: <br />
+                <ul>
+                <li>Login via e-mail confirmation (Double-Opt-In)</li>
+                <li>Registration via Facebook</li>
+                <li>Sign in with Google+</li>
+                <li>Login via Twitter</li>
+                <li>Forgotten password function</li>
+                <li>Delete or disable account</li>
+                </ul>
+            ]]></en>
+        </locale>
+        <locale name="quiqqer/intranet:intranet/profil.title">
+            <de><![CDATA[Profil / Nutzerdaten]]></de>
+            <en><![CDATA[Profile / User data]]></en>
+        </locale>
+        <locale name="quiqqer/intranet:intranet/profil.description" html="true">
+            <de><![CDATA[
+            Dieser Seitentyp stellt im Frontend eine Profilseite für den Nutzer zur Verfügung.
+            QUIQQER Benutzer  können dort (je nach Einstellungen und installierten Modulen) ihre Daten wie Adressen, Passwort, Name und E-Mail verwalten.
+            ]]></de>
+            <en><![CDATA[
+            This page type provides a profile page for the user in the frontend.
+            QUIQQER Users can manage their data (addresses, password, name and email) (depending on the settings and installed modules).
+            ]]></en>
+        </locale>
+        <!-- deprecated -->
+        <locale name="quiqqer/intranet:registration/termsOfUse.title">
+            <de><![CDATA[Nutzungsbedingungen / AGB]]></de>
+            <en><![CDATA[Terms of use]]></en>
+        </locale>
+        <locale name="quiqqer/intranet:registration/termsOfUse.description" html="true">
+            <de><![CDATA[
+            Dieser Seitentyp stellt für die Nutzer Nutzungsbedingungen zur Verfügung,welche der Nutzer bei der Anmeldung bestätigen muss.
+            Der Seitentyp dient dem QUIQQER System dazu automatisch auf die Inhalte dieses Typs zuzugreifen und diese an geeigneter Stelle anzuzeigen
+            ]]></de>
+            <en><![CDATA[
+            This page type provides the user with conditions of use, which the user has to confirm when signing up.
+            The page type automatically serves the QUIQQER system to access the content of this type and display it in a suitable place
+            ]]></en>
+        </locale>
+        <locale name="quiqqer/intranet:registration/privacy.title">
+            <de><![CDATA[Datenschutzbestimmungen]]></de>
+            <en><![CDATA[Privacy Policy]]></en>
+        </locale>
+        <locale name="quiqqer/intranet:registration/privacy.description" html="true">
+            <de><![CDATA[
+            Dieser Seitentyp stellt für die Nutzer Datenschutzbestimmungen zur Verfügung, welche der Nutzer bei der Anmeldung bestätigen muss.
+            Der Seitentyp dient dem QUIQQER System dazu automatisch auf die Inhalte dieses Typs zuzugreifen und diese an geeigneter Stelle anzuzeigen.
+            ]]></de>
+            <en><![CDATA[
+            This page type provides the users with data protection regulations, which must be confirmed by the user when signing up.
+             The page type automatically serves the QUIQQER system to access the content of this type and display it in a suitable place.
+            ]]></en>
+        </locale>
+        <locale name="quiqqer/intranet:registration/legal.title">
+            <de><![CDATA[Impressum]]></de>
+            <en><![CDATA[Imprint]]></en>
+        </locale>
+        <locale name="quiqqer/intranet:registration/legal.description" html="true">
+            <de><![CDATA[
+            Dieser Seitentyp stellt das Impressum zur Verfügung.
+            Der Seitentyp dient dem QUIQQER System dazu automatisch auf die Inhalte dieses Typs zuzugreifen und diese an geeigneter Stelle anzuzeigen.
+            ]]></de>
+            <en><![CDATA[
+            This type of page provides the imprint.
+            The page type automatically serves the QUIQQER system to access the content of this type and display it in a suitable place.
+            ]]></en>
+        </locale>
     </groups>
 
     <groups name="quiqqer/intranet" datatype="js">
@@ -252,7 +345,6 @@
             <de><![CDATA[Abbrechen]]></de>
             <en><![CDATA[Cancel]]></en>
         </locale>
-
 
         <!-- my address -->
         <locale name="profile.myaddress.header">
@@ -455,6 +547,7 @@
             <de><![CDATA[Passwortstärke]]></de>
             <en><![CDATA[Password strength]]></en>
         </locale>
+
 
         <!-- registration mails -->
         <locale name="mail.registration.MAILFromText">
@@ -736,9 +829,28 @@
 
         <!-- messages -->
         <locale name="message.registration.finish">
-            <de><![CDATA[]]></de>
-            <en><![CDATA[]]></en>
+            <de>
+                <![CDATA[Registration erfolgreich abgeschlossen. Ein Administrator muss Ihren Account nun aktivieren.]]></de>
+            <en>
+                <![CDATA[Registration has been completed successfully. Please be patient until an administrator activates your account.]]></en>
         </locale>
+        <locale name="message.registration.finish.withEmail">
+            <de>
+                <![CDATA[Registration erfolgreich abgeschlossen. Eine E-Mail mit weiteren Anweisungen zur Aktivierung Ihres Accounts wurde verschickt.]]></de>
+            <en>
+                <![CDATA[Registration has been completed successfully. An email with further details about activating your account has been sent.]]></en>
+        </locale>
+
+        <locale name="message.activation.finish">
+            <de><![CDATA[Ihr Account wurde erfolgreich aktiviert.]]></de>
+            <en><![CDATA[Your Account has been activated successfully.]]></en>
+        </locale>
+        <locale name="message.activation.redirect.link">
+            <de><![CDATA[Zurück zur Startseite.]]></de>
+            <en><![CDATA[Back to the startpage.]]></en>
+        </locale>
+
+
         <locale name="message.send.forgotten.password.successfully">
             <de><![CDATA[Ihnen wurde eine E-Mail mit weiteren Anweisungen gesendet.]]></de>
             <en><![CDATA[An e-mail with further instructions has been sent to you.]]></en>
@@ -749,9 +861,11 @@
         </locale>
         <locale name="message.send.new.email.successfully">
             <de>
-                <![CDATA[Sie haben Ihre E-Mail Adresse geändert. Ihnen wurde eine E-Mail mit weiteren Anweisungen gesendet.]]></de>
+                <![CDATA[Sie haben Ihre E-Mail Adresse geändert. Ihnen wurde eine E-Mail mit weiteren Anweisungen gesendet.]]>
+            </de>
             <en>
-                <![CDATA[You have changed your e-mail address. An e-mail with further instructions has been sent to you.]]></en>
+                <![CDATA[You have changed your e-mail address. An e-mail with further instructions has been sent to you.]]>
+            </en>
         </locale>
         <locale name="message.new.email.successfully">
             <de><![CDATA[Ihre E-Mail Adresse wurde erfolgreich geändert.]]></de>
@@ -801,6 +915,11 @@
             <en><![CDATA[Error while sending mail. Your new e-mail address could not be confirmed.]]></en>
         </locale>
 
+        <locale name="user.settings.title">
+            <de><![CDATA[Erweiterte Benutzer Einstellungen]]></de>
+            <en><![CDATA[Extra user settings]]></en>
+        </locale>
     </groups>
+
 
 </locales>

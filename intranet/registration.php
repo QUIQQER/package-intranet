@@ -11,7 +11,7 @@ if (strpos($httpsHost, 'https:') !== false
 ) {
     QUI::getRewrite()->showErrorHeader(
         301,
-        $httpsHost.URL_DIR.$Site->getUrlRewritten(
+        $httpsHost . URL_DIR . $Site->getUrlRewritten(
             QUI::getRewrite()->getUrlParamsList(),
             $_GET
         )
@@ -19,6 +19,7 @@ if (strpos($httpsHost, 'https:') !== false
 
     exit;
 }
+
 
 /**
  * registration template
@@ -30,6 +31,7 @@ $Registration = new QUI\Intranet\Registration(array(
     'Project' => $Project
 ));
 
+$Engine->assign('redirectURL', URL_DIR);
 $Engine->assign('INTRANET_TYPE', '');
 
 /**
@@ -45,12 +47,10 @@ if (isset($_REQUEST['code']) && isset($_REQUEST['uid'])) {
             'INTRANET_SUCCESS_MESSAGE',
             QUI::getLocale()->get(
                 'quiqqer/intranet',
-                'message.registration.finish'
+                'message.activation.finish'
             )
         );
-
     } catch (QUI\Exception $Exception) {
-
         QUI\System\Log::addInfo($Exception->getMessage());
 
         $Engine->assign(
@@ -81,7 +81,6 @@ if (isset($_REQUEST['uid'])
                 'message.send.new.password.successfully'
             )
         );
-
     } catch (QUI\Exception $Exception) {
         $Engine->assign(
             'INTRANET_ERROR_MESSAGE',
@@ -111,7 +110,6 @@ if (isset($_REQUEST['uid'])
                 'message.new.email.successfully'
             )
         );
-
     } catch (QUI\Exception $Exception) {
         $Engine->assign(
             'INTRANET_ERROR_MESSAGE',
@@ -142,7 +140,6 @@ if (isset($_REQUEST['uid'])
                 'message.disable.successfully'
             )
         );
-
     } catch (\QUI\Exception $Exception) {
         $Engine->assign(
             'INTRANET_ERROR_MESSAGE',
@@ -150,4 +147,3 @@ if (isset($_REQUEST['uid'])
         );
     }
 }
-

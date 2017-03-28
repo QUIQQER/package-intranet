@@ -7,7 +7,7 @@
 namespace QUI\Intranet;
 
 use \QUI\Utils\DOM;
-use \QUI\Utils\XML;
+use \QUI\Utils\Text\XML;
 use \QUI\Utils\System\File as QUIFile;
 
 /**
@@ -54,11 +54,11 @@ class Utils
                 foreach ($items as $Item) {
                     /* @var $Item \DOMElement */
                     $result[] = array(
-                        'text' => DOM::getTextFromNode($Item),
-                        'name' => $Item->getAttribute('name'),
-                        'icon' => DOM::parseVar($Item->getAttribute('icon')),
+                        'text'    => DOM::getTextFromNode($Item),
+                        'name'    => $Item->getAttribute('name'),
+                        'icon'    => DOM::parseVar($Item->getAttribute('icon')),
                         'require' => $Item->getAttribute('require'),
-                        'exec' => $Item->getAttribute('exec'),
+                        'exec'    => $Item->getAttribute('exec'),
                     );
                 }
             }

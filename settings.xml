@@ -80,7 +80,9 @@
         </config>
 
         <window>
-            <title>Intranet Plugin Einstellungen</title>
+            <title>
+                <locale group="quiqqer/intranet" var="menu.title"/>
+            </title>
             <params>
                 <icon>fa fa-cogs</icon>
             </params>
@@ -95,19 +97,34 @@
                         <title>Profil Einstellungen</title>
 
                         <input conf="userProfile.showMyData" type="checkbox">
-                            <text><u>Meine Daten</u> anzeigen</text>
+                            <text>
+                                <u>Meine Daten</u>
+                                anzeigen
+                            </text>
                         </input>
                         <input conf="userProfile.showPasswordChange" type="checkbox">
-                            <text><u>Passwort ändern</u> anzeigen</text>
+                            <text>
+                                <u>Passwort ändern</u>
+                                anzeigen
+                            </text>
                         </input>
                         <input conf="userProfile.showAddress" type="checkbox">
-                            <text><u>Meine Adresse</u> anzeigen</text>
+                            <text>
+                                <u>Meine Adresse</u>
+                                anzeigen
+                            </text>
                         </input>
                         <input conf="userProfile.showAddressManager" type="checkbox">
-                            <text><u>Meine Adressen</u> anzeigen (Address Verwaltung)</text>
+                            <text>
+                                <u>Meine Adressen</u>
+                                anzeigen (Address Verwaltung)
+                            </text>
                         </input>
                         <input conf="userProfile.showDeleteAccount" type="checkbox">
-                            <text><u>Mein Account löschen</u> anzeigen</text>
+                            <text>
+                                <u>Mein Account löschen</u>
+                                anzeigen
+                            </text>
                         </input>
                     </settings>
                 </category>
@@ -129,19 +146,23 @@
                         <input conf="registration.sendInfoMailOnRegistrationTo" type="text">
                             <text>Info Mail bei Registrierung senden</text>
                             <description>
-                                An die angegebene E-Mail Adresse eine Informationsmail verschicken das sich ein neuer Benutzer registriert hat.
+                                An die angegebene E-Mail Adresse eine Informationsmail verschicken das sich ein neuer
+                                Benutzer registriert hat.
                             </description>
                         </input>
 
                         <input conf="registration.sendMailOnRegistration" type="checkbox">
                             <text>Registrierungs-Aktivierungs-Mail versenden</text>
-                            <description>Eine Aktivierungs E-Mail versenden damit der Benutzer sich aktivieren kann.</description>
+                            <description>Eine Aktivierungs E-Mail versenden damit der Benutzer sich aktivieren kann.
+                            </description>
                         </input>
 
                         <input conf="registration.loggedInDuringRegistrationn" type="checkbox">
                             <text>Eingeloggte Benutzer können sich registrieren</text>
                             <description>
-                                Wenn diese Option nicht aktiv ist, können sich nur <u>nicht</u> eingeloggte Benutzer registrieren.<br />
+                                Wenn diese Option nicht aktiv ist, können sich nur <u>nicht</u> eingeloggte Benutzer
+                                registrieren.
+                                <br/>
                                 Eingeloggte Benutzer haben sich schon registriert und benötigen keine Registrierung.
                             </description>
                         </input>
@@ -149,7 +170,8 @@
                         <input conf="registration.autoLoginOnActivasion" type="checkbox">
                             <text>Benutzer bei Aktivierung automatisch einloggen</text>
                             <description>
-                                Wenn diese Option aktiv ist, werden Benutzer automatisch bei Klick auf den Aktivierungslink eingeloggt.
+                                Wenn diese Option aktiv ist, werden Benutzer automatisch bei Klick auf den
+                                Aktivierungslink eingeloggt.
                             </description>
                         </input>
 

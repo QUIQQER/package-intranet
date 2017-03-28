@@ -8,6 +8,7 @@ namespace QUI\Intranet\Social;
 
 use QUI;
 use QUI\Users\User;
+use Facebook as FacebookAPI;
 
 /**
  * Registration with google plus
@@ -106,34 +107,37 @@ class Facebook implements QUI\Intranet\Interfaces\Social
             );
         }
 
-        $Facebook = new \Facebook(array(
-            'appId' => $facebookAppId,
-            'secret' => $facebookSecret,
+        $Facebook = new FacebookAPI\Facebook(array(
+            'appId'         => $facebookAppId,
+            'secret'        => $facebookSecret,
             'sharedSession' => true,
-            'cookie' => true
+            'cookie'        => true
         ));
 
         $Token = json_decode($token);
 
-        $Facebook->setAccessToken($Token->accessToken);
-
         // Get User ID
-        $user = $Facebook->getUser();
+        //$user = $Facebook->getUser();
 
-        if (!$user) {
+//        if (!$user) {
+//            throw new QUI\Exception(
+//                QUI::getLocale()->get(
+//                    'quiqqer/intranet',
+//                    'exception.social.facebook.user.not.found'
+//                )
+//            );
+//        }
+
+        try {
+            return $Facebook->get('/me', $Token->accessToken);
+        } catch (FacebookAPI\Exceptions\FacebookResponseException $Exception) {
             throw new QUI\Exception(
                 QUI::getLocale()->get(
                     'quiqqer/intranet',
                     'exception.social.facebook.user.not.found'
                 )
             );
-        }
-
-
-        try {
-            return $Facebook->api('/me');
-
-        } catch (\FacebookApiException $Exception) {
+        } catch (FacebookAPI\Exceptions\FacebookSDKException $e) {
             throw new QUI\Exception(
                 QUI::getLocale()->get(
                     'quiqqer/intranet',
@@ -162,15 +166,13 @@ class Facebook implements QUI\Intranet\Interfaces\Social
      *
      * @param string $token
      *
-     * @return false|\QUI\Users\User
+     * @return bool
      */
     public function isAuth($token)
     {
         try {
             $this->getUserDataByToken($token);
-
             return true;
-
         } catch (QUI\Exception $Exception) {
             return false;
         }

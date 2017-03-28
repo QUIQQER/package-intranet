@@ -14,9 +14,10 @@ define('package/quiqqer/intranet/bin/LogoutWindow', [
     'qui/QUI',
     'qui/controls/windows/Confirm',
     'package/quiqqer/intranet/bin/Login',
-    'Locale'
+    'Locale',
+    'Ajax'
 
-], function (QUI, QUIConfirm, Login, QUILocale) {
+], function (QUI, QUIConfirm, Login, QUILocale, Ajax) {
     "use strict";
 
     var lg = 'quiqqer/intranet';
@@ -60,7 +61,13 @@ define('package/quiqqer/intranet/bin/LogoutWindow', [
          * Execute the logout
          */
         logout: function () {
-            window.location = URL_DIR + '?logout=1';
+            this.Loader.show();
+
+            Ajax.post('package_quiqqer_intranet_ajax_logout', function () {
+                window.location = window.location;
+            }, {
+                'package': 'quiqqer/intranet'
+            });
         }
     });
 });
