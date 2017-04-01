@@ -2,10 +2,10 @@
 QUIQQER Frontend Benutzer (Intranet)
 ========
 
-Das Intranet Package erweitert QUIQQER um eine Profilerweiterung und 
+Das Intranet Package erweitert QUIQQER um eine Profil-Erweiterung und 
 eine Registrierung für Benutzer.
 
-Packetname:
+Paketname:
 
     quiqqer/intranet
 
@@ -13,8 +13,8 @@ Packetname:
 Features
 --------
 
-- Benutzer Registrierung über E-Mail
-- Benutzer Registrierung über Social Media (GooglePlus, Facebook)
+- Benutzer-Registrierung über E-Mail
+- Benutzer-Registrierung über Social Media (GooglePlus, Facebook)
 
 
 Installation
@@ -33,14 +33,13 @@ Mitwirken
 Support
 -------
 
-Falls Sie ein Fehler gefunden haben oder Verbesserungen wünschen,
-Dann können Sie gerne an support@pcsg.de eine E-Mail schreiben.
+Falls Sie Fehler gefunden, Wünsche oder Verbesserungsvorschläge haben, 
+können Sie uns gern per Mail an support@pcsg.de darüber informieren.  
+Wir werden versuchen auf Ihre Wünsche einzugehen bzw. diese an die 
+zuständigen Entwickler des Projektes weiterleiten.
 
 
 License
 -------
 
 - GPL-2.0+
-
-Entwickler
---------
