@@ -3,21 +3,15 @@
  *
  * @author www.pcsg.de (Henning Leutz)
  * @module package/quiqqer/intranet/bin/LogoutWindow
- *
- * @require qui/QUI
- * @require qui/controls/windows/Confirm
- * @require package/quiqqer/intranet/bin/Login
- * @require Locale
  */
 define('package/quiqqer/intranet/bin/LogoutWindow', [
 
     'qui/QUI',
     'qui/controls/windows/Confirm',
-    'package/quiqqer/intranet/bin/Login',
     'Locale',
     'Ajax'
 
-], function (QUI, QUIConfirm, Login, QUILocale, Ajax) {
+], function (QUI, QUIConfirm, QUILocale, Ajax) {
     "use strict";
 
     var lg = 'quiqqer/intranet';
@@ -64,7 +58,7 @@ define('package/quiqqer/intranet/bin/LogoutWindow', [
             this.Loader.show();
 
             Ajax.post('package_quiqqer_intranet_ajax_logout', function () {
-                window.location = window.location;
+                window.location.reload();
             }, {
                 'package': 'quiqqer/intranet'
             });

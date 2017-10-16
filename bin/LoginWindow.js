@@ -43,7 +43,7 @@ define('package/quiqqer/intranet/bin/LoginWindow', [
             this.parent(options);
 
             this.addEvents({
-                onOpen : this.$onOpen
+                onOpen: this.$onOpen
             });
         },
 
@@ -72,8 +72,8 @@ define('package/quiqqer/intranet/bin/LoginWindow', [
 
                         if (loc.match(/\?logout/g) || loc.match(/logout\=1/g)) {
                             loc = loc.replace('?logout=1', '')
-                                .replace('&logout=1', '')
-                                .replace('?logout', '');
+                                     .replace('&logout=1', '')
+                                     .replace('?logout', '');
 
                             window.location = loc;
 
