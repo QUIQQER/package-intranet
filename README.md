@@ -1,7 +1,8 @@
-This Package is deprecated and is replaced by QUIQQER Frontend Users.  
-Please use quiqqer/frontend-users
-======
+**This Package is deprecated and is replaced by QUIQQER Frontend Users.  
+Please use quiqqer/frontend-users**
 
+  
+  
 ```
 QUIQQER Frontend Benutzer (Intranet)
 ======
