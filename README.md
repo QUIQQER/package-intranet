@@ -1,5 +1,8 @@
-**This Package is deprecated and is replaced by QUIQQER Frontend Users.  
-Please use quiqqer/frontend-users**
+Deprecated
+======
+
+`This Package is deprecated and is replaced by QUIQQER Frontend Users.  
+Please use quiqqer/frontend-users`
 
   
   
