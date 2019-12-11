@@ -1,28 +1,25 @@
 {
-    "name" : "quiqqer/intranet",
-    "type" : "quiqqer-module",
-    "description" : "Provided registration, registration with social networks, profil functionality.",
-    "version" : "dev-dev",
-    "license" : "GPL-2.0+",
-
-    "authors" : [{
-        "name": "Henning Leutz",
-        "email": "leutz@pcsg.de",
-        "homepage": "http://www.pcsg.de",
-        "role": "Developer"
-    }],
-
-    "support" : {
-        "email" : "support@pcsg.de"
+    "name": "quiqqer\/intranet",
+    "type": "quiqqer-module",
+    "description": "Provided registration, registration with social networks, profil functionality.",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Henning Leutz",
+            "email": "leutz@pcsg.de",
+            "homepage": "http:\/\/www.pcsg.de",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "support@pcsg.de"
     },
-
     "require": {
-        "quiqqer/quiqqer" : "*@dev"
+        "quiqqer\/quiqqer": "*@dev"
     },
-
     "autoload": {
-        "psr-4" : {
-            "QUI\\Intranet\\" : "src/QUI/Intranet"
+        "psr-4": {
+            "QUI\\Intranet\\": "src\/QUI\/Intranet"
         }
     }
 }
